@@ -20,34 +20,46 @@
             overflow-x: hidden;
         }
 
-        /* Contenedor principal - pantalla completa en móviles */
+        /* Contenedor principal - SIEMPRE pantalla completa */
         .container {
             width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 100%;
+            height: 100vh;
+            margin: 0;
             background: white;
-            min-height: 100vh;
+            border-radius: 0;
+            box-shadow: none;
+            overflow-y: auto;
+            overflow-x: hidden;
             position: relative;
-            overflow: hidden;
         }
 
-        /* Media queries para móviles */
+        /* Para tablets y escritorio, mantener diseño con máximo ancho pero centrado */
         @media (min-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+            }
+            
+            .container {
+                max-width: 900px;
+                height: 100vh;
+                border-radius: 0;
+                box-shadow: 0 0 60px rgba(0,0,0,0.3);
+            }
+        }
+
+        /* Para pantallas muy grandes, añadir bordes redondeados */
+        @media (min-width: 1024px) {
             body {
                 padding: 20px;
             }
             
             .container {
-                min-height: auto;
+                height: calc(100vh - 40px);
                 border-radius: 20px;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            }
-        }
-
-        @media (max-width: 767px) {
-            .container {
-                border-radius: 0;
-                box-shadow: none;
             }
         }
 
@@ -56,27 +68,38 @@
             color: white;
             padding: 20px 15px;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         @media (min-width: 768px) {
             .header {
                 padding: 30px;
+                position: relative;
             }
         }
 
         .header h1 {
-            font-size: 1.8em;
-            margin-bottom: 10px;
+            font-size: 1.5em;
+            margin-bottom: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
         }
 
         @media (min-width: 768px) {
             .header h1 {
                 font-size: 2.5em;
+                margin-bottom: 10px;
             }
         }
 
         .header p {
-            font-size: 1em;
+            font-size: 0.9em;
             opacity: 0.9;
         }
 
@@ -88,9 +111,9 @@
 
         .progress-container {
             background: rgba(255,255,255,0.2);
-            height: 25px;
+            height: 22px;
             border-radius: 15px;
-            margin-top: 15px;
+            margin-top: 12px;
             overflow: hidden;
         }
 
@@ -111,14 +134,20 @@
             justify-content: center;
             font-weight: bold;
             color: #667eea;
-            font-size: 0.9em;
+            font-size: 0.8em;
+        }
+
+        @media (min-width: 768px) {
+            .progress-bar {
+                font-size: 1em;
+            }
         }
 
         /* Pantalla de selección de modo */
         .mode-selection {
-            padding: 20px 15px;
+            padding: 15px;
             text-align: center;
-            min-height: calc(100vh - 200px);
+            min-height: calc(100vh - 150px);
         }
 
         @media (min-width: 768px) {
@@ -131,7 +160,13 @@
         .mode-selection h2 {
             color: #333;
             margin-bottom: 20px;
-            font-size: 1.5em;
+            font-size: 1.3em;
+        }
+
+        @media (min-width: 480px) {
+            .mode-selection h2 {
+                font-size: 1.6em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -144,11 +179,18 @@
         .modes-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 20px;
         }
 
         @media (min-width: 480px) {
+            .modes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
             .modes-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 gap: 20px;
@@ -158,16 +200,23 @@
 
         .mode-card {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 3px solid transparent;
             touch-action: manipulation;
         }
 
+        @media (min-width: 480px) {
+            .mode-card {
+                padding: 20px;
+            }
+        }
+
         @media (min-width: 768px) {
             .mode-card {
+                border-radius: 15px;
                 padding: 30px;
             }
             
@@ -189,8 +238,15 @@
         }
 
         .mode-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .mode-icon {
+                font-size: 2.5em;
+                margin-bottom: 12px;
+            }
         }
 
         @media (min-width: 768px) {
@@ -201,9 +257,16 @@
         }
 
         .mode-title {
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+        }
+
+        @media (min-width: 480px) {
+            .mode-title {
+                font-size: 1.3em;
+                margin-bottom: 8px;
+            }
         }
 
         @media (min-width: 768px) {
@@ -214,9 +277,16 @@
         }
 
         .mode-description {
-            font-size: 0.85em;
-            line-height: 1.4;
+            font-size: 0.8em;
+            line-height: 1.3;
             opacity: 0.9;
+        }
+
+        @media (min-width: 480px) {
+            .mode-description {
+                font-size: 0.85em;
+                line-height: 1.4;
+            }
         }
 
         @media (min-width: 768px) {
@@ -226,10 +296,18 @@
         }
 
         .mode-stats {
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid rgba(0,0,0,0.1);
-            font-size: 0.85em;
+            font-size: 0.75em;
+        }
+
+        @media (min-width: 480px) {
+            .mode-stats {
+                margin-top: 12px;
+                padding-top: 12px;
+                font-size: 0.8em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -245,9 +323,9 @@
         }
 
         .quiz-container {
-            padding: 20px 15px;
+            padding: 15px;
             display: none;
-            min-height: calc(100vh - 200px);
+            min-height: calc(100vh - 150px);
         }
 
         @media (min-width: 768px) {
@@ -274,7 +352,7 @@
         }
 
         .question {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         @media (min-width: 768px) {
@@ -287,19 +365,33 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .question-header {
+                margin-bottom: 15px;
+                gap: 10px;
+            }
         }
 
         .question-number {
             background: #667eea;
             color: white;
             display: inline-block;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 0.85em;
+            font-size: 0.8em;
+        }
+
+        @media (min-width: 480px) {
+            .question-number {
+                padding: 5px 12px;
+                font-size: 0.85em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -312,9 +404,16 @@
         .question-topic {
             background: #28a745;
             color: white;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            font-size: 0.8em;
+            font-size: 0.75em;
+        }
+
+        @media (min-width: 480px) {
+            .question-topic {
+                padding: 5px 12px;
+                font-size: 0.8em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -326,21 +425,29 @@
 
         .question h2 {
             color: #333;
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            line-height: 1.5;
+            margin-bottom: 15px;
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        @media (min-width: 480px) {
+            .question h2 {
+                font-size: 1.1em;
+            }
         }
 
         @media (min-width: 768px) {
             .question h2 {
+                margin-bottom: 20px;
                 font-size: 1.3em;
+                line-height: 1.5;
             }
         }
 
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         @media (min-width: 768px) {
@@ -353,19 +460,28 @@
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             border-radius: 10px;
-            padding: 12px 15px;
+            padding: 10px 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             touch-action: manipulation;
-            font-size: 0.95em;
+            font-size: 0.9em;
+            min-height: 48px;
+        }
+
+        @media (min-width: 480px) {
+            .option {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
         }
 
         @media (min-width: 768px) {
             .option {
                 padding: 15px 20px;
                 font-size: 1em;
+                min-height: auto;
             }
             
             .option:hover:not(.correct):not(.incorrect):not(.disabled) {
@@ -418,15 +534,25 @@
         .option-letter {
             background: white;
             color: #667eea;
-            width: 25px;
-            height: 25px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             margin-right: 10px;
-            font-size: 0.85em;
+            font-size: 0.8em;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 480px) {
+            .option-letter {
+                width: 28px;
+                height: 28px;
+                margin-right: 12px;
+                font-size: 0.9em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -463,13 +589,21 @@
             padding: 10px 20px;
             border: none;
             border-radius: 25px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             touch-action: manipulation;
             flex: 1;
+            min-height: 44px;
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                padding: 11px 25px;
+                font-size: 0.9em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -477,6 +611,8 @@
                 padding: 12px 30px;
                 font-size: 1em;
                 flex: initial;
+                min-width: 120px;
+                min-height: auto;
             }
         }
 
@@ -520,7 +656,14 @@
             padding: 12px;
             margin-top: 15px;
             display: none;
-            font-size: 0.9em;
+            font-size: 0.85em;
+        }
+
+        @media (min-width: 480px) {
+            .feedback {
+                padding: 13px;
+                font-size: 0.9em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -547,10 +690,10 @@
         }
 
         .results-screen {
-            padding: 20px 15px;
+            padding: 15px;
             display: none;
             text-align: center;
-            min-height: calc(100vh - 200px);
+            min-height: calc(100vh - 150px);
         }
 
         @media (min-width: 768px) {
@@ -561,10 +704,18 @@
         }
 
         .score-circle {
-            width: 150px;
-            height: 150px;
-            margin: 20px auto;
+            width: 120px;
+            height: 120px;
+            margin: 15px auto;
             position: relative;
+        }
+
+        @media (min-width: 480px) {
+            .score-circle {
+                width: 150px;
+                height: 150px;
+                margin: 20px auto;
+            }
         }
 
         @media (min-width: 768px) {
@@ -582,7 +733,13 @@
         .score-circle .background {
             fill: none;
             stroke: #e9ecef;
-            stroke-width: 8;
+            stroke-width: 6;
+        }
+
+        @media (min-width: 480px) {
+            .score-circle .background {
+                stroke-width: 8;
+            }
         }
 
         @media (min-width: 768px) {
@@ -594,9 +751,15 @@
         .score-circle .progress {
             fill: none;
             stroke: #667eea;
-            stroke-width: 8;
+            stroke-width: 6;
             stroke-linecap: round;
             transition: stroke-dashoffset 1s ease;
+        }
+
+        @media (min-width: 480px) {
+            .score-circle .progress {
+                stroke-width: 8;
+            }
         }
 
         @media (min-width: 768px) {
@@ -610,9 +773,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.2em;
+            font-size: 1.8em;
             font-weight: bold;
             color: #667eea;
+        }
+
+        @media (min-width: 480px) {
+            .score-text {
+                font-size: 2.2em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -623,15 +792,23 @@
 
         .results-details {
             background: #f8f9fa;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px 0;
-            max-height: 300px;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 15px 0;
+            max-height: 250px;
             overflow-y: auto;
+        }
+
+        @media (min-width: 480px) {
+            .results-details {
+                padding: 15px;
+                max-height: 300px;
+            }
         }
 
         @media (min-width: 768px) {
             .results-details {
+                border-radius: 15px;
                 padding: 20px;
                 margin: 30px 0;
                 max-height: 400px;
@@ -640,13 +817,14 @@
 
         .results-details h3 {
             color: #333;
-            margin-bottom: 15px;
-            font-size: 1.2em;
+            margin-bottom: 12px;
+            font-size: 1.1em;
         }
 
         @media (min-width: 768px) {
             .results-details h3 {
-                font-size: 1.4em;
+                margin-bottom: 15px;
+                font-size: 1.3em;
             }
         }
 
@@ -654,16 +832,24 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 8px 10px;
-            margin: 5px 0;
+            padding: 8px;
+            margin: 4px 0;
             background: white;
-            border-radius: 10px;
-            font-size: 0.9em;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        @media (min-width: 480px) {
+            .result-item {
+                padding: 9px;
+                font-size: 0.9em;
         }
 
         @media (min-width: 768px) {
             .result-item {
                 padding: 10px;
+                margin: 5px 0;
+                border-radius: 10px;
                 font-size: 1em;
             }
         }
@@ -681,7 +867,7 @@
             justify-content: space-around;
             margin: 15px 0;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
         }
 
         @media (min-width: 768px) {
@@ -693,14 +879,20 @@
 
         .stat {
             text-align: center;
-            flex: 1 1 auto;
-            min-width: 80px;
+            flex: 1 1 30%;
+            min-width: 70px;
         }
 
         .stat-value {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
             color: #667eea;
+        }
+
+        @media (min-width: 480px) {
+            .stat-value {
+                font-size: 1.6em;
+            }
         }
 
         @media (min-width: 768px) {
@@ -711,25 +903,39 @@
 
         .stat-label {
             color: #666;
-            margin-top: 5px;
-            font-size: 0.85em;
+            margin-top: 3px;
+            font-size: 0.75em;
+        }
+
+        @media (min-width: 480px) {
+            .stat-label {
+                font-size: 0.85em;
+            }
         }
 
         @media (min-width: 768px) {
             .stat-label {
+                margin-top: 5px;
                 font-size: 1em;
             }
         }
 
         .topic-stats {
             background: #f8f9fa;
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 12px;
             margin: 15px 0;
+        }
+
+        @media (min-width: 480px) {
+            .topic-stats {
+                padding: 15px;
+            }
         }
 
         @media (min-width: 768px) {
             .topic-stats {
+                border-radius: 15px;
                 padding: 20px;
                 margin: 20px 0;
             }
@@ -738,28 +944,37 @@
         .topic-stat {
             display: flex;
             justify-content: space-between;
-            padding: 8px 10px;
-            margin: 5px 0;
+            padding: 8px;
+            margin: 4px 0;
             background: white;
-            border-radius: 10px;
-            font-size: 0.9em;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        @media (min-width: 480px) {
+            .topic-stat {
+                padding: 9px;
+                font-size: 0.9em;
+            }
         }
 
         @media (min-width: 768px) {
             .topic-stat {
                 padding: 10px;
+                margin: 5px 0;
+                border-radius: 10px;
                 font-size: 1em;
             }
         }
 
         .back-to-menu {
             position: fixed;
-            top: 15px;
-            left: 15px;
-            background: rgba(255,255,255,0.9);
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.95);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -770,12 +985,21 @@
             touch-action: manipulation;
         }
 
+        @media (min-width: 480px) {
+            .back-to-menu {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                left: 15px;
+            }
+        }
+
         @media (min-width: 768px) {
             .back-to-menu {
-                top: 20px;
-                left: 20px;
                 width: 50px;
                 height: 50px;
+                top: 20px;
+                left: 20px;
             }
             
             .back-to-menu:hover {
@@ -792,12 +1016,12 @@
             display: none;
         }
 
-        /* Control buttons móvil optimizado */
+        /* Control buttons optimizados para móviles */
         .control-buttons {
             display: flex;
+            flex-direction: column;
             gap: 10px;
             margin-top: 20px;
-            flex-direction: column;
         }
 
         @media (min-width: 480px) {
@@ -817,7 +1041,7 @@
 
         .control-btn {
             padding: 12px 20px;
-            font-size: 0.95em;
+            font-size: 0.9em;
             font-weight: bold;
             border: none;
             border-radius: 10px;
@@ -828,12 +1052,15 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             touch-action: manipulation;
             width: 100%;
+            min-height: 44px;
         }
 
         @media (min-width: 480px) {
             .control-btn {
                 width: auto;
-                min-width: 140px;
+                min-width: 130px;
+                flex: 1;
+                max-width: 200px;
             }
         }
 
@@ -842,6 +1069,7 @@
                 padding: 15px 40px;
                 font-size: 1.1em;
                 min-width: 160px;
+                max-width: none;
             }
             
             .control-btn:hover:not(:disabled) {
@@ -861,8 +1089,8 @@
 
         /* Scrollbar personalizado para móviles */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
 
         ::-webkit-scrollbar-track {
@@ -879,24 +1107,47 @@
             background: #555;
         }
 
-        /* Ajustes finales para pantallas muy pequeñas */
+        /* Ajustes adicionales para pantallas muy pequeñas */
         @media (max-width: 360px) {
             .header h1 {
-                font-size: 1.5em;
+                font-size: 1.3em;
+            }
+            
+            .header p {
+                font-size: 0.85em;
             }
             
             .mode-title {
-                font-size: 1.1em;
-            }
-            
-            .question h2 {
                 font-size: 1em;
             }
             
-            .btn {
+            .mode-description {
+                font-size: 0.75em;
+            }
+            
+            .question h2 {
+                font-size: 0.95em;
+            }
+            
+            .option {
                 font-size: 0.85em;
+                padding: 8px 10px;
+            }
+            
+            .btn {
+                font-size: 0.8em;
                 padding: 8px 15px;
             }
+        }
+
+        /* Prevenir zoom en inputs en iOS */
+        input, select, textarea {
+            font-size: 16px;
+        }
+
+        /* Mejora el scroll en iOS */
+        .container {
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
