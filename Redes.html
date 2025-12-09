@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Redes - Sistema de Evaluación Completo</title>
+    <style>
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Deshabilita el resaltado táctil para una experiencia más nativa */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Asegura que el gradiente ocupe toda la altura */
+            min-height: 100vh;
+            padding: 0;
+            /* Previene el desbordamiento horizontal */
+            overflow-x: hidden;
+            font-size: 16px; /* Tamaño base para mejor accesibilidad */
+        }
+
+        /* Contenedor principal - Diseñado para ser Full-Screen en móviles */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            margin: 0;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            /* Mejora el scroll en iOS */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* --- MEDIA QUERIES PARA PANTALLAS MÁS GRANDES --- */
+
+        /* Para tablets y escritorio (>= 768px) */
+        @media (min-width: 768px) {
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 900px;
+                height: 100vh;
+                border-radius: 0;
+                box-shadow: 0 0 60px rgba(0,0,0,0.3);
+            }
+        }
+
+        /* Para pantallas muy grandes (>= 1024px), añadir bordes redondeados */
+        @media (min-width: 1024px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                height: calc(100vh - 40px);
+                border-radius: 20px;
+            }
+        }
+
+        /* --- ESTILOS DE CABECERA Y PROGRESO --- */
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 15px; /* Padding ajustado para móvil */
+            text-align: center;
+            position: sticky; /* Sticky para que el encabezado se quede arriba */
+            top: 0;
+            z-index: 10;
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                padding: 30px;
+                position: relative;
+            }
+        }
+
+        .header h1 {
+            font-size: 1.5em; /* Tamaño legible en móvil */
+            margin-bottom: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+            }
+        }
+
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        @media (min-width: 768px) {
+            .header p {
+                font-size: 1.1em;
+            }
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            height: 22px;
+            border-radius: 15px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .progress-container {
+                height: 30px;
+                margin-top: 20px;
+            }
+        }
+
+        .progress-bar {
+            background: white;
+            height: 100%;
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.8em;
+        }
+
+        @media (min-width: 768px) {
+            .progress-bar {
+                font-size: 1em;
+            }
+        }
+
+        /* --- ESTILOS DE SELECCIÓN DE MODO --- */
+        .mode-selection {
+            padding: 20px 15px;
+            text-align: center;
+            /* Ocupar el espacio restante en pantallas pequeñas */
+            min-height: calc(100vh - 120px);
+        }
+
+        @media (min-width: 768px) {
+            .mode-selection {
+                padding: 40px;
+                min-height: auto;
+            }
+        }
+
+        .mode-selection h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        @media (min-width: 480px) {
+            .mode-selection h2 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mode-selection h2 {
+                margin-bottom: 30px;
+                font-size: 2em;
+            }
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* Ajuste para que el examen general ocupe 1 columna en móvil */
+        #modeGeneral {
+            grid-column: span 1 !important;
+        }
+
+        @media (min-width: 480px) {
+            .modes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+            /* Ajuste para que el examen general ocupe el ancho completo a partir de 480px */
+            #modeGeneral {
+                grid-column: span 3 !important; 
+            }
+        }
+
+        @media (min-width: 768px) {
+            .modes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+            #modeGeneral {
+                grid-column: span 3 !important;
+            }
+        }
+
+        .mode-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            touch-action: manipulation;
+        }
+
+        @media (min-width: 480px) {
+            .mode-card {
+                padding: 20px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mode-card {
+                border-radius: 15px;
+                padding: 30px;
+            }
+
+            .mode-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                border-color: #667eea;
+            }
+        }
+
+        .mode-card:active {
+            transform: scale(0.98);
+        }
+
+        .mode-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #764ba2;
+        }
+
+        .mode-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .mode-icon {
+                font-size: 2.5em;
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mode-icon {
+                font-size: 3em;
+                margin-bottom: 15px;
+            }
+        }
+
+        .mode-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        @media (min-width: 480px) {
+            .mode-title {
+                font-size: 1.3em;
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mode-title {
+                font-size: 1.5em;
+                margin-bottom: 10px;
+            }
+        }
+
+        .mode-description {
+            font-size: 0.8em;
+            line-height: 1.3;
+            opacity: 0.9;
+        }
+
+        @media (min-width: 480px) {
+            .mode-description {
+                font-size: 0.85em;
+                line-height: 1.4;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mode-description {
+                font-size: 0.9em;
+            }
+        }
+
+        .mode-stats {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            font-size: 0.75em;
+        }
+
+        @media (min-width: 480px) {
+            .mode-stats {
+                margin-top: 12px;
+                padding-top: 12px;
+                font-size: 0.8em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .mode-stats {
+                margin-top: 15px;
+                padding-top: 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        .mode-card.selected .mode-stats {
+            border-top-color: rgba(255,255,255,0.3);
+        }
+
+        /* Contenedor del quiz */
+        .quiz-container {
+            padding: 20px 15px;
+            display: none;
+            /* Ocupar el espacio restante */
+            min-height: calc(100vh - 120px);
+        }
+
+        @media (min-width: 768px) {
+            .quiz-container {
+                padding: 40px;
+                min-height: auto;
+            }
+        }
+
+        .quiz-container.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .question {
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .question {
+                margin-bottom: 30px;
+            }
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .question-header {
+                margin-bottom: 15px;
+                gap: 10px;
+            }
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        @media (min-width: 480px) {
+            .question-number {
+                padding: 5px 12px;
+                font-size: 0.85em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .question-number {
+                padding: 5px 15px;
+                font-size: 1em;
+            }
+        }
+
+        .question-topic {
+            background: #28a745;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+        }
+
+        @media (min-width: 480px) {
+            .question-topic {
+                padding: 5px 12px;
+                font-size: 0.8em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .question-topic {
+                padding: 5px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        .question h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1em; /* Ajuste para móvil */
+            line-height: 1.4;
+        }
+
+        @media (min-width: 480px) {
+            .question h2 {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .question h2 {
+                margin-bottom: 20px;
+                font-size: 1.3em;
+                line-height: 1.5;
+            }
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .options {
+                gap: 15px;
+            }
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px; /* Ajuste para móvil */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            touch-action: manipulation;
+            font-size: 0.9em; /* Ajuste para móvil */
+            min-height: 50px; /* Tamaño mínimo táctil */
+        }
+
+        @media (min-width: 480px) {
+            .option {
+                padding: 12px 15px;
+                font-size: 0.95em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .option {
+                padding: 15px 20px;
+                font-size: 1em;
+                min-height: auto;
+            }
+
+            .option:hover:not(.correct):not(.incorrect):not(.disabled) {
+                background: #e9ecef;
+                transform: translateX(5px);
+            }
+        }
+
+        .option:active {
+            transform: scale(0.98);
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .option.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+            animation: shake 0.5s ease;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .option-letter {
+            background: white;
+            color: #667eea;
+            width: 28px; /* Tamaño un poco más grande para el tacto en móvil */
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 480px) {
+            .option-letter {
+                width: 28px;
+                height: 28px;
+                margin-right: 12px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .option-letter {
+                width: 30px;
+                height: 30px;
+                margin-right: 15px;
+                font-size: 1em;
+            }
+        }
+
+        .option.selected .option-letter,
+        .option.correct .option-letter,
+        .option.incorrect .option-letter {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .buttons {
+                margin-top: 30px;
+                gap: 15px;
+            }
+        }
+
+        .btn {
+            padding: 12px 15px; /* Ajuste para móvil */
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9em; /* Ajuste para móvil */
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            touch-action: manipulation;
+            flex: 1;
+            min-height: 48px; /* Tamaño mínimo táctil */
+        }
+
+        @media (min-width: 480px) {
+            .btn {
+                padding: 11px 25px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .btn {
+                padding: 12px 30px;
+                font-size: 1em;
+                flex: initial;
+                min-width: 120px;
+                min-height: auto;
+            }
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .btn-primary:hover:not(:disabled) {
+                background: #5a67d8;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .btn-secondary:hover:not(:disabled) {
+                background: #5a6268;
+            }
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.85em;
+        }
+
+        @media (min-width: 480px) {
+            .feedback {
+                padding: 13px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .feedback {
+                padding: 15px;
+                margin-top: 20px;
+                font-size: 1em;
+            }
+        }
+
+        .feedback.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        /* Pantalla de resultados */
+        .results-screen {
+            padding: 20px 15px;
+            display: none;
+            text-align: center;
+            /* Ocupar el espacio restante */
+            min-height: calc(100vh - 120px);
+        }
+
+        @media (min-width: 768px) {
+            .results-screen {
+                padding: 40px;
+                min-height: auto;
+            }
+        }
+        
+        .results-screen h2 {
+            font-size: 1.8em;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            margin: 15px auto;
+            position: relative;
+        }
+
+        @media (min-width: 480px) {
+            .score-circle {
+                width: 150px;
+                height: 150px;
+                margin: 20px auto;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .score-circle {
+                width: 200px;
+                height: 200px;
+                margin: 30px auto;
+            }
+        }
+
+        .score-circle svg {
+            transform: rotate(-90deg);
+        }
+
+        .score-circle .background {
+            fill: none;
+            stroke: #e9ecef;
+            stroke-width: 6;
+        }
+
+        @media (min-width: 480px) {
+            .score-circle .background {
+                stroke-width: 8;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .score-circle .background {
+                stroke-width: 10;
+            }
+        }
+
+        .score-circle .progress {
+            fill: none;
+            stroke: #667eea;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        @media (min-width: 480px) {
+            .score-circle .progress {
+                stroke-width: 8;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .score-circle .progress {
+                stroke-width: 10;
+            }
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        @media (min-width: 480px) {
+            .score-text {
+                font-size: 2.2em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .score-text {
+                font-size: 3em;
+            }
+        }
+
+        .results-details {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 15px 0;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 480px) {
+            .results-details {
+                padding: 15px;
+                max-height: 300px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .results-details {
+                border-radius: 15px;
+                padding: 20px;
+                margin: 30px 0;
+                max-height: 400px;
+            }
+        }
+
+        .results-details h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        @media (min-width: 768px) {
+            .results-details h3 {
+                margin-bottom: 15px;
+                font-size: 1.3em;
+            }
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            margin: 4px 0;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        @media (min-width: 480px) {
+            .result-item {
+                padding: 9px;
+                font-size: 0.9em;
+        }
+
+        @media (min-width: 768px) {
+            .result-item {
+                padding: 10px;
+                margin: 5px 0;
+                border-radius: 10px;
+                font-size: 1em;
+            }
+        }
+
+        .result-item.correct {
+            border-left: 4px solid #28a745;
+        }
+
+        .result-item.incorrect {
+            border-left: 4px solid #dc3545;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .stats {
+                margin: 20px 0;
+                gap: 0;
+            }
+        }
+
+        .stat {
+            text-align: center;
+            flex: 1 1 30%;
+            min-width: 70px;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        @media (min-width: 480px) {
+            .stat-value {
+                font-size: 1.6em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .stat-value {
+                font-size: 2em;
+            }
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 3px;
+            font-size: 0.8em; /* Ajuste para móvil */
+        }
+
+        @media (min-width: 480px) {
+            .stat-label {
+                font-size: 0.85em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .stat-label {
+                margin-top: 5px;
+                font-size: 1em;
+            }
+        }
+
+        .topic-stats {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 15px 0;
+        }
+
+        @media (min-width: 480px) {
+            .topic-stats {
+                padding: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .topic-stats {
+                border-radius: 15px;
+                padding: 20px;
+                margin: 20px 0;
+            }
+        }
+
+        .topic-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            margin: 4px 0;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        @media (min-width: 480px) {
+            .topic-stat {
+                padding: 9px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .topic-stat {
+                padding: 10px;
+                margin: 5px 0;
+                border-radius: 10px;
+                font-size: 1em;
+            }
+        }
+
+        /* Botón fijo para volver al menú */
+        .back-to-menu {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50%;
+            width: 40px; /* Tamaño optimizado para el tacto en móvil */
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+            touch-action: manipulation;
+        }
+
+        @media (min-width: 480px) {
+            .back-to-menu {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                left: 15px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .back-to-menu {
+                width: 50px;
+                height: 50px;
+                top: 20px;
+                left: 20px;
+            }
+
+            .back-to-menu:hover {
+                transform: scale(1.1);
+                background: white;
+            }
+        }
+
+        .back-to-menu:active {
+            transform: scale(0.95);
+        }
+
+        .back-to-menu.hidden {
+            display: none;
+        }
+
+        /* Control buttons optimizados para móviles */
+        .control-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .control-buttons {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .control-buttons {
+                gap: 15px;
+                margin-top: 30px;
+            }
+        }
+
+        .control-btn {
+            padding: 12px 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            touch-action: manipulation;
+            width: 100%;
+            min-height: 48px; /* Tamaño mínimo táctil */
+        }
+
+        @media (min-width: 480px) {
+            .control-btn {
+                width: auto;
+                min-width: 130px;
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .control-btn {
+                padding: 15px 40px;
+                font-size: 1.1em;
+                min-width: 160px;
+                max-width: none;
+            }
+
+            .control-btn:hover:not(:disabled) {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            }
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Scrollbar personalizado para móviles */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Ajustes adicionales para pantallas muy pequeñas */
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+
+            .header p {
+                font-size: 0.85em;
+            }
+
+            .mode-title {
+                font-size: 1em;
+            }
+
+            .mode-description {
+                font-size: 0.75em;
+            }
+
+            .question h2 {
+                font-size: 0.95em;
+            }
+
+            .option {
+                font-size: 0.85em;
+                padding: 8px 10px;
+                min-height: 44px;
+            }
+
+            .btn {
+                font-size: 0.8em;
+                padding: 8px 15px;
+                min-height: 44px;
+            }
+
+            .back-to-menu {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        /* Prevenir zoom en inputs en iOS */
+        input, select, textarea {
+            font-size: 16px;
+        }    </style>
+</head>
+<body>
+    <div class="back-to-menu hidden" id="backToMenu" onclick="returnToMenu()">
+        <span style="font-size: 1.5em;">⬅️</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Test de Redes</h1>
+            <p>Sistema de Evaluación Completo</p>
+            <div class="progress-container" style="display: none;" id="progressContainer">
+                <div class="progress-bar" id="progressBar">0%</div>
+            </div>
+        </div>
+
+        <!-- Pantalla de selección de modo -->
+        <div class="mode-selection" id="modeSelection">
+            <h2>Selecciona el Modo de Práctica</h2>
+            <div class="modes-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div class="mode-card" onclick="selectMode('ut1')" id="modeUT1">
+                    <div class="mode-icon">📚</div>
+                    <div class="mode-title">UT-1</div>
+                    <div class="mode-description">
+                        Conceptos fundamentales: Modelo OSI, protocolos, 
+                        topologías y dispositivos básicos.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Básico
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('ut2')" id="modeUT2">
+                    <div class="mode-icon">🔧</div>
+                    <div class="mode-title">UT-2</div>
+                    <div class="mode-description">
+                        Cableado estructurado, normativas, 
+                        Wi-Fi empresarial y configuración.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Intermedio
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('ut3')" id="modeUT3">
+                    <div class="mode-icon">🔐</div>
+                    <div class="mode-title">UT-3</div>
+                    <div class="mode-description">
+                        Administración de switches, VLANs, 
+                        seguridad y comandos Cisco.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Avanzado
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('ut4')" id="modeUT4">
+                    <div class="mode-icon">🌐</div>
+                    <div class="mode-title">UT-4</div>
+                    <div class="mode-description">
+                        Administración de routers, NAT, ACLs, 
+                        routing estático y dinámico.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Avanzado
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('ut5')" id="modeUT5">
+                    <div class="mode-icon">🔗</div>
+                    <div class="mode-title">UT-5</div>
+                    <div class="mode-description">
+                        VLANs, segmentación de redes, 802.1Q, 
+                        Inter-VLAN routing y seguridad.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Avanzado
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('ut6')" id="modeUT6">
+                    <div class="mode-icon">🚀</div>
+                    <div class="mode-title">UT-6</div>
+                    <div class="mode-description">
+                        Enrutamiento dinámico, RIP, OSPF, 
+                        métricas y convergencia de red.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Avanzado
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('ut7')" id="modeUT7">
+                    <div class="mode-icon">🌍</div>
+                    <div class="mode-title">UT-7</div>
+                    <div class="mode-description">
+                        Conectividad Internet, NAT/PAT, VPN, 
+                        WAN, DMZ y seguridad perimetral.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>20 preguntas</strong><br>
+                        Nivel: Avanzado
+                    </div>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('general')" id="modeGeneral" style="grid-column: span 3;">
+                    <div class="mode-icon">🎯</div>
+                    <div class="mode-title">Examen General</div>
+                    <div class="mode-description">
+                        Evaluación completa con todas las preguntas de las siete unidades 
+                        presentadas en orden aleatorio.
+                    </div>
+                    <div class="mode-stats">
+                        <strong>140 preguntas aleatorias</strong><br>
+                        Nivel: Completo
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled>Comenzar Test</button>
+        </div>
+
+        <!-- Contenedor del quiz -->
+        <div class="quiz-container" id="quizContainer">
+            <div class="question" id="questionContainer">
+                <!-- Las preguntas se cargarán aquí dinámicamente -->
+            </div>
+            <div class="feedback" id="feedback"></div>
+            <div class="buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">Anterior</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Siguiente</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de resultados -->
+        <div class="results-screen" id="resultsScreen">
+            <h2>¡Test Completado!</h2>
+            <div class="score-circle">
+                <svg width="200" height="200">
+                    <circle class="background" cx="100" cy="100" r="90"></circle>
+                    <circle class="progress" id="scoreProgress" cx="100" cy="100" r="90"
+                            stroke-dasharray="565" stroke-dashoffset="565"></circle>
+                </svg>
+                <div class="score-text" id="scoreText">0%</div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">Correctas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="incorrectCount">0</div>
+                    <div class="stat-label">Incorrectas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="totalQuestions">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+
+            <div class="topic-stats" id="topicStats">
+                <h3>Rendimiento por Tema</h3>
+                <!-- Se llenará dinámicamente -->
+            </div>
+
+            <div class="results-details" id="resultsDetails">
+                <h3>Resumen de Respuestas</h3>
+                <!-- Los detalles se cargarán aquí -->
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-secondary" onclick="returnToMenu()">Volver al Menú</button>
+                <button class="btn btn-primary" onclick="restartSameMode()">Repetir Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas organizadas por unidad
+        const questionsDB = {
+            ut1: [
+                {
+                    question: "¿Qué medio de transmisión inalámbrico requiere visión directa y es vulnerable a obstáculos?",
+                    options: ["Par trenzado", "Fibra óptica", "LiFi", "Microondas"],
+                    correct: 2,
+                    explanation: "LiFi utiliza luz visible para transmitir datos y requiere línea de visión directa.",
+                    topic: "Medios de transmisión"
+                },
+                {
+                    question: "¿Cuál de los siguientes es un ataque de red basado en inundar peticiones para saturar un servicio?",
+                    options: ["ARP Spoofing", "DDoS", "Phishing", "Sniffing"],
+                    correct: 1,
+                    explanation: "DDoS (Distributed Denial of Service) satura un servicio con múltiples peticiones.",
+                    topic: "Seguridad"
+                },
+                {
+                    question: "¿Qué comando permite ver la ruta que sigue un paquete hasta su destino?",
+                    options: ["ping", "arp", "traceroute", "dig"],
+                    correct: 2,
+                    explanation: "Traceroute muestra todos los saltos que realiza un paquete hasta llegar a su destino.",
+                    topic: "Comandos de red"
+                },
+                {
+                    question: "¿Qué modelo conceptual organiza la comunicación en siete capas?",
+                    options: ["Modelo Ethernet", "Modelo TCP/IP", "Modelo híbrido", "Modelo OSI"],
+                    correct: 3,
+                    explanation: "El modelo OSI (Open Systems Interconnection) organiza la comunicación en 7 capas.",
+                    topic: "Modelos de red"
+                },
+                {
+                    question: "¿Qué protocolo garantiza entrega ordenada y fiable de los datos?",
+                    options: ["ICMP", "HTTP", "TCP", "UDP"],
+                    correct: 2,
+                    explanation: "TCP (Transmission Control Protocol) garantiza la entrega ordenada y fiable mediante ACKs.",
+                    topic: "Protocolos"
+                },
+                {
+                    question: "¿Qué protocolo es usado para enviar correo electrónico?",
+                    options: ["SMTP", "DNS", "FTP", "HTTP"],
+                    correct: 0,
+                    explanation: "SMTP (Simple Mail Transfer Protocol) es el protocolo estándar para envío de correos.",
+                    topic: "Protocolos"
+                },
+                {
+                    question: "¿Qué topología fue la primera usada en Ethernet y es vulnerable a fallos en el cable troncal?",
+                    options: ["Anillo", "Malla", "Bus", "Estrella"],
+                    correct: 2,
+                    explanation: "La topología Bus utiliza un cable troncal compartido por todos los dispositivos.",
+                    topic: "Topologías"
+                },
+                {
+                    question: "¿Qué protocolo de red se usa para monitorizar dispositivos como routers e impresoras?",
+                    options: ["SMTP", "ARP", "SNMP", "HTTP"],
+                    correct: 2,
+                    explanation: "SNMP (Simple Network Management Protocol) monitoriza y gestiona dispositivos de red.",
+                    topic: "Protocolos"
+                },
+                {
+                    question: "¿Qué medio de transmisión ofrece mayor ancho de banda y resistencia a interferencias?",
+                    options: ["Fibra óptica", "Microondas", "Coaxial", "Par trenzado"],
+                    correct: 0,
+                    explanation: "La fibra óptica ofrece el mayor ancho de banda y es inmune a interferencias electromagnéticas.",
+                    topic: "Medios de transmisión"
+                },
+                {
+                    question: "¿Cuál es la principal diferencia entre IPv4 e IPv6?",
+                    options: ["El uso de WiFi obligatorio", "La velocidad de transmisión", "El número de bits de dirección", "El tipo de cable usado"],
+                    correct: 2,
+                    explanation: "IPv4 usa 32 bits (4.3 mil millones de direcciones) mientras IPv6 usa 128 bits.",
+                    topic: "Protocolos"
+                },
+                {
+                    question: "¿Qué protocolo traduce nombres de dominio en direcciones IP?",
+                    options: ["SMTP", "DNS", "DHCP", "SNMP"],
+                    correct: 1,
+                    explanation: "DNS (Domain Name System) resuelve nombres de dominio a direcciones IP.",
+                    topic: "Protocolos"
+                },
+                {
+                    question: "¿Qué capa del modelo OSI se encarga del cifrado y la compresión de datos?",
+                    options: ["Capa de aplicación", "Capa de presentación", "Capa de sesión", "Capa de transporte"],
+                    correct: 1,
+                    explanation: "La Capa 6 (Presentación) maneja el cifrado, compresión y formato de datos.",
+                    topic: "Modelo OSI"
+                },
+                {
+                    question: "¿Qué dispositivo interconecta distintas redes y gestiona tablas de enrutamiento?",
+                    options: ["Firewall", "Hub", "Router", "Switch"],
+                    correct: 2,
+                    explanation: "El router conecta diferentes redes y toma decisiones de enrutamiento basadas en sus tablas.",
+                    topic: "Dispositivos"
+                },
+                {
+                    question: "¿Cuál es la principal utilidad de Wireshark?",
+                    options: ["Captura y análisis de tráfico de red", "Creación de VLANs", "Asignación de direcciones IP", "Filtrado de tráfico perimetral"],
+                    correct: 0,
+                    explanation: "Wireshark es un analizador de protocolos que captura y analiza paquetes de red.",
+                    topic: "Herramientas"
+                },
+                {
+                    question: "¿Qué comando permite verificar conectividad y latencia entre dos nodos?",
+                    options: ["netstat", "traceroute", "arp", "ping"],
+                    correct: 3,
+                    explanation: "Ping envía paquetes ICMP para verificar conectividad y medir latencia.",
+                    topic: "Comandos de red"
+                },
+                {
+                    question: "¿Qué dispositivo de red opera en la capa 2 del modelo OSI?",
+                    options: ["Switch", "Firewall", "Router", "Hub"],
+                    correct: 0,
+                    explanation: "El switch opera en la Capa 2 (Enlace de datos) trabajando con direcciones MAC.",
+                    topic: "Dispositivos"
+                },
+                {
+                    question: "¿Qué es una red de datos?",
+                    options: ["Un servidor de bases de datos", "Un conjunto de dispositivos interconectados para compartir información", "Un sistema de almacenamiento local", "Un tipo de software de ofimática"],
+                    correct: 1,
+                    explanation: "Una red de datos es un conjunto de dispositivos interconectados que comparten recursos e información.",
+                    topic: "Conceptos básicos"
+                },
+                {
+                    question: "¿Cuál fue la primera red que sentó las bases de Internet?",
+                    options: ["WiFi", "Ethernet", "Token Ring", "ARPANET"],
+                    correct: 3,
+                    explanation: "ARPANET fue la primera red de conmutación de paquetes y precursora de Internet.",
+                    topic: "Historia"
+                },
+                {
+                    question: "¿Qué topología de red depende de un nodo central?",
+                    options: ["Anillo", "Bus", "Estrella", "Malla"],
+                    correct: 2,
+                    explanation: "En la topología estrella todos los dispositivos se conectan a un nodo central.",
+                    topic: "Topologías"
+                },
+                {
+                    question: "¿Qué protocolo se utiliza para asignar direcciones IP automáticamente?",
+                    options: ["FTP", "ICMP", "DHCP", "DNS"],
+                    correct: 2,
+                    explanation: "DHCP (Dynamic Host Configuration Protocol) asigna automáticamente direcciones IP.",
+                    topic: "Protocolos"
+                }
+            ],
+            ut2: [
+                {
+                    question: "¿Qué protocolo permite agrupar interfaces en Linux o Windows?",
+                    options: ["SNMP", "FTP", "LACP", "HTTP"],
+                    correct: 2,
+                    explanation: "LACP (Link Aggregation Control Protocol) permite agrupar múltiples interfaces de red.",
+                    topic: "Configuración avanzada"
+                },
+                {
+                    question: "¿Qué error ocurre al asignar manualmente dos direcciones iguales?",
+                    options: ["Fragmentación", "Conflicto de IP", "Timeout", "Bucle de red"],
+                    correct: 1,
+                    explanation: "Un conflicto de IP ocurre cuando dos dispositivos tienen la misma dirección IP en la red.",
+                    topic: "Troubleshooting"
+                },
+                {
+                    question: "¿Qué medio físico es más adecuado para largas distancias en campus?",
+                    options: ["Cable coaxial", "Fibra multimodo", "Fibra monomodo", "Par trenzado Cat 5e"],
+                    correct: 2,
+                    explanation: "La fibra monomodo es ideal para largas distancias (hasta 40km) con menor atenuación.",
+                    topic: "Cableado estructurado"
+                },
+                {
+                    question: "¿Qué comando Linux permite añadir una dirección IP?",
+                    options: ["ip addr add", "ifconfig -a", "netstat -rn", "route -n"],
+                    correct: 0,
+                    explanation: "El comando 'ip addr add' es la forma moderna de añadir direcciones IP en Linux.",
+                    topic: "Administración Linux"
+                },
+                {
+                    question: "¿Qué indica un enlace negociado a 100 Mbps half-duplex en lugar de 1 Gbps full?",
+                    options: ["IP duplicada", "Velocidad degradada", "DHCP deshabilitado", "Configuración correcta"],
+                    correct: 1,
+                    explanation: "Una velocidad degradada indica problemas en el cable, puerto o configuración de autonegociación.",
+                    topic: "Troubleshooting"
+                },
+                {
+                    question: "¿Qué documento centraliza información de activos y registros en grandes empresas?",
+                    options: ["DHCP", "CMDB", "VLAN", "NAT"],
+                    correct: 1,
+                    explanation: "CMDB (Configuration Management Database) centraliza información de todos los activos de TI.",
+                    topic: "Gestión empresarial"
+                },
+                {
+                    question: "¿Qué función cumple el NIC Teaming?",
+                    options: ["Mejorar DNS", "Agregar ancho de banda y redundancia", "Reducir latencia", "Evitar interferencias"],
+                    correct: 1,
+                    explanation: "NIC Teaming agrupa interfaces de red para aumentar ancho de banda y proporcionar redundancia.",
+                    topic: "Configuración avanzada"
+                },
+                {
+                    question: "¿Qué dispositivo termina el cableado horizontal en un rack?",
+                    options: ["Patch panel", "Switch", "Access Point", "Router"],
+                    correct: 0,
+                    explanation: "El patch panel organiza y termina los cables horizontales procedentes de las áreas de trabajo.",
+                    topic: "Cableado estructurado"
+                },
+                {
+                    question: "¿Qué protocolo evita bucles en redes conmutadas?",
+                    options: ["Spanning Tree Protocol (STP)", "OSPF", "DHCP", "RIP"],
+                    correct: 0,
+                    explanation: "STP previene bucles en topologías redundantes bloqueando puertos selectivamente.",
+                    topic: "Protocolos avanzados"
+                },
+                {
+                    question: "¿Qué dirección indica fallo en el servidor DHCP?",
+                    options: ["192.168.0.1", "127.0.0.1", "255.255.255.255", "169.254.x.x"],
+                    correct: 3,
+                    explanation: "Las direcciones APIPA (169.254.x.x) se asignan automáticamente cuando no hay servidor DHCP disponible.",
+                    topic: "Troubleshooting"
+                },
+                {
+                    question: "¿Qué estándar define el etiquetado en infraestructuras de red?",
+                    options: ["IEEE 802.3", "ISO/IEC 11801", "TIA/EIA-606-B", "EN 50173"],
+                    correct: 2,
+                    explanation: "TIA/EIA-606-B establece estándares para etiquetado y documentación de infraestructura de red.",
+                    topic: "Normativas"
+                },
+                {
+                    question: "¿Qué protocolo de seguridad inalámbrica se considera más robusto actualmente?",
+                    options: ["WEP", "WPA", "WPA3", "WPA2"],
+                    correct: 2,
+                    explanation: "WPA3 es el protocolo más reciente y robusto, con cifrado mejorado y protección contra ataques.",
+                    topic: "Seguridad Wi-Fi"
+                },
+                {
+                    question: "¿Qué modo de autenticación se utiliza en WPA2/WPA3-Enterprise?",
+                    options: ["Portal cautivo", "SSID oculto", "Contraseña simple", "802.1X con RADIUS"],
+                    correct: 3,
+                    explanation: "802.1X con servidor RADIUS proporciona autenticación empresarial basada en credenciales individuales.",
+                    topic: "Seguridad Wi-Fi"
+                },
+                {
+                    question: "¿Qué herramienta certifica instalaciones de cobre y fibra?",
+                    options: ["Analizador Wireshark", "Multímetro", "Probador básico", "Certificador Fluke"],
+                    correct: 3,
+                    explanation: "Los certificadores Fluke verifican que las instalaciones cumplan con estándares TIA/ISO.",
+                    topic: "Herramientas profesionales"
+                },
+                {
+                    question: "¿Cuál es la longitud máxima de un enlace horizontal de cobre según TIA/EIA-568?",
+                    options: ["50 metros", "150 metros", "100 metros", "75 metros"],
+                    correct: 2,
+                    explanation: "El estándar TIA/EIA-568 especifica 90 metros de cable + 10 metros de patch cords (100m total).",
+                    topic: "Normativas"
+                },
+                {
+                    question: "¿Qué norma internacional regula el cableado estructurado en Europa?",
+                    options: ["ISO/IEC 11801", "ANSI/TIA/EIA-568", "IEEE 802.11", "EN 50173"],
+                    correct: 3,
+                    explanation: "EN 50173 es la norma europea para cableado estructurado, basada en ISO/IEC 11801.",
+                    topic: "Normativas"
+                },
+                {
+                    question: "¿Qué herramienta comprueba la resolución de nombres?",
+                    options: ["nslookup", "ipconfig", "ping", "ethtool"],
+                    correct: 0,
+                    explanation: "nslookup consulta servidores DNS para resolver nombres de dominio a direcciones IP.",
+                    topic: "Herramientas de diagnóstico"
+                },
+                {
+                    question: "¿Qué estándar Wi-Fi introdujo el uso de OFDMA?",
+                    options: ["802.11n (Wi-Fi 4)", "802.11g", "802.11ax (Wi-Fi 6)", "802.11ac (Wi-Fi 5)"],
+                    correct: 2,
+                    explanation: "Wi-Fi 6 (802.11ax) introdujo OFDMA para mejorar la eficiencia en entornos densos.",
+                    topic: "Wi-Fi avanzado"
+                },
+                {
+                    question: "¿Qué comando en Windows muestra la configuración completa de red?",
+                    options: ["nslookup", "tracert", "ipconfig /all", "ping"],
+                    correct: 2,
+                    explanation: "ipconfig /all muestra toda la configuración de red incluyendo IP, MAC, DNS, DHCP, etc.",
+                    topic: "Administración Windows"
+                },
+                {
+                    question: "¿Qué protocolo evita bucles de enrutamiento?",
+                    options: ["BGP", "STP", "OSPF", "RIP"],
+                    correct: 1,
+                    explanation: "STP (Spanning Tree Protocol) previene bucles en redes de Capa 2.",
+                    topic: "Protocolos avanzados"
+                }
+            ],
+            ut3: [
+                {
+                    question: "¿Qué función cumple el Port Security?",
+                    options: ["Permitir más VLANs", "Desactivar el STP", "Aumentar el ancho de banda", "Limitar el número de direcciones MAC por puerto"],
+                    correct: 3,
+                    explanation: "Port Security limita el número de direcciones MAC permitidas en un puerto para prevenir ataques.",
+                    topic: "Seguridad en switches"
+                },
+                {
+                    question: "¿Qué tecnología permite unir varios enlaces físicos en uno lógico?",
+                    options: ["LACP/EtherChannel", "ARP", "RIP", "DHCP Snooping"],
+                    correct: 0,
+                    explanation: "LACP/EtherChannel agrega múltiples enlaces físicos en un único enlace lógico para mayor ancho de banda y redundancia.",
+                    topic: "Agregación de enlaces"
+                },
+                {
+                    question: "¿Cuál es la finalidad de las VLANs en un switch?",
+                    options: ["Aumentar la velocidad física del puerto", "Evitar el uso de protocolos", "Segmentar lógicamente la red en dominios independientes", "Sustituir al direccionamiento IP"],
+                    correct: 2,
+                    explanation: "Las VLANs segmentan lógicamente la red creando dominios de broadcast separados.",
+                    topic: "VLANs"
+                },
+                {
+                    question: "¿Qué diferencia principal existe entre un switch gestionable y uno no gestionable?",
+                    options: ["El no gestionable ofrece CLI", "El gestionable permite configurar, monitorizar y aplicar políticas de red", "El no gestionable soporta VLANs", "El gestionable no tiene interfaz de administración"],
+                    correct: 1,
+                    explanation: "Los switches gestionables permiten configuración avanzada, monitorización y aplicación de políticas de red.",
+                    topic: "Tipos de switches"
+                },
+                {
+                    question: "¿Cuál es el método más seguro de acceso remoto a un switch?",
+                    options: ["Telnet", "Acceso sin contraseña", "HTTP sin cifrar", "SSH"],
+                    correct: 3,
+                    explanation: "SSH proporciona acceso remoto cifrado y seguro a los dispositivos de red.",
+                    topic: "Administración remota"
+                },
+                {
+                    question: "¿Qué comando muestra la tabla de direcciones MAC en un switch Cisco?",
+                    options: ["show arp", "show logging", "show mac address-table", "show ip interface brief"],
+                    correct: 2,
+                    explanation: "El comando 'show mac address-table' muestra las direcciones MAC aprendidas por el switch.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué protocolo de autenticación de usuarios puede usarse en switches?",
+                    options: ["ARP", "802.1X", "FTP", "RIP"],
+                    correct: 1,
+                    explanation: "802.1X proporciona autenticación basada en puerto para control de acceso a la red.",
+                    topic: "Autenticación"
+                },
+                {
+                    question: "¿Qué mejora aporta RSTP frente a STP?",
+                    options: ["Elimina la necesidad de VLANs", "Mayor número de VLANs", "Soporte de IPv6", "Menor tiempo de convergencia"],
+                    correct: 3,
+                    explanation: "RSTP (Rapid Spanning Tree Protocol) reduce significativamente el tiempo de convergencia comparado con STP tradicional.",
+                    topic: "Protocolos STP"
+                },
+                {
+                    question: "¿Qué comando guarda la configuración en memoria de arranque en Cisco?",
+                    options: ["write erase", "show startup-config", "reload", "copy running-config startup-config"],
+                    correct: 3,
+                    explanation: "El comando 'copy running-config startup-config' guarda la configuración actual en la memoria NVRAM.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué protocolo evita los bucles en redes de conmutación?",
+                    options: ["BGP", "OSPF", "STP", "RIP"],
+                    correct: 2,
+                    explanation: "STP (Spanning Tree Protocol) previene bucles en topologías redundantes de Capa 2.",
+                    topic: "Protocolos STP"
+                },
+                {
+                    question: "¿Qué práctica es fundamental antes de actualizar el firmware de un switch?",
+                    options: ["Borrar las VLANs existentes", "Deshabilitar todos los puertos", "Desactivar el STP", "Realizar copia de seguridad de la configuración"],
+                    correct: 3,
+                    explanation: "Siempre se debe realizar un backup de la configuración antes de actualizar el firmware.",
+                    topic: "Mantenimiento"
+                },
+                {
+                    question: "¿Qué comando de Cisco muestra la configuración activa en un switch?",
+                    options: ["show running-config", "show version", "show startup-config", "show vlan brief"],
+                    correct: 0,
+                    explanation: "'show running-config' muestra la configuración actual en memoria RAM del switch.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué protocolo se utiliza para monitorizar dispositivos de red?",
+                    options: ["SMTP", "SNMP", "FTP", "HTTP"],
+                    correct: 1,
+                    explanation: "SNMP (Simple Network Management Protocol) es el protocolo estándar para monitorización de red.",
+                    topic: "Monitorización"
+                },
+                {
+                    question: "¿Qué comando muestra el estado de las interfaces en un switch Cisco?",
+                    options: ["show interfaces status", "show memory", "show vlan brief", "show users"],
+                    correct: 0,
+                    explanation: "'show interfaces status' muestra el estado de todas las interfaces del switch.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué significa AAA en administración de red?",
+                    options: ["Administración Avanzada Automática", "Ancho de banda, Autonomía y Adaptación", "Acceso Anónimo Autorizado", "Autenticación, Autorización y Accounting"],
+                    correct: 3,
+                    explanation: "AAA significa Authentication, Authorization y Accounting - los tres pilares de seguridad de acceso.",
+                    topic: "Seguridad"
+                },
+                {
+                    question: "¿Qué medida de seguridad bloquea servidores DHCP falsos?",
+                    options: ["NAT", "DHCP Snooping", "ARP Inspection", "QoS"],
+                    correct: 1,
+                    explanation: "DHCP Snooping protege contra servidores DHCP no autorizados en la red.",
+                    topic: "Seguridad en switches"
+                },
+                {
+                    question: "¿Qué herramienta permite capturar tráfico mediante un puerto espejo?",
+                    options: ["FTP", "SMTP", "SPAN", "DNS"],
+                    correct: 2,
+                    explanation: "SPAN (Switch Port Analyzer) permite duplicar el tráfico de un puerto para análisis.",
+                    topic: "Diagnóstico"
+                },
+                {
+                    question: "¿Qué protocolo protege contra ataques de ARP spoofing?",
+                    options: ["FTP", "SNMP", "Dynamic ARP Inspection (DAI)", "RIP"],
+                    correct: 2,
+                    explanation: "DAI valida los mensajes ARP para prevenir ataques de ARP spoofing.",
+                    topic: "Seguridad en switches"
+                },
+                {
+                    question: "¿Qué técnica protege el plano de control del switch frente a ataques?",
+                    options: ["ACLs", "VLANs", "EtherChannel", "Control Plane Policing (CoPP)"],
+                    correct: 3,
+                    explanation: "CoPP protege el CPU del switch limitando el tráfico dirigido al plano de control.",
+                    topic: "Seguridad avanzada"
+                },
+                {
+                    question: "¿Qué comando permite verificar el estado del protocolo STP en Cisco?",
+                    options: ["show vlan brief", "show running-config", "show ip route", "show spanning-tree"],
+                    correct: 3,
+                    explanation: "'show spanning-tree' muestra el estado y configuración del protocolo STP.",
+                    topic: "Comandos Cisco"
+                }
+            ],
+            ut4: [
+                {
+                    question: "¿Cuál es la función principal de un router en una red?",
+                    options: ["Encaminamiento de paquetes entre diferentes subredes", "Proporcionar direcciones IP dinámicas", "Conmutación de tramas Ethernet", "Proteger contra malware"],
+                    correct: 0,
+                    explanation: "La función principal del router es encaminar paquetes entre diferentes subredes.",
+                    topic: "Fundamentos de routing"
+                },
+                {
+                    question: "¿Qué plano del router se encarga de reenviar paquetes?",
+                    options: ["Plano de gestión", "Plano de seguridad", "Plano de control", "Plano de datos"],
+                    correct: 3,
+                    explanation: "El plano de datos (forwarding plane) se encarga del reenvío rápido de paquetes.",
+                    topic: "Arquitectura de routers"
+                },
+                {
+                    question: "¿Qué comando en Cisco permite ver la tabla de enrutamiento?",
+                    options: ["show ip route", "ping", "show version", "show interfaces status"],
+                    correct: 0,
+                    explanation: "El comando 'show ip route' muestra la tabla de enrutamiento completa.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué elemento define una ruta estática?",
+                    options: ["Dirección MAC", "Versión del firmware", "Nombre de interfaz", "Destino, máscara y nexthop"],
+                    correct: 3,
+                    explanation: "Una ruta estática requiere destino, máscara de red y siguiente salto (nexthop).",
+                    topic: "Routing estático"
+                },
+                {
+                    question: "¿Qué ventaja ofrece NAT?",
+                    options: ["Aumenta el ancho de banda", "Mejora la latencia", "Sustituye al routing dinámico", "Permite compartir una IP pública entre varias privadas"],
+                    correct: 3,
+                    explanation: "NAT permite que múltiples dispositivos con IPs privadas compartan una IP pública.",
+                    topic: "NAT"
+                },
+                {
+                    question: "¿Qué comando en Linux muestra las rutas activas?",
+                    options: ["netstat -an", "ifconfig", "ip route show", "uname -a"],
+                    correct: 2,
+                    explanation: "El comando 'ip route show' muestra las rutas activas en sistemas Linux.",
+                    topic: "Comandos Linux"
+                },
+                {
+                    question: "¿Qué significa ACL en redes?",
+                    options: ["Access Control List", "Active Connection Link", "Administrative Control Level", "Address Configuration Layer"],
+                    correct: 0,
+                    explanation: "ACL (Access Control List) son listas para controlar el acceso y filtrar tráfico.",
+                    topic: "Seguridad en routers"
+                },
+                {
+                    question: "¿Qué comando en Cisco muestra las traducciones NAT activas?",
+                    options: ["show version", "show ip nat translations", "show interfaces brief", "show running-config"],
+                    correct: 1,
+                    explanation: "El comando 'show ip nat translations' muestra las traducciones NAT activas.",
+                    topic: "NAT"
+                },
+                {
+                    question: "¿Qué protocolo se usa para monitorizar routers mediante SNMP?",
+                    options: ["Simple Network Management Protocol", "System Network Management Process", "Secure Network Monitoring Protocol", "Static Network Management Protocol"],
+                    correct: 0,
+                    explanation: "SNMP (Simple Network Management Protocol) es el protocolo estándar para monitorización.",
+                    topic: "Monitorización"
+                },
+                {
+                    question: "¿Qué recurso se debe tener siempre antes de un cambio en router?",
+                    options: ["Nueva licencia", "Cambio de cableado", "Backup de configuración", "Usuario root"],
+                    correct: 2,
+                    explanation: "Siempre se debe tener un backup de la configuración antes de realizar cambios.",
+                    topic: "Mejores prácticas"
+                },
+                {
+                    question: "¿Qué significa PAT?",
+                    options: ["Port Address Translation", "Packet Adjustment Technique", "Public Address Transfer", "Protocol Allocation Table"],
+                    correct: 0,
+                    explanation: "PAT (Port Address Translation) traduce direcciones y puertos, permitiendo múltiples conexiones.",
+                    topic: "NAT"
+                },
+                {
+                    question: "¿Qué se consulta para verificar conectividad básica en router?",
+                    options: ["show version", "reload", "Comando ping", "clear counters"],
+                    correct: 2,
+                    explanation: "El comando ping es la herramienta básica para verificar conectividad.",
+                    topic: "Diagnóstico"
+                },
+                {
+                    question: "¿Qué campo se revisa en tabla de rutas para identificar origen?",
+                    options: ["Código de ruta (C, S, O, B)", "Nombre del usuario", "Dirección MAC", "Velocidad del puerto"],
+                    correct: 0,
+                    explanation: "Los códigos de ruta (C=Connected, S=Static, O=OSPF, B=BGP) indican el origen.",
+                    topic: "Routing"
+                },
+                {
+                    question: "¿Qué tecnología se puede combinar con ACLs?",
+                    options: ["QoS", "SMTP", "DHCP", "FTP"],
+                    correct: 0,
+                    explanation: "QoS (Quality of Service) se combina frecuentemente con ACLs para priorizar tráfico.",
+                    topic: "QoS y ACLs"
+                },
+                {
+                    question: "¿Qué significa CoPP?",
+                    options: ["Control Plane Policing", "Configuration of Packet Paths", "Control of Physical Ports", "Core Port Processing"],
+                    correct: 0,
+                    explanation: "CoPP (Control Plane Policing) protege el plano de control del router.",
+                    topic: "Seguridad avanzada"
+                },
+                {
+                    question: "¿Qué máscara se suele usar en enlaces punto a punto?",
+                    options: ["/16", "/24", "/30 o /31", "/8"],
+                    correct: 2,
+                    explanation: "Los enlaces punto a punto usan /30 (2 hosts) o /31 (2 hosts sin broadcast).",
+                    topic: "Subnetting"
+                },
+                {
+                    question: "¿Qué comando en Cisco muestra los vecinos BGP?",
+                    options: ["show logging", "show ip route", "show ip bgp summary", "show processes cpu"],
+                    correct: 2,
+                    explanation: "El comando 'show ip bgp summary' muestra un resumen de los vecinos BGP.",
+                    topic: "BGP"
+                },
+                {
+                    question: "¿Qué plano usa SSH y SNMP?",
+                    options: ["Plano de gestión", "Plano de datos", "Plano físico", "Plano de control"],
+                    correct: 0,
+                    explanation: "SSH y SNMP operan en el plano de gestión para administración del dispositivo.",
+                    topic: "Arquitectura de routers"
+                },
+                {
+                    question: "¿Qué técnica asegura rollback rápido?",
+                    options: ["Reemplazo de hardware", "Cambiar firmware", "Backup de configuración", "Reiniciar router"],
+                    correct: 2,
+                    explanation: "Un backup de configuración permite hacer rollback rápido ante problemas.",
+                    topic: "Mejores prácticas"
+                },
+                {
+                    question: "¿Qué tipo de NAT traduce una IP privada en una pública fija?",
+                    options: ["PAT", "NAT64", "NAT dinámico", "NAT estático"],
+                    correct: 3,
+                    explanation: "NAT estático crea una traducción permanente 1:1 entre IP privada y pública.",
+                    topic: "NAT"
+                }
+            ],
+            ut5: [
+                {
+                    question: "¿Qué es una VLAN?",
+                    options: ["Un dispositivo de seguridad perimetral", "Una red lógica que segmenta un dominio de broadcast", "Un protocolo de enrutamiento dinámico", "Una interfaz física de red"],
+                    correct: 1,
+                    explanation: "Una VLAN es una red de área local virtual que segmenta lógicamente un dominio de broadcast.",
+                    topic: "Fundamentos de VLANs"
+                },
+                {
+                    question: "¿Cuál es la principal ventaja de usar VLANs?",
+                    options: ["Reducir el tráfico de broadcast y segmentar la red", "Aumentar la velocidad de los switches", "Eliminar la necesidad de ACLs", "Sustituir los routers en la red"],
+                    correct: 0,
+                    explanation: "Las VLANs reducen el tráfico de broadcast y permiten segmentar la red lógicamente para mayor seguridad y eficiencia.",
+                    topic: "Ventajas de VLANs"
+                },
+                {
+                    question: "¿Qué comando en Cisco permite listar VLANs configuradas?",
+                    options: ["show interfaces status", "show vlan brief", "show ip route", "show running-config"],
+                    correct: 1,
+                    explanation: "El comando 'show vlan brief' muestra un resumen de todas las VLANs configuradas en el switch.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué tipo de puerto se usa para transportar varias VLANs?",
+                    options: ["Puerto access", "Puerto loopback", "Puerto de gestión", "Puerto trunk"],
+                    correct: 3,
+                    explanation: "Un puerto trunk transporta tráfico de múltiples VLANs utilizando etiquetado 802.1Q.",
+                    topic: "Tipos de puertos"
+                },
+                {
+                    question: "¿Qué campo identifica una VLAN en una trama 802.1Q?",
+                    options: ["VID (VLAN Identifier)", "TTL", "Dirección IP", "Dirección MAC"],
+                    correct: 0,
+                    explanation: "El VID (VLAN Identifier) es un campo de 12 bits en la etiqueta 802.1Q que identifica la VLAN.",
+                    topic: "Protocolo 802.1Q"
+                },
+                {
+                    question: "¿Qué es la VLAN nativa?",
+                    options: ["VLAN de administración", "VLAN reservada para VoIP", "VLAN dedicada a servidores", "VLAN a la que van los frames no etiquetados"],
+                    correct: 3,
+                    explanation: "La VLAN nativa es aquella a la que pertenecen los frames que llegan sin etiqueta 802.1Q a un puerto trunk.",
+                    topic: "VLAN nativa"
+                },
+                {
+                    question: "¿Qué se requiere para que dos VLANs se comuniquen entre sí?",
+                    options: ["Inter-VLAN routing", "Un trunk abierto", "QinQ", "DHCP Snooping"],
+                    correct: 0,
+                    explanation: "Se requiere Inter-VLAN routing mediante un router o switch Layer 3 para comunicar VLANs diferentes.",
+                    topic: "Inter-VLAN routing"
+                },
+                {
+                    question: "¿Qué método básico permite interconectar VLANs en un router?",
+                    options: ["NAT overload", "VRRP", "Router-on-a-stick", "QinQ"],
+                    correct: 2,
+                    explanation: "Router-on-a-stick es una configuración donde un router usa subinterfaces para enrutar entre VLANs.",
+                    topic: "Inter-VLAN routing"
+                },
+                {
+                    question: "¿Qué comando muestra las VLANs permitidas en un trunk en Cisco?",
+                    options: ["show ip route", "show interfaces trunk", "show arp", "show mac address-table"],
+                    correct: 1,
+                    explanation: "El comando 'show interfaces trunk' muestra información detallada sobre puertos trunk y VLANs permitidas.",
+                    topic: "Comandos Cisco"
+                },
+                {
+                    question: "¿Qué técnica limita direcciones MAC en un puerto?",
+                    options: ["ARP Inspection", "Port Security", "IP Source Guard", "DHCP Snooping"],
+                    correct: 1,
+                    explanation: "Port Security limita el número de direcciones MAC que pueden aprenderse en un puerto.",
+                    topic: "Seguridad en VLANs"
+                },
+                {
+                    question: "¿Qué protocolo inserta etiquetas para VLANs en tramas Ethernet?",
+                    options: ["RIP", "BGP", "OSPF", "802.1Q"],
+                    correct: 3,
+                    explanation: "El protocolo 802.1Q es el estándar para el etiquetado de VLANs en tramas Ethernet.",
+                    topic: "Protocolo 802.1Q"
+                },
+                {
+                    question: "¿Qué VLAN no es recomendable usar como nativa?",
+                    options: ["VLAN 200", "VLAN 10", "VLAN 1", "VLAN 100"],
+                    correct: 2,
+                    explanation: "VLAN 1 no debe usarse como nativa por ser la VLAN por defecto y presentar riesgos de seguridad.",
+                    topic: "Mejores prácticas"
+                },
+                {
+                    question: "¿Qué herramienta evita servidores DHCP no autorizados?",
+                    options: ["DHCP Snooping", "ARP Inspection", "Port Security", "NAT"],
+                    correct: 0,
+                    explanation: "DHCP Snooping valida mensajes DHCP y bloquea servidores DHCP no autorizados.",
+                    topic: "Seguridad en VLANs"
+                },
+                {
+                    question: "¿Qué protección evita ARP spoofing?",
+                    options: ["DHCP Snooping", "Dynamic ARP Inspection (DAI)", "VRRP", "IP Source Guard"],
+                    correct: 1,
+                    explanation: "DAI (Dynamic ARP Inspection) valida mensajes ARP para prevenir ataques de ARP spoofing.",
+                    topic: "Seguridad en VLANs"
+                },
+                {
+                    question: "¿Qué significa QinQ?",
+                    options: ["Traducción de direcciones IP", "Protocolo de redundancia", "Apilamiento de etiquetas VLAN", "Enrutamiento entre VLANs"],
+                    correct: 2,
+                    explanation: "QinQ (802.1ad) permite apilar múltiples etiquetas VLAN para extender VLANs a través de redes de proveedores.",
+                    topic: "QinQ"
+                },
+                {
+                    question: "¿Qué interfaz lógica sirve de gateway para una VLAN?",
+                    options: ["SVI (Switch Virtual Interface)", "Puerto trunk", "VLAN nativa", "QinQ"],
+                    correct: 0,
+                    explanation: "Una SVI es una interfaz virtual en un switch Layer 3 que actúa como gateway para una VLAN.",
+                    topic: "Switch Virtual Interface"
+                },
+                {
+                    question: "¿Qué técnica bloquea IP spoofing en un puerto?",
+                    options: ["DHCP Snooping", "DAI", "IP Source Guard", "NAT"],
+                    correct: 2,
+                    explanation: "IP Source Guard valida las direcciones IP origen basándose en la tabla de DHCP Snooping.",
+                    topic: "Seguridad en VLANs"
+                },
+                {
+                    question: "¿Qué se debe documentar siempre de una VLAN?",
+                    options: ["Solo el switch asignado", "Únicamente el ID", "ID, nombre, propósito y puertos asociados", "Solo el rango IP"],
+                    correct: 2,
+                    explanation: "Una documentación completa debe incluir ID de VLAN, nombre, propósito y todos los puertos asociados.",
+                    topic: "Documentación"
+                },
+                {
+                    question: "¿Qué se debe probar tras configurar VLANs?",
+                    options: ["Únicamente conectividad", "Únicamente tablas ARP", "Únicamente logs", "Conectividad, rendimiento y seguridad"],
+                    correct: 3,
+                    explanation: "Tras configurar VLANs se debe probar conectividad, rendimiento y aspectos de seguridad.",
+                    topic: "Verificación y pruebas"
+                },
+                {
+                    question: "¿Qué protocolo permite administrar VLANs de forma centralizada?",
+                    options: ["VTP (VLAN Trunking Protocol)", "RIP", "STP", "OSPF"],
+                    correct: 0,
+                    explanation: "VTP permite la administración centralizada y propagación de información de VLANs entre switches.",
+                    topic: "VTP"
+                }
+            ],
+            ut6: [
+                {
+                    question: "¿Qué ventaja principal ofrece el enrutamiento dinámico frente al estático?",
+                    options: ["Siempre es más seguro", "Adaptación automática a fallos y cambios de topología", "Evita el uso de protocolos de red", "Requiere menos recursos de CPU"],
+                    correct: 1,
+                    explanation: "El enrutamiento dinámico se adapta automáticamente a cambios en la topología y fallos de enlaces.",
+                    topic: "Fundamentos de enrutamiento dinámico"
+                },
+                {
+                    question: "¿Qué protocolo de enrutamiento utiliza el número de saltos como métrica?",
+                    options: ["EIGRP", "OSPF", "RIP", "BGP"],
+                    correct: 2,
+                    explanation: "RIP (Routing Information Protocol) utiliza el conteo de saltos (hop count) como métrica.",
+                    topic: "Protocolo RIP"
+                },
+                {
+                    question: "¿Cuál es el límite máximo de saltos en RIP antes de considerar una red inalcanzable?",
+                    options: ["10", "32", "16", "5"],
+                    correct: 2,
+                    explanation: "RIP considera una red inalcanzable después de 15 saltos (el salto 16 marca infinito).",
+                    topic: "Protocolo RIP"
+                },
+                {
+                    question: "¿Qué protocolo utiliza LSAs y LSDB para calcular rutas?",
+                    options: ["RIP", "BGP", "OSPF", "EIGRP"],
+                    correct: 2,
+                    explanation: "OSPF utiliza Link State Advertisements (LSAs) y Link State Database (LSDB) para calcular rutas.",
+                    topic: "Protocolo OSPF"
+                },
+                {
+                    question: "¿Qué técnica permite optimizar el uso de direcciones IPv4 mediante máscaras variables?",
+                    options: ["NAT", "VLSM", "ACL", "DNS"],
+                    correct: 1,
+                    explanation: "VLSM (Variable Length Subnet Mask) permite usar máscaras de subred de diferentes tamaños.",
+                    topic: "VLSM y subnetting"
+                },
+                {
+                    question: "¿Cuál es el valor de distancia administrativa por defecto de OSPF?",
+                    options: ["120", "110", "1", "90"],
+                    correct: 1,
+                    explanation: "OSPF tiene una distancia administrativa por defecto de 110.",
+                    topic: "Distancia administrativa"
+                },
+                {
+                    question: "¿Qué protocolo es considerado de estado de enlace?",
+                    options: ["RIPv2", "RIPng", "RIP", "OSPF"],
+                    correct: 3,
+                    explanation: "OSPF es un protocolo de estado de enlace (link-state) que mantiene una base de datos de la topología.",
+                    topic: "Tipos de protocolos"
+                },
+                {
+                    question: "¿Qué comando permite ver la base de datos de LSAs en Cisco?",
+                    options: ["show version", "show ip ospf database", "show running-config", "traceroute"],
+                    correct: 1,
+                    explanation: "El comando 'show ip ospf database' muestra la base de datos de LSAs de OSPF.",
+                    topic: "Comandos Cisco OSPF"
+                },
+                {
+                    question: "¿Qué técnica de prevención de bucles se aplica en RIP?",
+                    options: ["Áreas stub", "Split horizon", "Fast Reroute", "DR/BDR"],
+                    correct: 1,
+                    explanation: "Split horizon previene bucles evitando anunciar rutas por la interfaz donde se aprendieron.",
+                    topic: "Prevención de bucles"
+                },
+                {
+                    question: "¿Qué protocolo de enrutamiento soporta redistribución de rutas externas con LSAs tipo 5?",
+                    options: ["RIPng", "RIP", "RIPv1", "OSPF"],
+                    correct: 3,
+                    explanation: "OSPF utiliza LSAs tipo 5 para redistribuir rutas externas en el dominio OSPF.",
+                    topic: "OSPF LSAs"
+                },
+                {
+                    question: "¿Qué protocolo utiliza el multicast 224.0.0.9 para sus actualizaciones?",
+                    options: ["OSPF", "RIPv2", "RIPng", "BGP"],
+                    correct: 1,
+                    explanation: "RIPv2 utiliza la dirección multicast 224.0.0.9 para enviar actualizaciones.",
+                    topic: "RIPv2"
+                },
+                {
+                    question: "¿Qué herramienta mide convergencia observando pérdida de paquetes y latencia?",
+                    options: ["ftp", "iperf3", "ssh", "dnslookup"],
+                    correct: 1,
+                    explanation: "iperf3 puede medir el rendimiento de la red incluyendo pérdida de paquetes y latencia durante la convergencia.",
+                    topic: "Herramientas de medición"
+                },
+                {
+                    question: "¿Qué protocolo permite configurar rutas jerárquicas mediante áreas?",
+                    options: ["RIP", "RIPng", "ARP", "OSPF"],
+                    correct: 3,
+                    explanation: "OSPF permite crear una jerarquía de red mediante áreas (area 0 backbone y áreas no-backbone).",
+                    topic: "OSPF Áreas"
+                },
+                {
+                    question: "¿Qué técnica permite agrupar varias redes en una sola entrada de ruta?",
+                    options: ["CIDR", "ARP", "NAT", "DNS"],
+                    correct: 0,
+                    explanation: "CIDR (Classless Inter-Domain Routing) permite la agregación de rutas o sumarización.",
+                    topic: "CIDR y sumarización"
+                },
+                {
+                    question: "¿Qué valor de distancia administrativa corresponde a RIP?",
+                    options: ["110", "90", "120", "200"],
+                    correct: 2,
+                    explanation: "RIP tiene una distancia administrativa de 120.",
+                    topic: "Distancia administrativa"
+                },
+                {
+                    question: "¿Qué comando muestra los vecinos OSPF en Cisco?",
+                    options: ["show ip ospf neighbor", "show ip route", "show ospf database", "show interfaces"],
+                    correct: 0,
+                    explanation: "El comando 'show ip ospf neighbor' muestra información sobre los vecinos OSPF.",
+                    topic: "Comandos Cisco OSPF"
+                },
+                {
+                    question: "¿Qué protocolo utiliza el algoritmo Dijkstra para calcular la ruta más corta?",
+                    options: ["RIP", "EIGRP", "OSPF", "BGP"],
+                    correct: 2,
+                    explanation: "OSPF utiliza el algoritmo SPF (Shortest Path First) de Dijkstra para calcular las mejores rutas.",
+                    topic: "Algoritmos de enrutamiento"
+                },
+                {
+                    question: "¿Qué significa DR en el contexto de OSPF?",
+                    options: ["Data Router", "Designated Router", "Dynamic Router", "Default Router"],
+                    correct: 1,
+                    explanation: "DR (Designated Router) es el router elegido en redes multi-acceso para reducir adyacencias OSPF.",
+                    topic: "OSPF DR/BDR"
+                },
+                {
+                    question: "¿Qué protocolo de enrutamiento es más adecuado para redes pequeñas y simples?",
+                    options: ["BGP", "OSPF", "RIP", "IS-IS"],
+                    correct: 2,
+                    explanation: "RIP es adecuado para redes pequeñas debido a su simplicidad, aunque tiene limitaciones de escalabilidad.",
+                    topic: "Selección de protocolos"
+                },
+                {
+                    question: "¿Qué comando activa RIP versión 2 en un router Cisco?",
+                    options: ["router rip", "enable rip v2", "ip rip version 2", "version 2"],
+                    correct: 3,
+                    explanation: "Después de 'router rip', se usa el comando 'version 2' para activar RIPv2.",
+                    topic: "Configuración RIP"
+                }
+            ],
+            ut7: [
+                {
+                    question: "¿Qué función principal cumple el NAT en redes privadas conectadas a Internet?",
+                    options: ["Sustituir al firewall", "Gestionar certificados digitales", "Traducción de direcciones privadas a públicas", "Aumentar la velocidad de transmisión"],
+                    correct: 2,
+                    explanation: "NAT (Network Address Translation) traduce direcciones IP privadas a públicas para permitir la conectividad a Internet.",
+                    topic: "NAT y conectividad"
+                },
+                {
+                    question: "¿Qué tipo de NAT se utiliza para publicar un servidor interno hacia Internet?",
+                    options: ["NAT64", "NAT dinámico", "NAT estático", "PAT"],
+                    correct: 2,
+                    explanation: "NAT estático crea una traducción permanente 1:1 para publicar servicios internos.",
+                    topic: "NAT estático"
+                },
+                {
+                    question: "¿Qué protocolo de enrutamiento externo se utiliza para multihoming con ISP?",
+                    options: ["BGP", "RIP", "OSPF", "EIGRP"],
+                    correct: 0,
+                    explanation: "BGP (Border Gateway Protocol) es el protocolo estándar para multihoming con múltiples ISPs.",
+                    topic: "BGP y multihoming"
+                },
+                {
+                    question: "¿Cuál es la técnica más usada para que múltiples hosts compartan una única IP pública?",
+                    options: ["PAT (Port Address Translation)", "ACL", "NAT dinámico con pool", "NAT estático"],
+                    correct: 0,
+                    explanation: "PAT o NAT overload permite que múltiples dispositivos compartan una IP pública usando diferentes puertos.",
+                    topic: "PAT"
+                },
+                {
+                    question: "¿Qué elemento de red se recomienda para segmentar servicios expuestos a Internet?",
+                    options: ["MPLS", "DMZ", "Proxy ARP", "VLAN de usuarios"],
+                    correct: 1,
+                    explanation: "La DMZ (Zona Desmilitarizada) segmenta y aísla los servicios expuestos a Internet.",
+                    topic: "DMZ y seguridad"
+                },
+                {
+                    question: "¿Qué protocolo se utiliza habitualmente para VPN site-to-site con seguridad fuerte?",
+                    options: ["DNS", "IPsec/IKEv2", "RIP", "FTP"],
+                    correct: 1,
+                    explanation: "IPsec con IKEv2 proporciona seguridad robusta para conexiones VPN site-to-site.",
+                    topic: "VPN site-to-site"
+                },
+                {
+                    question: "¿Qué protocolo VPN es más sencillo y eficiente para conexiones remotas?",
+                    options: ["WireGuard", "HTTP", "Telnet", "ARP"],
+                    correct: 0,
+                    explanation: "WireGuard es un protocolo VPN moderno, simple y muy eficiente.",
+                    topic: "VPN modernas"
+                },
+                {
+                    question: "¿Qué protocolo de seguridad se recomienda para cifrar el tráfico de una web pública?",
+                    options: ["FTP", "SNMPv1", "TLS 1.2/1.3", "HTTP simple"],
+                    correct: 2,
+                    explanation: "TLS 1.2/1.3 proporciona cifrado seguro para HTTPS.",
+                    topic: "Seguridad web"
+                },
+                {
+                    question: "¿Qué comando en Cisco muestra las traducciones NAT activas?",
+                    options: ["show running-config", "show ip nat translations", "ping", "show vlan brief"],
+                    correct: 1,
+                    explanation: "El comando 'show ip nat translations' muestra las traducciones NAT activas.",
+                    topic: "Comandos NAT Cisco"
+                },
+                {
+                    question: "¿Qué protocolo WAN permite QoS garantizado y VRFs?",
+                    options: ["Metro Ethernet", "LTE", "Broadband", "MPLS"],
+                    correct: 3,
+                    explanation: "MPLS permite QoS garantizado y VRFs (Virtual Routing and Forwarding) para segmentación.",
+                    topic: "MPLS"
+                },
+                {
+                    question: "¿Qué protocolo de control se usa en Cisco para monitorizar enlaces y activar failover?",
+                    options: ["DNS", "FTP", "IP SLA", "SSH"],
+                    correct: 2,
+                    explanation: "IP SLA (Service Level Agreement) monitoriza la disponibilidad y rendimiento de enlaces.",
+                    topic: "IP SLA"
+                },
+                {
+                    question: "¿Qué dispositivo software protege aplicaciones web frente a ataques como SQLi o XSS?",
+                    options: ["WAF", "DHCP server", "Switch L2", "NAT64"],
+                    correct: 0,
+                    explanation: "WAF (Web Application Firewall) protege contra ataques de aplicación web como SQL injection y XSS.",
+                    topic: "WAF"
+                },
+                {
+                    question: "¿Qué tipo de arquitectura VPN conecta usuarios individuales a la red corporativa?",
+                    options: ["Multihoming", "Remote Access", "MPLS", "Site-to-Site"],
+                    correct: 1,
+                    explanation: "Remote Access VPN permite a usuarios individuales conectarse de forma segura a la red corporativa.",
+                    topic: "Remote Access VPN"
+                },
+                {
+                    question: "¿Qué protocolo inalámbrico ofrece mayor cobertura en entornos metropolitanos?",
+                    options: ["WiMAX", "Bluetooth", "ZigBee", "WiFi"],
+                    correct: 0,
+                    explanation: "WiMAX está diseñado para proporcionar conectividad inalámbrica de área metropolitana.",
+                    topic: "WAN inalámbricas"
+                },
+                {
+                    question: "¿Qué comando en Linux prueba el MTU máximo evitando fragmentación?",
+                    options: ["traceroute", "curl", "ping -M do -s <size>", "ifconfig"],
+                    correct: 2,
+                    explanation: "El comando 'ping -M do -s <size>' prueba el MTU máximo sin fragmentación.",
+                    topic: "MTU y fragmentación"
+                },
+                {
+                    question: "¿Qué mecanismo de redundancia usa una IP virtual compartida entre routers?",
+                    options: ["DHCP", "VRRP", "NAT", "FTP"],
+                    correct: 1,
+                    explanation: "VRRP (Virtual Router Redundancy Protocol) permite alta disponibilidad mediante IP virtual.",
+                    topic: "VRRP"
+                },
+                {
+                    question: "¿Qué protocolo de seguridad se usa junto a certificados y 2FA en VPN remotas?",
+                    options: ["Telnet", "SMTP", "OpenVPN", "HTTP"],
+                    correct: 2,
+                    explanation: "OpenVPN soporta autenticación con certificados y 2FA para acceso remoto seguro.",
+                    topic: "OpenVPN"
+                },
+                {
+                    question: "¿Qué tecnología WAN moderna permite orquestar enlaces múltiples por aplicación?",
+                    options: ["MPLS", "Metro Ethernet", "SD-WAN", "Dial-up"],
+                    correct: 2,
+                    explanation: "SD-WAN permite gestión inteligente de múltiples enlaces WAN basada en aplicaciones.",
+                    topic: "SD-WAN"
+                },
+                {
+                    question: "¿Qué práctica de seguridad se recomienda para publicar un servidor HTTPS?",
+                    options: ["Desactivar los logs", "Permitir todo el tráfico entrante", "Usar certificados TLS válidos y WAF", "Usar solo NAT dinámico"],
+                    correct: 2,
+                    explanation: "Se recomienda usar certificados TLS válidos y WAF para proteger servidores HTTPS públicos.",
+                    topic: "Seguridad de servidores"
+                },
+                {
+                    question: "¿Qué herramienta correlaciona logs y genera alertas de seguridad?",
+                    options: ["FTP server", "SMTP relay", "DNS", "SIEM"],
+                    correct: 3,
+                    explanation: "SIEM (Security Information and Event Management) correlaciona eventos y genera alertas de seguridad.",
+                    topic: "SIEM"
+                }
+            ]
+        };
+
+        // Variables globales
+        let currentMode = null;
+        let currentQuestions = [];
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let answered = false;
+        let topicScores = {};
+
+        // Función para seleccionar modo
+        function selectMode(mode) {
+            // Desmarcar todos los modos
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Marcar el modo seleccionado
+            let elementId = 'mode' + mode.toUpperCase().replace('-', '');
+            // Caso especial para 'general'
+            if (mode === 'general') {
+                elementId = 'modeGeneral';
+            }
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.classList.add('selected');
+            }
+            currentMode = mode;
+            
+            // Habilitar botón de inicio
+            document.getElementById('startBtn').disabled = false;
+        }
+
+        // Función para mezclar array (Fisher-Yates)
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Iniciar quiz
+        function startQuiz() {
+            if (!currentMode) return;
+            
+            // Preparar las preguntas según el modo
+            if (currentMode === 'ut1') {
+                currentQuestions = [...questionsDB.ut1];
+            } else if (currentMode === 'ut2') {
+                currentQuestions = [...questionsDB.ut2];
+            } else if (currentMode === 'ut3') {
+                currentQuestions = [...questionsDB.ut3];
+            } else if (currentMode === 'ut4') {
+                currentQuestions = [...questionsDB.ut4];
+            } else if (currentMode === 'ut5') {
+                currentQuestions = [...questionsDB.ut5];
+            } else if (currentMode === 'ut6') {
+                currentQuestions = [...questionsDB.ut6];
+            } else if (currentMode === 'ut7') {
+                currentQuestions = [...questionsDB.ut7];
+            } else if (currentMode === 'general') {
+                currentQuestions = shuffleArray([...questionsDB.ut1, ...questionsDB.ut2, ...questionsDB.ut3, ...questionsDB.ut4, ...questionsDB.ut5, ...questionsDB.ut6, ...questionsDB.ut7]);
+            }
+            
+            // Resetear variables
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            topicScores = {};
+            answered = false;
+            
+            // Mostrar elementos UI
+            document.getElementById('modeSelection').style.display = 'none';
+            document.getElementById('quizContainer').classList.add('active');
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('backToMenu').classList.remove('hidden');
+            
+            // Cargar primera pregunta
+            loadQuestion();
+            updateProgressBar();
+        }
+
+        // Cargar pregunta
+        function loadQuestion() {
+            const q = currentQuestions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            answered = userAnswers[currentQuestion] !== undefined;
+            
+            // Determinar unidad de la pregunta
+            let unitLabel = '';
+            if (currentMode === 'general') {
+                const isUT1 = questionsDB.ut1.some(ut1q => ut1q.question === q.question);
+                const isUT2 = questionsDB.ut2.some(ut2q => ut2q.question === q.question);
+                const isUT3 = questionsDB.ut3.some(ut3q => ut3q.question === q.question);
+                unitLabel = isUT1 ? 'UT-1' : isUT2 ? 'UT-2' : 'UT-3';
+            } else {
+                unitLabel = currentMode.toUpperCase();
+            }
+            
+            container.innerHTML = `
+                <div class="question-header">
+                    <span class="question-number">Pregunta ${currentQuestion + 1} de ${currentQuestions.length}</span>
+                    <span class="question-topic">${unitLabel} - ${q.topic}</span>
+                </div>
+                <h2>${q.question}</h2>
+                <div class="options">
+                    ${q.options.map((option, index) => `
+                        <div class="option ${userAnswers[currentQuestion] === index ? 'selected' : ''} 
+                             ${answered && index === q.correct ? 'correct' : ''}
+                             ${answered && userAnswers[currentQuestion] === index && index !== q.correct ? 'incorrect' : ''}
+                             ${answered ? 'disabled' : ''}"
+                             onclick="selectOption(${index})">
+                            <span class="option-letter">${String.fromCharCode(65 + index)}</span>
+                            <span>${option}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Mostrar feedback si ya fue respondida
+            if (answered) {
+                showFeedback(userAnswers[currentQuestion] === q.correct);
+            } else {
+                document.getElementById('feedback').classList.remove('show');
+            }
+
+            updateButtons();
+        }
+
+        // Seleccionar opción
+        function selectOption(index) {
+            if (answered) return;
+            
+            userAnswers[currentQuestion] = index;
+            answered = true;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.add('disabled'));
+            options[index].classList.add('selected');
+            
+            const correct = currentQuestions[currentQuestion].correct;
+            const topic = currentQuestions[currentQuestion].topic;
+            
+            // Actualizar estadísticas por tema
+            if (!topicScores[topic]) {
+                topicScores[topic] = { correct: 0, total: 0 };
+            }
+            topicScores[topic].total++;
+            
+            if (index === correct) {
+                options[index].classList.add('correct');
+                score++;
+                topicScores[topic].correct++;
+                showFeedback(true);
+            } else {
+                options[index].classList.add('incorrect');
+                options[correct].classList.add('correct');
+                showFeedback(false);
+            }
+            
+            updateButtons();
+        }
+
+        // Mostrar feedback
+        function showFeedback(isCorrect) {
+            const feedback = document.getElementById('feedback');
+            feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.innerHTML = `
+                <strong>${isCorrect ? '✅ ¡Correcto!' : '❌ Incorrecto'}</strong><br>
+                ${currentQuestions[currentQuestion].explanation}
+            `;
+        }
+
+        // Navegar a pregunta anterior
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                updateProgressBar();
+            }
+        }
+
+        // Navegar a siguiente pregunta
+        function nextQuestion() {
+            if (currentQuestion < currentQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+                updateProgressBar();
+            } else if (userAnswers.length === currentQuestions.length) {
+                showResults();
+            }
+        }
+
+        // Actualizar botones
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === currentQuestions.length - 1) {
+                if (userAnswers.length === currentQuestions.length) {
+                    nextBtn.textContent = 'Ver Resultados';
+                    nextBtn.disabled = false;
+                } else {
+                    nextBtn.textContent = 'Siguiente';
+                    nextBtn.disabled = !answered;
+                }
+            } else {
+                nextBtn.textContent = 'Siguiente';
+                nextBtn.disabled = !answered;
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / currentQuestions.length) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = Math.round(progress) + '%';
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            document.getElementById('quizContainer').classList.remove('active');
+            document.getElementById('resultsScreen').style.display = 'block';
+            document.getElementById('progressContainer').style.display = 'none';
+            
+            const percentage = Math.round((score / currentQuestions.length) * 100);
+            const scoreText = document.getElementById('scoreText');
+            const scoreProgress = document.getElementById('scoreProgress');
+            const correctCount = document.getElementById('correctCount');
+            const incorrectCount = document.getElementById('incorrectCount');
+            const totalQuestions = document.getElementById('totalQuestions');
+            
+            scoreText.textContent = percentage + '%';
+            correctCount.textContent = score;
+            incorrectCount.textContent = currentQuestions.length - score;
+            totalQuestions.textContent = currentQuestions.length;
+            
+            // Animación del círculo de progreso
+            setTimeout(() => {
+                const offset = 565 - (565 * percentage / 100);
+                scoreProgress.style.strokeDashoffset = offset;
+            }, 100);
+            
+            // Mostrar estadísticas por tema
+            const topicStatsDiv = document.getElementById('topicStats');
+            let topicHTML = '<h3>Rendimiento por Tema</h3>';
+            
+            for (const [topic, stats] of Object.entries(topicScores)) {
+                const topicPercentage = Math.round((stats.correct / stats.total) * 100);
+                topicHTML += `
+                    <div class="topic-stat">
+                        <span>${topic}</span>
+                        <span>${stats.correct}/${stats.total} (${topicPercentage}%)</span>
+                    </div>
+                `;
+            }
+            
+            topicStatsDiv.innerHTML = topicHTML;
+            
+            // Mostrar detalles
+            const details = document.getElementById('resultsDetails');
+            let detailsHTML = '<h3>Resumen de Respuestas</h3>';
+            
+            currentQuestions.forEach((q, index) => {
+                const isCorrect = userAnswers[index] === q.correct;
+                detailsHTML += `
+                    <div class="result-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <span>Pregunta ${index + 1}</span>
+                        <span>${isCorrect ? '✅ Correcta' : '❌ Incorrecta'}</span>
+                    </div>
+                `;
+            });
+            
+            details.innerHTML = detailsHTML;
+            
+            // Mensaje según el resultado
+            let message = '';
+            if (percentage >= 90) {
+                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #28a745;">¡Excelente! Dominas los conceptos de redes.</p>';
+            } else if (percentage >= 70) {
+                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #667eea;">¡Buen trabajo! Tienes un buen conocimiento de redes.</p>';
+            } else if (percentage >= 50) {
+                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #ffc107;">Resultado aceptable. Sigue practicando para mejorar.</p>';
+            } else {
+                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #dc3545;">Necesitas repasar los conceptos. ¡No te rindas!</p>';
+            }
+            
+            details.innerHTML += message;
+        }
+
+        // Volver al menú
+        function returnToMenu() {
+            // Resetear todo
+            currentMode = null;
+            currentQuestions = [];
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            answered = false;
+            topicScores = {};
+            
+            // Ocultar todo y mostrar menú
+            document.getElementById('quizContainer').classList.remove('active');
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('modeSelection').style.display = 'block';
+            document.getElementById('backToMenu').classList.add('hidden');
+            
+            // Desmarcar modo seleccionado
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Deshabilitar botón de inicio
+            document.getElementById('startBtn').disabled = true;
+        }
+
+        // Repetir el mismo modo
+        function restartSameMode() {
+            document.getElementById('resultsScreen').style.display = 'none';
+            startQuiz();
+        }
+
+        // Prevenir navegación accidental
+        window.addEventListener('beforeunload', function (e) {
+            if (userAnswers.length > 0 && document.getElementById('quizContainer').classList.contains('active')) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+</body>
+</html>
