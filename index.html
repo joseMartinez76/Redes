@@ -10,7 +10,6 @@
             --secondary-color: #764ba2;
             --background-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         }
-
         * {
             margin: 0;
             padding: 0;
@@ -31,7 +30,7 @@
 
         .landing-container {
             width: 100%;
-            max-width: 700px;
+            max-width: 900px; /* Aumentado un poco para acomodar 3 cajas mejor */
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -56,9 +55,15 @@
             gap: 20px;
         }
 
-        @media (min-width: 550px) {
+        @media (min-width: 768px) { /* Ajustado para que quepan 3 en línea en tablets/PC */
             .selection-grid {
                 flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .selection-card {
+                flex: 0 1 calc(33.333% - 20px);
+                min-width: 250px;
             }
         }
 
@@ -118,8 +123,7 @@
                 <div class="card-icon">💻</div>
                 <div class="card-title">Sistemas Operativos</div>
                 <div class="card-description">
-                    Fundamentos, Arquitectura, Gestión de Memoria, Usuarios,
-                    Sistemas de Archivos y Administración de Servicios (UT-1 a UT-8).
+                    Fundamentos, Arquitectura, Gestión de Memoria, Usuarios y Sistemas de Archivos.
                 </div>
             </a>
 
@@ -127,8 +131,15 @@
                 <div class="card-icon">🌐</div>
                 <div class="card-title">Redes y Conectividad</div>
                 <div class="card-description">
-                    Modelo OSI, Cableado, Switches (VLANs), Routers (NAT/ACLs),
-                    Routing Dinámico y Seguridad Perimetral.
+                    Modelo OSI, Switches (VLANs), Routers (NAT/ACLs) y Seguridad Perimetral.
+                </div>
+            </a>
+
+            <a href="english_flashcards.html" class="selection-card">
+                <div class="card-icon">🇬🇧</div>
+                <div class="card-title">English Grammar</div>
+                <div class="card-description">
+                    Flashcards de gramática, vocabulario de negocios, pasiva, condicionales y más.
                 </div>
             </a>
 

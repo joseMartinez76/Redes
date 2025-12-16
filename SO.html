@@ -3378,6 +3378,18 @@
         let answered = false;
         let topicScores = {};
 
+        // Crear array con todas las preguntas para el examen general
+        const allQuestions = [
+            ...questionsDB.ut1,
+            ...questionsDB.ut2,
+            ...questionsDB.ut3,
+            ...questionsDB.ut4,
+            ...questionsDB.ut5,
+            ...questionsDB.ut6,
+            ...questionsDB.ut7,
+            ...questionsDB.ut8
+        ];
+
         // Función para seleccionar modo
         function selectMode(mode) {
             // Desmarcar todos los modos
@@ -3433,7 +3445,7 @@
             } else if (currentMode === 'ut8') {
                 currentQuestions = [...questionsDB.ut8];
             } else if (currentMode === 'general') {
-                currentQuestions = shuffleArray([...questionsDB.ut1, ...questionsDB.ut2, ...questionsDB.ut3, ...questionsDB.ut4, ...questionsDB.ut5, ...questionsDB.ut6, ...questionsDB.ut7, , ...questionsDB.ut8]);
+                currentQuestions = shuffleArray([...allQuestions]);
             }
 
             // Resetear variables

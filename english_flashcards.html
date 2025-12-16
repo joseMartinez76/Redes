@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 English Grammar Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .mode-btn.active {
+            background: #764ba2;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 3px;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 30px;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 7px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            min-width: 40px;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 30px auto;
+            max-width: 600px;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            min-height: 300px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            min-height: 300px;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            color: white;
+            text-align: center;
+        }
+
+        .card-back.correct {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+        }
+
+        .card-back.incorrect {
+            background: linear-gradient(135deg, #f44336 0%, #ff6b6b 100%);
+        }
+
+        .question {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .input-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            padding: 12px 40px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .next-btn {
+            padding: 12px 40px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .next-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .feedback {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .emoji {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .results-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .results-table th {
+            background: #667eea;
+            color: white;
+        }
+
+        .correct-row {
+            background: #e8f5e9;
+        }
+
+        .incorrect-row {
+            background: #ffebee;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            margin-top: 5px;
+            color: #666;
+        }
+
+        /* Pantalla de menú */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .topic-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            border-color: #764ba2;
+        }
+
+        .topic-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .topic-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .question-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .question {
+                font-size: 1.1em;
+            }
+            
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pantalla de menú -->
+        <div id="menuScreen">
+            <div class="header">
+                <h1>📚 English Grammar Flashcards</h1>
+                <p style="color: #666;">Selecciona un tema para comenzar</p>
+            </div>
+            <div class="topic-grid" id="topicGrid"></div>
+        </div>
+
+        <!-- Pantalla de juego -->
+        <div id="gameScreen" style="display: none;">
+            <div class="header">
+                <h1>📝 Test de Inglés</h1>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">0%</div>
+            </div>
+
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front">
+                        <div class="question" id="question"></div>
+                        <div class="input-container">
+                            <input type="text" 
+                                   class="answer-input" 
+                                   id="answerInput" 
+                                   placeholder="Escribe tu respuesta aquí">
+                            <button class="submit-btn" onclick="checkAnswer()">
+                                Verificar Respuesta
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-face card-back" id="cardBack">
+                        <div class="emoji" id="emoji">😄</div>
+                        <div class="feedback" id="feedback"></div>
+                        <button class="next-btn" onclick="nextQuestion()">
+                            Siguiente Pregunta →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de resultados -->
+        <div id="resultsScreen" style="display: none;">
+            <div class="header">
+                <h1>🏆 Resultados Finales</h1>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">Correctas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="incorrectCount">0</div>
+                    <div class="stat-label">Incorrectas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="scorePercent">0%</div>
+                    <div class="stat-label">Puntuación</div>
+                </div>
+            </div>
+
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Pregunta</th>
+                        <th>Tu Respuesta</th>
+                        <th>Respuesta Correcta</th>
+                        <th>Resultado</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody"></tbody>
+            </table>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="mode-btn" onclick="resetGame()">
+                    🔄 Volver al Menú
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de preguntas actualizada con los ejercicios del PDF
+        const questionDatabase = {
+            "Future Forms": {
+                icon: "🔮",
+                questions: [
+                    {
+                        id: 58,
+                        question: "I ________ (meet) my cousin for lunch tomorrow.",
+                        answer: "am meeting",
+                        alternativeAnswers: ["'m meeting"],
+                        explanation: "Present Continuous for fixed arrangements",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 59,
+                        question: "Look at those clouds! It ________ (rain) soon.",
+                        answer: "is going to rain",
+                        alternativeAnswers: ["'s going to rain"],
+                        explanation: "Going to for predictions based on present evidence",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 60,
+                        question: "I think she ________ (be) a great teacher one day.",
+                        answer: "will be",
+                        alternativeAnswers: ["'ll be"],
+                        explanation: "Will for predictions based on opinion",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 61,
+                        question: "We ________ (travel) to Italy next month; the tickets are booked.",
+                        answer: "are travelling",
+                        alternativeAnswers: ["'re travelling", "are traveling", "'re traveling"],
+                        explanation: "Present Continuous for fixed arrangements",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 62,
+                        question: "Watch out! You ________ (drop) your phone!",
+                        answer: "are going to drop",
+                        alternativeAnswers: ["'re going to drop"],
+                        explanation: "Going to for immediate predictions based on evidence",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 63,
+                        question: "They ________ (move) to a new apartment next weekend.",
+                        answer: "are moving",
+                        alternativeAnswers: ["'re moving"],
+                        explanation: "Present Continuous for fixed arrangements",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 64,
+                        question: "I'm sure you ________ (enjoy) the concert tonight.",
+                        answer: "will enjoy",
+                        alternativeAnswers: ["'ll enjoy"],
+                        explanation: "Will for predictions based on opinion",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 65,
+                        question: "She ________ (start) a new course at university in September.",
+                        answer: "is starting",
+                        alternativeAnswers: ["'s starting", "is going to start", "'s going to start"],
+                        explanation: "Present Continuous or Going to for planned future",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 66,
+                        question: "We ________ (have) dinner with our neighbors tonight; it's already arranged.",
+                        answer: "are having",
+                        alternativeAnswers: ["'re having"],
+                        explanation: "Present Continuous for fixed arrangements",
+                        topic: "Future Forms"
+                    },
+                    {
+                        id: 67,
+                        question: "I ________ (help) you with your homework if you like.",
+                        answer: "will help",
+                        alternativeAnswers: ["'ll help"],
+                        explanation: "Will for offers and decisions at moment of speaking",
+                        topic: "Future Forms"
+                    }
+                ]
+            },
+            "Passive Voice": {
+                icon: "🔄",
+                questions: [
+                    {
+                        id: 68,
+                        question: "Transform to passive: 'The chef cooks the meal every day.'",
+                        answer: "The meal is cooked every day",
+                        alternativeAnswers: ["The meal is cooked by the chef every day"],
+                        explanation: "Present Simple Passive: am/is/are + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 69,
+                        question: "Transform to passive: 'The company will launch a new product next month.'",
+                        answer: "A new product will be launched next month",
+                        alternativeAnswers: ["A new product will be launched by the company next month"],
+                        explanation: "Future Simple Passive: will be + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 70,
+                        question: "Transform to passive: 'They are cleaning the classrooms now.'",
+                        answer: "The classrooms are being cleaned now",
+                        alternativeAnswers: ["The classrooms are being cleaned"],
+                        explanation: "Present Continuous Passive: am/is/are + being + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 71,
+                        question: "Transform to passive: 'Someone has stolen my wallet.'",
+                        answer: "My wallet has been stolen",
+                        alternativeAnswers: [],
+                        explanation: "Present Perfect Passive: have/has + been + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 72,
+                        question: "Transform to passive: 'The teacher gave the students homework yesterday.'",
+                        answer: "The students were given homework yesterday",
+                        alternativeAnswers: ["Homework was given to the students yesterday"],
+                        explanation: "Past Simple Passive: was/were + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 73,
+                        question: "Transform to passive: 'They will announce the results tomorrow.'",
+                        answer: "The results will be announced tomorrow",
+                        alternativeAnswers: [],
+                        explanation: "Future Simple Passive: will be + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 74,
+                        question: "Transform to passive: 'The gardener waters the plants every morning.'",
+                        answer: "The plants are watered every morning",
+                        alternativeAnswers: ["The plants are watered by the gardener every morning"],
+                        explanation: "Present Simple Passive: am/is/are + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 75,
+                        question: "Transform to passive: 'People speak English all over the world.'",
+                        answer: "English is spoken all over the world",
+                        alternativeAnswers: [],
+                        explanation: "Present Simple Passive: am/is/are + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 76,
+                        question: "Transform to passive: 'The police are investigating the case.'",
+                        answer: "The case is being investigated",
+                        alternativeAnswers: ["The case is being investigated by the police"],
+                        explanation: "Present Continuous Passive: am/is/are + being + past participle",
+                        topic: "Passive Voice"
+                    },
+                    {
+                        id: 77,
+                        question: "Transform to passive: 'They have completed the project on time.'",
+                        answer: "The project has been completed on time",
+                        alternativeAnswers: [],
+                        explanation: "Present Perfect Passive: have/has + been + past participle",
+                        topic: "Passive Voice"
+                    }
+                ]
+            },
+            "Business Vocabulary": {
+                icon: "💼",
+                questions: [
+                    {
+                        id: 78,
+                        question: "I would like to make a __________ about the product I received.",
+                        answer: "complaint",
+                        alternativeAnswers: [],
+                        explanation: "Complaint = formal expression of dissatisfaction",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 79,
+                        question: "The customer requested a full __________ for the defective item.",
+                        answer: "refund",
+                        alternativeAnswers: [],
+                        explanation: "Refund = money returned for unsatisfactory product",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 80,
+                        question: "Our company strives for continuous __________ in all departments.",
+                        answer: "improvement",
+                        alternativeAnswers: [],
+                        explanation: "Improvement = making something better",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 81,
+                        question: "The package arrived __________ and could not be used.",
+                        answer: "damaged",
+                        alternativeAnswers: [],
+                        explanation: "Damaged = broken or harmed",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 82,
+                        question: "The client confirmed that the __________ had been delivered on time.",
+                        answer: "order",
+                        alternativeAnswers: ["shipping"],
+                        explanation: "Order = request for goods; Shipping = delivery of goods",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 83,
+                        question: "She was proud of her latest professional __________.",
+                        answer: "achievement",
+                        alternativeAnswers: [],
+                        explanation: "Achievement = successful accomplishment",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 84,
+                        question: "The manager asked me to write a detailed __________ about the incident.",
+                        answer: "report",
+                        alternativeAnswers: [],
+                        explanation: "Report = formal written account",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 85,
+                        question: "My online __________ has not arrived yet.",
+                        answer: "order",
+                        alternativeAnswers: [],
+                        explanation: "Order = purchase request",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 86,
+                        question: "Some items were __________ from the shipment.",
+                        answer: "missing",
+                        alternativeAnswers: [],
+                        explanation: "Missing = not present, lost",
+                        topic: "Business Vocabulary"
+                    },
+                    {
+                        id: 87,
+                        question: "Please make the __________ before the end of the month to avoid delays.",
+                        answer: "payment",
+                        alternativeAnswers: [],
+                        explanation: "Payment = money paid for goods or services",
+                        topic: "Business Vocabulary"
+                    }
+                ]
+            },
+            "Conditionals": {
+                icon: "❓",
+                questions: [
+                    {
+                        id: 1,
+                        question: "If I ________ (have) more money, I would travel around the world.",
+                        answer: "had",
+                        alternativeAnswers: [],
+                        explanation: "Second conditional: If + past simple, would + base verb",
+                        topic: "Conditionals"
+                    },
+                    {
+                        id: 2,
+                        question: "If she studies hard, she ________ (pass) the exam.",
+                        answer: "will pass",
+                        alternativeAnswers: ["'ll pass"],
+                        explanation: "First conditional: If + present simple, will + base verb",
+                        topic: "Conditionals"
+                    },
+                    {
+                        id: 3,
+                        question: "If they ________ (arrive) earlier, they would have caught the train.",
+                        answer: "had arrived",
+                        alternativeAnswers: ["'d arrived"],
+                        explanation: "Third conditional: If + past perfect, would have + past participle",
+                        topic: "Conditionals"
+                    },
+                    {
+                        id: 4,
+                        question: "What would you do if you ________ (win) the lottery?",
+                        answer: "won",
+                        alternativeAnswers: [],
+                        explanation: "Second conditional for hypothetical situations",
+                        topic: "Conditionals"
+                    },
+                    {
+                        id: 5,
+                        question: "If water ________ (reach) 100°C, it boils.",
+                        answer: "reaches",
+                        alternativeAnswers: [],
+                        explanation: "Zero conditional for facts/general truths",
+                        topic: "Conditionals"
+                    },
+                    {
+                        id: 6,
+                        question: "If I ________ (be) you, I would accept the job offer.",
+                        answer: "were",
+                        alternativeAnswers: ["was"],
+                        explanation: "Second conditional with 'were' for all subjects (formal)",
+                        topic: "Conditionals"
+                    },
+                    {
+                        id: 7,
+                        question: "She ________ (not/miss) the bus if she had left on time.",
+                        answer: "wouldn't have missed",
+                        alternativeAnswers: ["would not have missed"],
+                        explanation: "Third conditional negative",
+                        topic: "Conditionals"
+                    }
+                ]
+            },
+            "Present Perfect": {
+                icon: "⏰",
+                questions: [
+                    {
+                        id: 8,
+                        question: "I ________ (never/be) to Australia.",
+                        answer: "have never been",
+                        alternativeAnswers: ["'ve never been"],
+                        explanation: "Present Perfect for life experiences",
+                        topic: "Present Perfect"
+                    },
+                    {
+                        id: 9,
+                        question: "She ________ (work) here since 2020.",
+                        answer: "has worked",
+                        alternativeAnswers: ["'s worked"],
+                        explanation: "Present Perfect with 'since' for duration",
+                        topic: "Present Perfect"
+                    },
+                    {
+                        id: 10,
+                        question: "________ you ever ________ (eat) sushi?",
+                        answer: "Have...eaten",
+                        alternativeAnswers: [],
+                        explanation: "Present Perfect question for experiences",
+                        topic: "Present Perfect"
+                    },
+                    {
+                        id: 11,
+                        question: "They ________ (just/arrive) at the hotel.",
+                        answer: "have just arrived",
+                        alternativeAnswers: ["'ve just arrived"],
+                        explanation: "Present Perfect with 'just' for recent actions",
+                        topic: "Present Perfect"
+                    },
+                    {
+                        id: 12,
+                        question: "He ________ (not/finish) his homework yet.",
+                        answer: "hasn't finished",
+                        alternativeAnswers: ["has not finished"],
+                        explanation: "Present Perfect negative with 'yet'",
+                        topic: "Present Perfect"
+                    },
+                    {
+                        id: 13,
+                        question: "We ________ (live) in this city for ten years.",
+                        answer: "have lived",
+                        alternativeAnswers: ["'ve lived"],
+                        explanation: "Present Perfect with 'for' showing duration",
+                        topic: "Present Perfect"
+                    },
+                    {
+                        id: 14,
+                        question: "________ she ________ (already/leave)?",
+                        answer: "Has...already left",
+                        alternativeAnswers: [],
+                        explanation: "Present Perfect question with 'already'",
+                        topic: "Present Perfect"
+                    }
+                ]
+            },
+            "Modal Verbs": {
+                icon: "🔤",
+                questions: [
+                    {
+                        id: 15,
+                        question: "You ________ (should/must) see a doctor if you feel sick.",
+                        answer: "should",
+                        alternativeAnswers: [],
+                        explanation: "Should for advice/recommendation",
+                        topic: "Modal Verbs"
+                    },
+                    {
+                        id: 16,
+                        question: "She ________ be at home. Her car is in the driveway.",
+                        answer: "must",
+                        alternativeAnswers: [],
+                        explanation: "Must for logical deduction",
+                        topic: "Modal Verbs"
+                    },
+                    {
+                        id: 17,
+                        question: "________ I borrow your pen, please?",
+                        answer: "May",
+                        alternativeAnswers: ["Can", "Could"],
+                        explanation: "May/Can/Could for polite requests",
+                        topic: "Modal Verbs"
+                    },
+                    {
+                        id: 18,
+                        question: "You ________ (don't have to/mustn't) pay now. You can pay later.",
+                        answer: "don't have to",
+                        alternativeAnswers: ["do not have to"],
+                        explanation: "Don't have to = not necessary",
+                        topic: "Modal Verbs"
+                    },
+                    {
+                        id: 19,
+                        question: "He ________ swim when he was five years old.",
+                        answer: "could",
+                        alternativeAnswers: [],
+                        explanation: "Could for past ability",
+                        topic: "Modal Verbs"
+                    },
+                    {
+                        id: 20,
+                        question: "You ________ smoke in this building. It's prohibited.",
+                        answer: "mustn't",
+                        alternativeAnswers: ["must not", "can't", "cannot"],
+                        explanation: "Mustn't for prohibition",
+                        topic: "Modal Verbs"
+                    },
+                    {
+                        id: 21,
+                        question: "It ________ rain tomorrow. Take an umbrella just in case.",
+                        answer: "might",
+                        alternativeAnswers: ["may", "could"],
+                        explanation: "Might/May/Could for possibility",
+                        topic: "Modal Verbs"
+                    }
+                ]
+            },
+            "Reported Speech": {
+                icon: "💬",
+                questions: [
+                    {
+                        id: 22,
+                        question: "\"I am hungry,\" she said. → She said she ________ hungry.",
+                        answer: "was",
+                        alternativeAnswers: [],
+                        explanation: "Present Simple → Past Simple in reported speech",
+                        topic: "Reported Speech"
+                    },
+                    {
+                        id: 23,
+                        question: "\"I will help you,\" he said. → He said he ________ help me.",
+                        answer: "would",
+                        alternativeAnswers: [],
+                        explanation: "Will → Would in reported speech",
+                        topic: "Reported Speech"
+                    },
+                    {
+                        id: 24,
+                        question: "\"Do you like coffee?\" she asked. → She asked if I ________ coffee.",
+                        answer: "liked",
+                        alternativeAnswers: [],
+                        explanation: "Present Simple → Past Simple in reported questions",
+                        topic: "Reported Speech"
+                    },
+                    {
+                        id: 25,
+                        question: "\"I have finished,\" Tom said. → Tom said he ________ finished.",
+                        answer: "had",
+                        alternativeAnswers: ["had finished"],
+                        explanation: "Present Perfect → Past Perfect in reported speech",
+                        topic: "Reported Speech"
+                    },
+                    {
+                        id: 26,
+                        question: "\"Don't touch that!\" she said. → She told me ________ touch that.",
+                        answer: "not to",
+                        alternativeAnswers: [],
+                        explanation: "Negative imperative → told + not to + infinitive",
+                        topic: "Reported Speech"
+                    },
+                    {
+                        id: 27,
+                        question: "\"Where are you going?\" he asked. → He asked where I ________ going.",
+                        answer: "was",
+                        alternativeAnswers: [],
+                        explanation: "Present Continuous → Past Continuous in reported speech",
+                        topic: "Reported Speech"
+                    },
+                    {
+                        id: 28,
+                        question: "\"Can you swim?\" she asked. → She asked if I ________ swim.",
+                        answer: "could",
+                        alternativeAnswers: [],
+                        explanation: "Can → Could in reported speech",
+                        topic: "Reported Speech"
+                    }
+                ]
+            },
+            "Phrasal Verbs": {
+                icon: "🔗",
+                questions: [
+                    {
+                        id: 29,
+                        question: "Please ________ your shoes before entering the house.",
+                        answer: "take off",
+                        alternativeAnswers: [],
+                        explanation: "Take off = remove clothing/shoes",
+                        topic: "Phrasal Verbs"
+                    },
+                    {
+                        id: 30,
+                        question: "I need to ________ this word in the dictionary.",
+                        answer: "look up",
+                        alternativeAnswers: [],
+                        explanation: "Look up = search for information",
+                        topic: "Phrasal Verbs"
+                    },
+                    {
+                        id: 31,
+                        question: "The meeting was ________ until next week.",
+                        answer: "put off",
+                        alternativeAnswers: ["postponed"],
+                        explanation: "Put off = postpone/delay",
+                        topic: "Phrasal Verbs"
+                    },
+                    {
+                        id: 32,
+                        question: "She ________ smoking last year.",
+                        answer: "gave up",
+                        alternativeAnswers: ["quit"],
+                        explanation: "Give up = quit/stop doing something",
+                        topic: "Phrasal Verbs"
+                    },
+                    {
+                        id: 33,
+                        question: "Can you ________ the TV? It's too loud.",
+                        answer: "turn down",
+                        alternativeAnswers: [],
+                        explanation: "Turn down = reduce volume",
+                        topic: "Phrasal Verbs"
+                    },
+                    {
+                        id: 34,
+                        question: "I'll ________ you ________ at the airport.",
+                        answer: "pick...up",
+                        alternativeAnswers: [],
+                        explanation: "Pick up = collect someone",
+                        topic: "Phrasal Verbs"
+                    },
+                    {
+                        id: 35,
+                        question: "We need to ________ a solution to this problem.",
+                        answer: "come up with",
+                        alternativeAnswers: ["find"],
+                        explanation: "Come up with = think of/create",
+                        topic: "Phrasal Verbs"
+                    }
+                ]
+            },
+            "Comparatives": {
+                icon: "⚖️",
+                questions: [
+                    {
+                        id: 36,
+                        question: "This book is ________ (interesting) than that one.",
+                        answer: "more interesting",
+                        alternativeAnswers: [],
+                        explanation: "More + adjective for long adjectives",
+                        topic: "Comparatives"
+                    },
+                    {
+                        id: 37,
+                        question: "She runs ________ (fast) than her brother.",
+                        answer: "faster",
+                        alternativeAnswers: [],
+                        explanation: "Short adjective + er for comparatives",
+                        topic: "Comparatives"
+                    },
+                    {
+                        id: 38,
+                        question: "This is the ________ (good) restaurant in town.",
+                        answer: "best",
+                        alternativeAnswers: [],
+                        explanation: "Best = superlative of good",
+                        topic: "Comparatives"
+                    },
+                    {
+                        id: 39,
+                        question: "The weather today is ________ (bad) than yesterday.",
+                        answer: "worse",
+                        alternativeAnswers: [],
+                        explanation: "Worse = comparative of bad",
+                        topic: "Comparatives"
+                    },
+                    {
+                        id: 40,
+                        question: "This is the ________ (expensive) item in the store.",
+                        answer: "most expensive",
+                        alternativeAnswers: [],
+                        explanation: "Most + adjective for superlatives of long adjectives",
+                        topic: "Comparatives"
+                    },
+                    {
+                        id: 41,
+                        question: "He is ________ (tall) as his father.",
+                        answer: "as tall",
+                        alternativeAnswers: [],
+                        explanation: "As + adjective + as for equality",
+                        topic: "Comparatives"
+                    },
+                    {
+                        id: 42,
+                        question: "The ________ (early) you arrive, the better.",
+                        answer: "earlier",
+                        alternativeAnswers: [],
+                        explanation: "The + comparative, the + comparative structure",
+                        topic: "Comparatives"
+                    }
+                ]
+            },
+            "Prepositions": {
+                icon: "📍",
+                questions: [
+                    {
+                        id: 43,
+                        question: "I'll meet you ________ Monday.",
+                        answer: "on",
+                        alternativeAnswers: [],
+                        explanation: "On + days of the week",
+                        topic: "Prepositions"
+                    },
+                    {
+                        id: 44,
+                        question: "She was born ________ 1995.",
+                        answer: "in",
+                        alternativeAnswers: [],
+                        explanation: "In + years",
+                        topic: "Prepositions"
+                    },
+                    {
+                        id: 45,
+                        question: "The meeting starts ________ 3 o'clock.",
+                        answer: "at",
+                        alternativeAnswers: [],
+                        explanation: "At + specific times",
+                        topic: "Prepositions"
+                    },
+                    {
+                        id: 46,
+                        question: "He's interested ________ learning French.",
+                        answer: "in",
+                        alternativeAnswers: [],
+                        explanation: "Interested in + gerund/noun",
+                        topic: "Prepositions"
+                    },
+                    {
+                        id: 47,
+                        question: "She's good ________ playing the piano.",
+                        answer: "at",
+                        alternativeAnswers: [],
+                        explanation: "Good at + gerund/noun",
+                        topic: "Prepositions"
+                    },
+                    {
+                        id: 48,
+                        question: "I'm looking forward ________ seeing you.",
+                        answer: "to",
+                        alternativeAnswers: [],
+                        explanation: "Look forward to + gerund",
+                        topic: "Prepositions"
+                    },
+                    {
+                        id: 49,
+                        question: "She depends ________ her parents for support.",
+                        answer: "on",
+                        alternativeAnswers: [],
+                        explanation: "Depend on + noun/pronoun",
+                        topic: "Prepositions"
+                    }
+                ]
+            },
+            "Vocabulary": {
+                icon: "📖",
+                questions: [
+                    {
+                        id: 50,
+                        question: "🏥 A person who treats sick people is a ________.",
+                        answer: "doctor",
+                        alternativeAnswers: ["physician"],
+                        explanation: "Doctor = medical professional",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 51,
+                        question: "✈️ The place where planes take off and land is an ________.",
+                        answer: "airport",
+                        alternativeAnswers: [],
+                        explanation: "Airport = aviation facility",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 52,
+                        question: "🍳 A room where food is prepared is a ________.",
+                        answer: "kitchen",
+                        alternativeAnswers: [],
+                        explanation: "Kitchen = cooking area",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 53,
+                        question: "💰 Money you receive for work is your ________.",
+                        answer: "salary",
+                        alternativeAnswers: ["wage", "wages", "pay"],
+                        explanation: "Salary/wage = payment for work",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 54,
+                        question: "🎯 To reach a goal or objective means to ________ it.",
+                        answer: "achieve",
+                        alternativeAnswers: ["accomplish", "attain", "reach"],
+                        explanation: "Achieve = successfully reach",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 55,
+                        question: "💻 The new software will ________ employees in completing their daily tasks faster.",
+                        answer: "assist",
+                        alternativeAnswers: ["help"],
+                        explanation: "Assist = help (formal context)",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 56,
+                        question: "🏆 Winning the national award was an important ________ for the whole team.",
+                        answer: "achievement",
+                        alternativeAnswers: ["accomplishment"],
+                        explanation: "Achievement = successful accomplishment",
+                        topic: "Vocabulary"
+                    },
+                    {
+                        id: 57,
+                        question: "🤝 We should always ________ each other when facing challenges at work.",
+                        answer: "support",
+                        alternativeAnswers: ["help"],
+                        explanation: "Support = help and encourage",
+                        topic: "Vocabulary"
+                    }
+                ]
+            }
+        };
+
+        // Variables globales
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let results = [];
+        let currentMode = '';
+
+        // Inicializar el juego
+        function initGame() {
+            renderTopicGrid();
+        }
+
+        // Renderizar el grid de temas
+        function renderTopicGrid() {
+            const topicGrid = document.getElementById('topicGrid');
+            topicGrid.innerHTML = '';
+
+            // Calcular el total de preguntas
+            let totalQuestions = 0;
+            for (const topic of Object.values(questionDatabase)) {
+                totalQuestions += topic.questions.length;
+            }
+
+            // Agregar opción para todas las preguntas
+            const allQuestionsCard = document.createElement('div');
+            allQuestionsCard.className = 'topic-card';
+            allQuestionsCard.onclick = () => startGame('all');
+            allQuestionsCard.innerHTML = `
+                <div class="topic-icon">🎯</div>
+                <h3>Todas las preguntas</h3>
+                <div class="question-count">${totalQuestions} preguntas</div>
+            `;
+            topicGrid.appendChild(allQuestionsCard);
+
+            // Agregar cada tema
+            for (const [topic, data] of Object.entries(questionDatabase)) {
+                const topicCard = document.createElement('div');
+                topicCard.className = 'topic-card';
+                topicCard.onclick = () => startGame(topic);
+                topicCard.innerHTML = `
+                    <div class="topic-icon">${data.icon}</div>
+                    <h3>${topic}</h3>
+                    <div class="question-count">${data.questions.length} preguntas</div>
+                `;
+                topicGrid.appendChild(topicCard);
+            }
+        }
+
+        // Iniciar el juego con el tema seleccionado
+        function startGame(mode) {
+            currentMode = mode;
+            currentQuestionIndex = 0;
+            results = [];
+
+            if (mode === 'all') {
+                currentQuestions = [];
+                for (const topic of Object.values(questionDatabase)) {
+                    currentQuestions.push(...topic.questions);
+                }
+            } else {
+                currentQuestions = [...questionDatabase[mode].questions];
+            }
+
+            // Mezclar preguntas
+            currentQuestions = shuffleArray(currentQuestions);
+
+            // Cambiar pantallas
+            document.getElementById('menuScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            document.getElementById('resultsScreen').style.display = 'none';
+
+            showQuestion();
+        }
+
+        // Mezclar array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Mostrar pregunta actual
+        function showQuestion() {
+            const question = currentQuestions[currentQuestionIndex];
+            document.getElementById('question').innerHTML = question.question;
+            document.getElementById('answerInput').value = '';
+            document.getElementById('answerInput').focus();
+            
+            // Resetear flashcard
+            document.getElementById('flashcard').classList.remove('flipped');
+            
+            // Actualizar barra de progreso
+            updateProgressBar();
+
+            // Permitir envío con Enter
+            document.getElementById('answerInput').onkeypress = function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            };
+        }
+
+        // Actualizar barra de progreso
+        function updateProgressBar() {
+            const percent = Math.round((currentQuestionIndex / currentQuestions.length) * 100);
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = Math.max(percent, 10) + '%';
+            progressBar.textContent = `${currentQuestionIndex}/${currentQuestions.length} (${percent}%)`;
+        }
+
+        // Verificar respuesta
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
+            const question = currentQuestions[currentQuestionIndex];
+            const correctAnswer = question.answer.toLowerCase();
+            const alternatives = question.alternativeAnswers.map(a => a.toLowerCase());
+            
+            const isCorrect = userAnswer === correctAnswer || alternatives.includes(userAnswer);
+            
+            // Guardar resultado
+            results.push({
+                question: question.question,
+                userAnswer: document.getElementById('answerInput').value.trim(),
+                correctAnswer: question.answer,
+                isCorrect: isCorrect,
+                explanation: question.explanation
+            });
+
+            // Mostrar feedback
+            showFeedback(isCorrect, question);
+
+            // Voltear la tarjeta
+            document.getElementById('flashcard').classList.add('flipped');
+        }
+
+        // Mostrar feedback
+        function showFeedback(isCorrect, question) {
+            const cardBack = document.getElementById('cardBack');
+            const emoji = document.getElementById('emoji');
+            const feedback = document.getElementById('feedback');
+
+            if (isCorrect) {
+                cardBack.classList.remove('incorrect');
+                cardBack.classList.add('correct');
+                emoji.textContent = '😄';
+                feedback.innerHTML = `
+                    <strong>¡Correcto!</strong><br>
+                    ${question.explanation}
+                `;
+            } else {
+                cardBack.classList.remove('correct');
+                cardBack.classList.add('incorrect');
+                emoji.textContent = '😢';
+                feedback.innerHTML = `
+                    <strong>Incorrecto</strong><br>
+                    La respuesta correcta es: <strong>${question.answer}</strong><br>
+                    ${question.explanation}
+                `;
+            }
+        }
+
+        // Siguiente pregunta
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < currentQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Mostrar resultados finales
+        function showResults() {
+            document.getElementById('gameScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+
+            const correctCount = results.filter(r => r.isCorrect).length;
+            const incorrectCount = results.length - correctCount;
+            const percentage = Math.round((correctCount / results.length) * 100);
+
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            document.getElementById('scorePercent').textContent = percentage + '%';
+
+            // Llenar tabla de resultados
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = '';
+
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                row.className = result.isCorrect ? 'correct-row' : 'incorrect-row';
+                row.innerHTML = `
+                    <td>${result.question}</td>
+                    <td>${result.userAnswer || '(vacío)'}</td>
+                    <td>${result.correctAnswer}</td>
+                    <td style="text-align: center; font-size: 1.5em;">
+                        ${result.isCorrect ? '😊' : '😢'}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Resetear juego
+        function resetGame() {
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('menuScreen').style.display = 'block';
+            currentQuestions = [];
+            currentQuestionIndex = 0;
+            results = [];
+        }
+
+        // Inicializar cuando cargue la página
+        window.onload = initGame;
+    </script>
+</body>
+</html>
