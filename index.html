@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             --secondary-color: #764ba2;
             --background-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
         }
+
         * {
             margin: 0;
             padding: 0;
@@ -30,7 +32,8 @@
 
         .landing-container {
             width: 100%;
-            max-width: 900px; /* Aumentado un poco para acomodar 3 cajas mejor */
+            max-width: 900px;
+            /* Aumentado un poco para acomodar 3 cajas mejor */
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -55,12 +58,15 @@
             gap: 20px;
         }
 
-        @media (min-width: 768px) { /* Ajustado para que quepan 3 en línea en tablets/PC */
+        @media (min-width: 768px) {
+
+            /* Ajustado para que quepan 3 en línea en tablets/PC */
             .selection-grid {
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
             }
+
             .selection-card {
                 flex: 0 1 calc(33.333% - 20px);
                 min-width: 250px;
@@ -87,7 +93,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             border-color: var(--primary-color);
         }
-        
+
         .selection-card:active {
             transform: scale(0.98);
         }
@@ -111,6 +117,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="landing-container">
@@ -118,7 +125,7 @@
         <p>Selecciona el área que deseas evaluar para comenzar tu test.</p>
 
         <div class="selection-grid">
-            
+
             <a href="SO.html" class="selection-card">
                 <div class="card-icon">💻</div>
                 <div class="card-title">Sistemas Operativos</div>
@@ -142,9 +149,16 @@
                     Flashcards de gramática, vocabulario de negocios, pasiva, condicionales y más.
                 </div>
             </a>
-
+            <a href="Seguridad.html" class="selection-card">
+                <div class="card-icon">🛡️</div>
+                <div class="card-title">Seguridad y Alta Disponibilidad</div>
+                <div class="card-description">
+                    Test completo sobre tríada CID, malware, firewalls, alta disponibilidad y normativa RGPD/ENS.
+                </div>
+            </a>
         </div>
     </div>
 
 </body>
+
 </html>
