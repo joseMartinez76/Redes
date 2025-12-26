@@ -139,19 +139,16 @@
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             margin-bottom: 10px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            min-height: 50px;
-            touch-action: manipulation;
         }
 
         .option.selected { background: #667eea; color: white; }
         .option.correct { background: #28a745; color: white; }
         .option.incorrect { background: #dc3545; color: white; }
-        .option.disabled { cursor: not-allowed; opacity: 0.8; }
         
         .btn {
             padding: 12px 25px;
@@ -161,12 +158,10 @@
             cursor: pointer;
             text-transform: uppercase;
             width: 100%;
-            min-height: 48px;
-            touch-action: manipulation;
         }
 
         .btn-primary { background: #667eea; color: white; }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-primary:disabled { opacity: 0.5; }
 
         .feedback {
             padding: 15px;
@@ -187,212 +182,530 @@
             z-index: 100; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .hidden { display: none; }
-
-        /* Estilos adicionales para resultados */
-        .results-circle {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-        }
-
-        .score-circle {
-            fill: none;
-            stroke: #e9ecef;
-            stroke-width: 10;
-        }
-
-        .score-progress {
-            fill: none;
-            stroke: #667eea;
-            stroke-width: 10;
-            stroke-linecap: round;
-            stroke-dasharray: 565;
-            stroke-dashoffset: 565;
-            transition: stroke-dashoffset 2s ease;
-            transform: rotate(-90deg);
-            transform-origin: center;
-        }
-
-        .score-text {
-            font-size: 3em;
-            font-weight: bold;
-            fill: #667eea;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-
-        .topic-stat {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background: #f8f9fa;
-            margin: 5px 0;
-            border-radius: 8px;
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 15px;
-            margin: 5px 0;
-            border-radius: 8px;
-            background: #f8f9fa;
-        }
-
-        .result-item.correct { background: #d4edda; }
-        .result-item.incorrect { background: #f8d7da; }
-
-        /* Indicador de guardado automático */
-        .save-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 25px;
-            display: none;
-            animation: fadeInOut 2s ease;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
     </style>
 </head>
 
 <body>
-    <div class="back-to-menu hidden" id="backToMenu" onclick="returnToMenu()" aria-label="Volver al menú">⬅️</div>
-    <div class="save-indicator" id="saveIndicator">✓ Progreso guardado</div>
+    <div class="back-to-menu hidden" id="backToMenu" onclick="returnToMenu()">⬅️</div>
 
     <div class="container">
         <div class="header">
             <h1>Seguridad y Alta Disponibilidad</h1>
             <p>Sistema de Evaluación Completo</p>
             <div class="progress-container" style="display: none;" id="progressContainer">
-                <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                <div class="progress-bar" id="progressBar">0%</div>
             </div>
         </div>
 
         <div class="mode-selection" id="modeSelection">
             <h2>Selecciona el Modo de Práctica</h2>
             <div class="modes-grid">
-                <div class="mode-card" onclick="selectMode('ut1')" id="modeUT1" role="button" aria-label="Seleccionar UT-1 Fundamentos">
+                <div class="mode-card" onclick="selectMode('ut1')" id="modeUT1">
                     <div class="mode-icon">🛡️</div>
                     <div class="mode-title">UT-1: Fundamentos</div>
                     <div class="mode-description">Seguridad física, lógica, tríada CID y criptografía básica.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut2')" id="modeUT2" role="button" aria-label="Seleccionar UT-2 Amenazas">
+                <div class="mode-card" onclick="selectMode('ut2')" id="modeUT2">
                     <div class="mode-icon">🕵️</div>
                     <div class="mode-title">UT-2: Amenazas</div>
                     <div class="mode-description">Malware, Cyber Kill Chain y análisis de red.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut3')" id="modeUT3" role="button" aria-label="Seleccionar UT-3 Accesos">
+                <div class="mode-card" onclick="selectMode('ut3')" id="modeUT3">
                     <div class="mode-icon">🔑</div>
                     <div class="mode-title">UT-3: Accesos</div>
                     <div class="mode-description">VPN, SSH, RADIUS y bastiones.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut4')" id="modeUT4" role="button" aria-label="Seleccionar UT-4 Copias de Seguridad">
-                    <div class="mode-icon">💾</div>
-                    <div class="mode-title">UT-4: Copias de Seguridad</div>
-                    <div class="mode-description">Backup, restauración y continuidad del negocio.</div>
+                <div class="mode-card" onclick="selectMode('ut4')" id="modeUT4">
+                    <div class="mode-icon">🧱</div>
+                    <div class="mode-title">UT-4: Perímetro</div>
+                    <div class="mode-description">Firewalls, DMZ y reglas ACL.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut5')" id="modeUT5" role="button" aria-label="Seleccionar UT-5 Cortafuegos">
-                    <div class="mode-icon">🔥</div>
-                    <div class="mode-title">UT-5: Cortafuegos</div>
-                    <div class="mode-description">Firewalls, DMZ, IDS/IPS y pfSense.</div>
-                </div>
-                <div class="mode-card" onclick="selectMode('ut6')" id="modeUT6" role="button" aria-label="Seleccionar UT-6 Proxies">
+                <div class="mode-card" onclick="selectMode('ut5')" id="modeUT5">
                     <div class="mode-icon">🔄</div>
-                    <div class="mode-title">UT-6: Proxies</div>
-                    <div class="mode-description">Proxy HTTP/HTTPS, Squid, caché y filtrado web.</div>
+                    <div class="mode-title">UT-5: Proxies</div>
+                    <div class="mode-description">Servidores Proxy y autenticación LDAP.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut7')" id="modeUT7" role="button" aria-label="Seleccionar UT-7 Alta Disponibilidad">
-                    <div class="mode-icon">⚡</div>
-                    <div class="mode-title">UT-7: Alta Disponibilidad</div>
-                    <div class="mode-description">Clustering, balanceo de carga, failover y redundancia.</div>
+                <div class="mode-card" onclick="selectMode('ut6')" id="modeUT6">
+                    <div class="mode-icon">🔋</div>
+                    <div class="mode-title">UT-6: Disponibilidad</div>
+                    <div class="mode-description">HA, clusters, RAID y réplicas.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('mixed')" id="modeMixed" role="button" aria-label="Seleccionar modo mixto">
-                    <div class="mode-icon">🎲</div>
-                    <div class="mode-title">Modo Mixto</div>
-                    <div class="mode-description">Preguntas aleatorias de todas las unidades.</div>
+                <div class="mode-card" onclick="selectMode('ut7')" id="modeUT7">
+                    <div class="mode-icon">⚖️</div>
+                    <div class="mode-title">UT-7: Normativa</div>
+                    <div class="mode-description">RGPD, LOPDGDD y ENS.</div>
+                </div>
+                <div class="mode-card" onclick="selectMode('general')" id="modeGeneral" style="grid-column: span 1;">
+                    <div class="mode-icon">🎯</div>
+                    <div class="mode-title">Examen General</div>
+                    <div class="mode-description">Simulacro con preguntas aleatorias de todas las unidades.</div>
                 </div>
             </div>
-            <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled aria-label="Iniciar test">Iniciar Test</button>
+            <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled>Comenzar Test</button>
         </div>
 
         <div class="quiz-container" id="quizContainer">
-            <div class="question-header">
-                <h2 id="questionNumber">Pregunta 1</h2>
-                <span id="questionTopic" style="color: #6c757d; font-size: 0.9em;"></span>
-            </div>
-            <p id="questionText" style="margin: 20px 0; font-size: 1.1em;"></p>
-            <div id="optionsContainer"></div>
+            <div id="questionContainer"></div>
             <div class="feedback" id="feedback"></div>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn btn-primary" id="prevBtn" onclick="previousQuestion()" style="width: 48%;" aria-label="Pregunta anterior">Anterior</button>
-                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="width: 48%;" aria-label="Siguiente pregunta">Siguiente</button>
+                <button class="btn" style="background:#6c757d; color:white;" id="prevBtn" onclick="previousQuestion()">Anterior</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Siguiente</button>
             </div>
         </div>
 
         <div class="results-screen" id="resultsScreen">
-            <h2>Resultados del Test</h2>
-            <svg class="results-circle">
-                <circle cx="100" cy="100" r="90" class="score-circle"></circle>
-                <circle cx="100" cy="100" r="90" class="score-progress" id="scoreProgress"></circle>
-                <text x="100" y="110" text-anchor="middle" class="score-text" id="scoreText">0%</text>
-            </svg>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="correctCount">0</div>
-                    <div class="stat-label">Correctas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="incorrectCount">0</div>
-                    <div class="stat-label">Incorrectas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalQuestions">0</div>
-                    <div class="stat-label">Total</div>
-                </div>
-            </div>
-
-            <div id="topicStats" style="margin: 20px 0;"></div>
-            <div id="resultsDetails" style="margin: 20px 0;"></div>
-
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn btn-primary" onclick="restartSameMode()" style="width: 48%;">Repetir Test</button>
-                <button class="btn btn-primary" onclick="returnToMenu()" style="width: 48%;">Volver al Menú</button>
-            </div>
+            <h2>¡Test Completado!</h2>
+            <div style="font-size: 3em; color: #667eea; margin: 20px 0;" id="scoreText">0%</div>
+            <div id="topicStats" style="text-align: left; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 10px;"></div>
+            <button class="btn btn-primary" onclick="returnToMenu()">Volver al Menú</button>
         </div>
     </div>
 
     <script>
+        // Base de datos de preguntas organizadas por unidad
+        const questionsDB = {
+            ut1: [
+                {
+                    question: "¿Cuáles son los tres pilares fundamentales de la seguridad de la información (tríada CID)?",
+                    options: [
+                        "Confidencialidad, Integridad, Disponibilidad",
+                        "Control, Identificación, Defensa",
+                        "Cifrado, Identidad, Datos",
+                        "Conexión, Internet, Dispositivos"
+                    ],
+                    correct: 0,
+                    explanation: "La tríada CID representa Confidencialidad (solo usuarios autorizados acceden), Integridad (datos sin alteración) y Disponibilidad (acceso cuando se necesita).",
+                    topic: "UT-1: Fundamentos"
+                },
+                {
+                    question: "¿Qué tipo de seguridad protege los equipos físicos y las instalaciones?",
+                    options: [
+                        "Seguridad lógica",
+                        "Seguridad física",
+                        "Seguridad perimetral",
+                        "Seguridad de red"
+                    ],
+                    correct: 1,
+                    explanation: "La seguridad física protege el hardware, las instalaciones y el personal contra amenazas físicas como robo, incendio o acceso no autorizado.",
+                    topic: "UT-1: Fundamentos"
+                },
+                {
+                    question: "¿Qué algoritmo de cifrado simétrico es considerado el estándar actual?",
+                    options: [
+                        "DES",
+                        "RSA",
+                        "AES",
+                        "MD5"
+                    ],
+                    correct: 2,
+                    explanation: "AES (Advanced Encryption Standard) es el algoritmo de cifrado simétrico estándar actual, con claves de 128, 192 o 256 bits.",
+                    topic: "UT-1: Fundamentos"
+                },
+                {
+                    question: "¿Cuál es la principal diferencia entre cifrado simétrico y asimétrico?",
+                    options: [
+                        "El simétrico es más seguro",
+                        "El asimétrico usa la misma clave para cifrar y descifrar",
+                        "El simétrico usa una clave, el asimétrico usa un par de claves",
+                        "El asimétrico es más rápido"
+                    ],
+                    correct: 2,
+                    explanation: "El cifrado simétrico usa una sola clave compartida, mientras que el asimétrico utiliza un par de claves (pública y privada).",
+                    topic: "UT-1: Fundamentos"
+                },
+                {
+                    question: "¿Qué función criptográfica garantiza la integridad de los datos?",
+                    options: [
+                        "Cifrado simétrico",
+                        "Firma digital",
+                        "Hash",
+                        "Certificado digital"
+                    ],
+                    correct: 2,
+                    explanation: "Las funciones hash generan un resumen único de los datos que permite detectar cualquier modificación.",
+                    topic: "UT-1: Fundamentos"
+                }
+            ],
+
+            ut2: [
+                {
+                    question: "¿Qué tipo de malware se replica a sí mismo sin necesidad de un archivo huésped?",
+                    options: [
+                        "Virus",
+                        "Gusano",
+                        "Troyano",
+                        "Spyware"
+                    ],
+                    correct: 1,
+                    explanation: "Los gusanos son malware autorreplicantes que se propagan por la red sin necesitar un archivo huésped, a diferencia de los virus.",
+                    topic: "UT-2: Amenazas"
+                },
+                {
+                    question: "¿Cuál es la primera fase del Cyber Kill Chain?",
+                    options: [
+                        "Weaponización",
+                        "Explotación",
+                        "Reconocimiento",
+                        "Instalación"
+                    ],
+                    correct: 2,
+                    explanation: "El reconocimiento es la primera fase donde el atacante recopila información sobre el objetivo antes de planificar el ataque.",
+                    topic: "UT-2: Amenazas"
+                },
+                {
+                    question: "¿Qué tipo de ataque intenta hacer que un servicio no esté disponible?",
+                    options: [
+                        "Phishing",
+                        "Man-in-the-middle",
+                        "DDoS",
+                        "SQL Injection"
+                    ],
+                    correct: 2,
+                    explanation: "Los ataques DDoS (Distributed Denial of Service) buscan saturar un servicio para hacerlo inaccesible a usuarios legítimos.",
+                    topic: "UT-2: Amenazas"
+                },
+                {
+                    question: "¿Qué herramienta se utiliza comúnmente para análisis de tráfico de red?",
+                    options: [
+                        "Nmap",
+                        "Metasploit",
+                        "Wireshark",
+                        "John the Ripper"
+                    ],
+                    correct: 2,
+                    explanation: "Wireshark es un analizador de protocolos de red que permite capturar y examinar el tráfico en tiempo real.",
+                    topic: "UT-2: Amenazas"
+                },
+                {
+                    question: "¿Qué tipo de malware cifra los archivos y pide un rescate?",
+                    options: [
+                        "Adware",
+                        "Ransomware",
+                        "Rootkit",
+                        "Keylogger"
+                    ],
+                    correct: 1,
+                    explanation: "El ransomware cifra los archivos del sistema y exige un pago (rescate) para recuperar el acceso a los datos.",
+                    topic: "UT-2: Amenazas"
+                }
+            ],
+
+            ut3: [
+                {
+                    question: "¿Qué protocolo VPN opera en la capa 3 del modelo OSI?",
+                    options: [
+                        "PPTP",
+                        "L2TP",
+                        "IPSec",
+                        "SSL/TLS"
+                    ],
+                    correct: 2,
+                    explanation: "IPSec opera en la capa 3 (red) del modelo OSI, proporcionando seguridad a nivel de paquetes IP.",
+                    topic: "UT-3: Accesos"
+                },
+                {
+                    question: "¿Qué puerto utiliza SSH por defecto?",
+                    options: [
+                        "21",
+                        "22",
+                        "23",
+                        "25"
+                    ],
+                    correct: 1,
+                    explanation: "SSH (Secure Shell) utiliza el puerto 22 por defecto para conexiones seguras de administración remota.",
+                    topic: "UT-3: Accesos"
+                },
+                {
+                    question: "¿Qué protocolo AAA es más completo y moderno?",
+                    options: [
+                        "RADIUS",
+                        "TACACS+",
+                        "Kerberos",
+                        "LDAP"
+                    ],
+                    correct: 1,
+                    explanation: "TACACS+ separa autenticación, autorización y contabilidad, ofreciendo más granularidad que RADIUS.",
+                    topic: "UT-3: Accesos"
+                },
+                {
+                    question: "¿Qué es un bastion host?",
+                    options: [
+                        "Un servidor de respaldo",
+                        "Un servidor expuesto que actúa como punto de entrada seguro",
+                        "Un tipo de firewall",
+                        "Un sistema de detección de intrusos"
+                    ],
+                    correct: 1,
+                    explanation: "Un bastion host es un servidor fortificado que sirve como único punto de entrada a una red interna desde Internet.",
+                    topic: "UT-3: Accesos"
+                },
+                {
+                    question: "¿Qué método de autenticación es considerado más seguro?",
+                    options: [
+                        "Contraseña simple",
+                        "Autenticación de dos factores",
+                        "Pregunta de seguridad",
+                        "PIN de 4 dígitos"
+                    ],
+                    correct: 1,
+                    explanation: "La autenticación de dos factores (2FA) combina algo que sabes con algo que tienes o eres, aumentando significativamente la seguridad.",
+                    topic: "UT-3: Accesos"
+                }
+            ],
+
+            ut4: [
+                {
+                    question: "¿Qué tipo de firewall inspecciona el estado de las conexiones?",
+                    options: [
+                        "Packet filtering",
+                        "Proxy",
+                        "Stateful",
+                        "Application"
+                    ],
+                    correct: 2,
+                    explanation: "Los firewalls stateful mantienen una tabla de estado de las conexiones, permitiendo un filtrado más inteligente del tráfico.",
+                    topic: "UT-4: Perímetro"
+                },
+                {
+                    question: "¿Qué es una DMZ en seguridad de redes?",
+                    options: [
+                        "Una zona de alta seguridad",
+                        "Una zona intermedia entre la red interna e Internet",
+                        "Un tipo de VPN",
+                        "Un protocolo de seguridad"
+                    ],
+                    correct: 1,
+                    explanation: "La DMZ (Zona Desmilitarizada) es una red perimetral que añade una capa de seguridad entre Internet y la red interna.",
+                    topic: "UT-4: Perímetro"
+                },
+                {
+                    question: "¿Cuál es la diferencia principal entre IDS e IPS?",
+                    options: [
+                        "IDS es más rápido",
+                        "IPS solo detecta, IDS bloquea",
+                        "IDS solo detecta, IPS detecta y bloquea",
+                        "No hay diferencia"
+                    ],
+                    correct: 2,
+                    explanation: "IDS (Intrusion Detection System) solo detecta y alerta, mientras que IPS (Intrusion Prevention System) puede bloquear activamente las amenazas.",
+                    topic: "UT-4: Perímetro"
+                },
+                {
+                    question: "¿Qué puerto debe estar abierto para permitir tráfico HTTPS?",
+                    options: [
+                        "80",
+                        "443",
+                        "8080",
+                        "8443"
+                    ],
+                    correct: 1,
+                    explanation: "HTTPS utiliza el puerto 443 por defecto para comunicaciones web seguras con cifrado SSL/TLS.",
+                    topic: "UT-4: Perímetro"
+                },
+                {
+                    question: "¿Qué técnica usa pfSense para balancear la carga entre múltiples enlaces WAN?",
+                    options: [
+                        "NAT",
+                        "Multi-WAN",
+                        "VLAN",
+                        "Bridge"
+                    ],
+                    correct: 1,
+                    explanation: "pfSense utiliza Multi-WAN para distribuir el tráfico entre múltiples conexiones a Internet, proporcionando balanceo de carga y failover.",
+                    topic: "UT-4: Perímetro"
+                }
+            ],
+
+            ut5: [
+                {
+                    question: "¿Cuál es la función principal de un proxy HTTP?",
+                    options: [
+                        "Cifrar todo el tráfico de red",
+                        "Actuar como intermediario entre clientes y servidores web",
+                        "Bloquear todos los virus",
+                        "Reemplazar el firewall"
+                    ],
+                    correct: 1,
+                    explanation: "Un proxy HTTP actúa como intermediario entre los clientes y los servidores web, pudiendo cachear contenido, filtrar y registrar el tráfico.",
+                    topic: "UT-5: Proxies"
+                },
+                {
+                    question: "¿Qué puerto utiliza Squid por defecto?",
+                    options: [
+                        "8080",
+                        "3128",
+                        "8888",
+                        "1080"
+                    ],
+                    correct: 1,
+                    explanation: "Squid utiliza el puerto 3128 por defecto para las conexiones de proxy HTTP.",
+                    topic: "UT-5: Proxies"
+                },
+                {
+                    question: "¿Qué tipo de proxy no requiere configuración en el cliente?",
+                    options: [
+                        "Proxy explícito",
+                        "Proxy SOCKS",
+                        "Proxy transparente",
+                        "Proxy inverso"
+                    ],
+                    correct: 2,
+                    explanation: "El proxy transparente intercepta el tráfico sin necesidad de configuración en el cliente, funcionando de forma invisible.",
+                    topic: "UT-5: Proxies"
+                },
+                {
+                    question: "¿Qué es un proxy inverso (reverse proxy)?",
+                    options: [
+                        "Un proxy que bloquea todo el tráfico",
+                        "Un proxy que se sitúa delante de los servidores web",
+                        "Un proxy que invierte las direcciones IP",
+                        "Un proxy que funciona al revés"
+                    ],
+                    correct: 1,
+                    explanation: "Un proxy inverso se sitúa delante de uno o más servidores web, distribuyendo las peticiones y ocultando la infraestructura interna.",
+                    topic: "UT-5: Proxies"
+                },
+                {
+                    question: "¿Qué ventaja ofrece la caché de un proxy?",
+                    options: [
+                        "Mayor seguridad",
+                        "Reducción del ancho de banda y mejora de velocidad",
+                        "Cifrado de datos",
+                        "Bloqueo de malware"
+                    ],
+                    correct: 1,
+                    explanation: "La caché del proxy almacena contenido frecuentemente solicitado, reduciendo el uso de ancho de banda y mejorando la velocidad de acceso.",
+                    topic: "UT-5: Proxies"
+                }
+            ],
+
+            ut6: [
+                {
+                    question: "¿Qué es la alta disponibilidad (HA)?",
+                    options: [
+                        "Tener servidores muy rápidos",
+                        "Capacidad de un sistema para operar continuamente sin fallos",
+                        "Tener muchos usuarios conectados",
+                        "Usar la última tecnología"
+                    ],
+                    correct: 1,
+                    explanation: "La alta disponibilidad es la capacidad de un sistema para mantenerse operativo durante un alto porcentaje del tiempo, minimizando las interrupciones.",
+                    topic: "UT-6: Disponibilidad"
+                },
+                {
+                    question: "¿Qué significa un SLA del 99.9%?",
+                    options: [
+                        "Tiempo de inactividad máximo de 8.76 horas al año",
+                        "Tiempo de inactividad máximo de 1 hora al año",
+                        "Tiempo de inactividad máximo de 24 horas al año",
+                        "Tiempo de inactividad máximo de 1 minuto al año"
+                    ],
+                    correct: 0,
+                    explanation: "Un SLA del 99.9% (tres nueves) permite un tiempo de inactividad máximo de aproximadamente 8.76 horas al año.",
+                    topic: "UT-6: Disponibilidad"
+                },
+                {
+                    question: "¿Qué es un clúster activo-pasivo?",
+                    options: [
+                        "Todos los nodos procesan tráfico simultáneamente",
+                        "Un nodo activo procesa mientras otros esperan en standby",
+                        "Los nodos se activan por la noche",
+                        "Los nodos trabajan en diferentes ubicaciones"
+                    ],
+                    correct: 1,
+                    explanation: "En un clúster activo-pasivo, un nodo maneja todo el tráfico mientras los otros permanecen en espera, listos para tomar el control si falla el activo.",
+                    topic: "UT-6: Disponibilidad"
+                },
+                {
+                    question: "¿Qué es RAID 5?",
+                    options: [
+                        "Espejo completo de datos",
+                        "Striping sin redundancia",
+                        "Striping con paridad distribuida",
+                        "Backup en cinta"
+                    ],
+                    correct: 2,
+                    explanation: "RAID 5 distribuye datos y paridad entre múltiples discos, permitiendo la recuperación si falla un disco.",
+                    topic: "UT-6: Disponibilidad"
+                },
+                {
+                    question: "¿Qué es el balanceo de carga?",
+                    options: [
+                        "Dividir archivos en partes iguales",
+                        "Distribuir el tráfico entre múltiples servidores",
+                        "Reducir el peso de los servidores",
+                        "Equilibrar el consumo eléctrico"
+                    ],
+                    correct: 1,
+                    explanation: "El balanceo de carga distribuye las peticiones entrantes entre múltiples servidores para optimizar el rendimiento y evitar sobrecarga.",
+                    topic: "UT-6: Disponibilidad"
+                }
+            ],
+
+            ut7: [
+                {
+                    question: "¿Qué es el RGPD?",
+                    options: [
+                        "Un protocolo de red",
+                        "Reglamento General de Protección de Datos",
+                        "Red General de Prevención de Desastres",
+                        "Un tipo de firewall"
+                    ],
+                    correct: 1,
+                    explanation: "El RGPD es el Reglamento General de Protección de Datos de la UE que regula el tratamiento de datos personales.",
+                    topic: "UT-7: Normativa"
+                },
+                {
+                    question: "¿Cuál es el plazo máximo para notificar una brecha de seguridad según el RGPD?",
+                    options: [
+                        "24 horas",
+                        "48 horas",
+                        "72 horas",
+                        "7 días"
+                    ],
+                    correct: 2,
+                    explanation: "El RGPD establece un plazo máximo de 72 horas para notificar una brecha de seguridad a la autoridad de control.",
+                    topic: "UT-7: Normativa"
+                },
+                {
+                    question: "¿Qué significa ENS en el contexto de seguridad española?",
+                    options: [
+                        "Esquema Nacional de Seguridad",
+                        "Empresa Nacional de Software",
+                        "Evaluación Normal de Sistemas",
+                        "Estándar Nacional de Servidores"
+                    ],
+                    correct: 0,
+                    explanation: "El ENS (Esquema Nacional de Seguridad) establece la política de seguridad en el uso de medios electrónicos en las administraciones públicas.",
+                    topic: "UT-7: Normativa"
+                },
+                {
+                    question: "¿Qué es un DPO según el RGPD?",
+                    options: [
+                        "Data Protection Officer",
+                        "Digital Privacy Organization",
+                        "Database Performance Optimizer",
+                        "Direct Protocol Operation"
+                    ],
+                    correct: 0,
+                    explanation: "El DPO (Data Protection Officer) o Delegado de Protección de Datos es responsable de supervisar el cumplimiento del RGPD en la organización.",
+                    topic: "UT-7: Normativa"
+                },
+                {
+                    question: "¿Qué principio del RGPD limita la recogida de datos al mínimo necesario?",
+                    options: [
+                        "Transparencia",
+                        "Minimización de datos",
+                        "Exactitud",
+                        "Limitación del plazo"
+                    ],
+                    correct: 1,
+                    explanation: "El principio de minimización de datos establece que solo se deben recoger los datos personales necesarios para los fines específicos.",
+                    topic: "UT-7: Normativa"
+                }
+            ]
+        };
+
         // Variables globales
         let currentMode = null;
         let currentQuestions = [];
@@ -401,448 +714,6 @@
         let userAnswers = [];
         let answered = false;
         let topicScores = {};
-
-        // Base de preguntas por unidad temática
-        const ut1Questions = [
-            {
-                question: "¿Cuáles son los tres pilares fundamentales de la seguridad de la información (tríada CID)?",
-                options: [
-                    "Confidencialidad, Integridad, Disponibilidad",
-                    "Control, Identificación, Defensa",
-                    "Cifrado, Identidad, Datos",
-                    "Conexión, Internet, Dispositivos"
-                ],
-                correct: 0,
-                explanation: "La tríada CID representa Confidencialidad (solo usuarios autorizados acceden), Integridad (datos sin alteración) y Disponibilidad (acceso cuando se necesita).",
-                topic: "UT-1: Fundamentos"
-            },
-            {
-                question: "¿Qué tipo de seguridad protege los equipos físicos y las instalaciones?",
-                options: [
-                    "Seguridad lógica",
-                    "Seguridad física",
-                    "Seguridad perimetral",
-                    "Seguridad de red"
-                ],
-                correct: 1,
-                explanation: "La seguridad física protege el hardware, las instalaciones y el personal contra amenazas físicas como robo, incendio o acceso no autorizado.",
-                topic: "UT-1: Fundamentos"
-            },
-            {
-                question: "¿Qué algoritmo de cifrado simétrico es considerado el estándar actual?",
-                options: [
-                    "DES",
-                    "RSA",
-                    "AES",
-                    "MD5"
-                ],
-                correct: 2,
-                explanation: "AES (Advanced Encryption Standard) es el algoritmo de cifrado simétrico estándar actual, con claves de 128, 192 o 256 bits.",
-                topic: "UT-1: Fundamentos"
-            },
-            {
-                question: "¿Cuál es la principal diferencia entre cifrado simétrico y asimétrico?",
-                options: [
-                    "El simétrico es más seguro",
-                    "El asimétrico usa la misma clave para cifrar y descifrar",
-                    "El simétrico usa una clave, el asimétrico usa un par de claves",
-                    "El asimétrico es más rápido"
-                ],
-                correct: 2,
-                explanation: "El cifrado simétrico usa una sola clave compartida, mientras que el asimétrico utiliza un par de claves (pública y privada).",
-                topic: "UT-1: Fundamentos"
-            },
-            {
-                question: "¿Qué función criptográfica garantiza la integridad de los datos?",
-                options: [
-                    "Cifrado simétrico",
-                    "Firma digital",
-                    "Hash",
-                    "Certificado digital"
-                ],
-                correct: 2,
-                explanation: "Las funciones hash generan un resumen único de los datos que permite detectar cualquier modificación.",
-                topic: "UT-1: Fundamentos"
-            }
-        ];
-
-        const ut2Questions = [
-            {
-                question: "¿Qué tipo de malware se replica a sí mismo sin necesidad de un archivo huésped?",
-                options: [
-                    "Virus",
-                    "Gusano",
-                    "Troyano",
-                    "Spyware"
-                ],
-                correct: 1,
-                explanation: "Los gusanos son malware autorreplicantes que se propagan por la red sin necesitar un archivo huésped, a diferencia de los virus.",
-                topic: "UT-2: Amenazas"
-            },
-            {
-                question: "¿Cuál es la primera fase del Cyber Kill Chain?",
-                options: [
-                    "Weaponización",
-                    "Explotación",
-                    "Reconocimiento",
-                    "Instalación"
-                ],
-                correct: 2,
-                explanation: "El reconocimiento es la primera fase donde el atacante recopila información sobre el objetivo antes de planificar el ataque.",
-                topic: "UT-2: Amenazas"
-            },
-            {
-                question: "¿Qué tipo de ataque intenta hacer que un servicio no esté disponible?",
-                options: [
-                    "Phishing",
-                    "Man-in-the-middle",
-                    "DDoS",
-                    "SQL Injection"
-                ],
-                correct: 2,
-                explanation: "Los ataques DDoS (Distributed Denial of Service) buscan saturar un servicio para hacerlo inaccesible a usuarios legítimos.",
-                topic: "UT-2: Amenazas"
-            },
-            {
-                question: "¿Qué herramienta se utiliza comúnmente para análisis de tráfico de red?",
-                options: [
-                    "Nmap",
-                    "Metasploit",
-                    "Wireshark",
-                    "John the Ripper"
-                ],
-                correct: 2,
-                explanation: "Wireshark es un analizador de protocolos de red que permite capturar y examinar el tráfico en tiempo real.",
-                topic: "UT-2: Amenazas"
-            },
-            {
-                question: "¿Qué tipo de malware cifra los archivos y pide un rescate?",
-                options: [
-                    "Adware",
-                    "Ransomware",
-                    "Rootkit",
-                    "Keylogger"
-                ],
-                correct: 1,
-                explanation: "El ransomware cifra los archivos del sistema y exige un pago (rescate) para recuperar el acceso a los datos.",
-                topic: "UT-2: Amenazas"
-            }
-        ];
-
-        const ut3Questions = [
-            {
-                question: "¿Qué protocolo VPN opera en la capa 3 del modelo OSI?",
-                options: [
-                    "PPTP",
-                    "L2TP",
-                    "IPSec",
-                    "SSL/TLS"
-                ],
-                correct: 2,
-                explanation: "IPSec opera en la capa 3 (red) del modelo OSI, proporcionando seguridad a nivel de paquetes IP.",
-                topic: "UT-3: Accesos"
-            },
-            {
-                question: "¿Qué puerto utiliza SSH por defecto?",
-                options: [
-                    "21",
-                    "22",
-                    "23",
-                    "25"
-                ],
-                correct: 1,
-                explanation: "SSH (Secure Shell) utiliza el puerto 22 por defecto para conexiones seguras de administración remota.",
-                topic: "UT-3: Accesos"
-            },
-            {
-                question: "¿Qué protocolo AAA es más completo y moderno?",
-                options: [
-                    "RADIUS",
-                    "TACACS+",
-                    "Kerberos",
-                    "LDAP"
-                ],
-                correct: 1,
-                explanation: "TACACS+ separa autenticación, autorización y contabilidad, ofreciendo más granularidad que RADIUS.",
-                topic: "UT-3: Accesos"
-            },
-            {
-                question: "¿Qué es un bastion host?",
-                options: [
-                    "Un servidor de respaldo",
-                    "Un servidor expuesto que actúa como punto de entrada seguro",
-                    "Un tipo de firewall",
-                    "Un sistema de detección de intrusos"
-                ],
-                correct: 1,
-                explanation: "Un bastion host es un servidor fortificado que sirve como único punto de entrada a una red interna desde Internet.",
-                topic: "UT-3: Accesos"
-            },
-            {
-                question: "¿Qué método de autenticación es considerado más seguro?",
-                options: [
-                    "Contraseña simple",
-                    "Autenticación de dos factores",
-                    "Pregunta de seguridad",
-                    "PIN de 4 dígitos"
-                ],
-                correct: 1,
-                explanation: "La autenticación de dos factores (2FA) combina algo que sabes con algo que tienes o eres, aumentando significativamente la seguridad.",
-                topic: "UT-3: Accesos"
-            }
-        ];
-
-        const ut4Questions = [
-            {
-                question: "¿Qué tipo de backup copia todos los datos independientemente de cambios previos?",
-                options: [
-                    "Incremental",
-                    "Diferencial",
-                    "Completo",
-                    "Espejo"
-                ],
-                correct: 2,
-                explanation: "El backup completo (full) copia todos los datos seleccionados, sin importar si han cambiado o no desde el último backup.",
-                topic: "UT-4: Copias de Seguridad"
-            },
-            {
-                question: "¿Cuál es la regla 3-2-1 de backups?",
-                options: [
-                    "3 copias, 2 ubicaciones, 1 prueba mensual",
-                    "3 copias, 2 medios diferentes, 1 copia offsite",
-                    "3 días de retención, 2 verificaciones, 1 responsable",
-                    "3 servidores, 2 redes, 1 datacenter"
-                ],
-                correct: 1,
-                explanation: "La regla 3-2-1 establece: 3 copias totales de los datos, en 2 tipos de medios diferentes, con 1 copia fuera del sitio.",
-                topic: "UT-4: Copias de Seguridad"
-            },
-            {
-                question: "¿Qué es el RTO (Recovery Time Objective)?",
-                options: [
-                    "Cantidad máxima de datos que se pueden perder",
-                    "Tiempo máximo aceptable de interrupción del servicio",
-                    "Frecuencia de realización de backups",
-                    "Tiempo de retención de las copias"
-                ],
-                correct: 1,
-                explanation: "El RTO define el tiempo máximo aceptable que un sistema puede estar fuera de servicio después de un incidente.",
-                topic: "UT-4: Copias de Seguridad"
-            },
-            {
-                question: "¿Qué tipo de backup solo copia los datos modificados desde el último backup completo?",
-                options: [
-                    "Incremental",
-                    "Diferencial",
-                    "Sintético",
-                    "Progresivo"
-                ],
-                correct: 1,
-                explanation: "El backup diferencial copia todos los datos modificados desde el último backup completo, acumulando cambios.",
-                topic: "UT-4: Copias de Seguridad"
-            },
-            {
-                question: "¿Qué tecnología permite crear copias instantáneas del estado de un sistema?",
-                options: [
-                    "Clonación",
-                    "Snapshot",
-                    "Mirror",
-                    "Archive"
-                ],
-                correct: 1,
-                explanation: "Los snapshots crean una imagen instantánea del estado del sistema en un momento específico, útil para recuperación rápida.",
-                topic: "UT-4: Copias de Seguridad"
-            }
-        ];
-
-        const ut5Questions = [
-            {
-                question: "¿Qué tipo de firewall inspecciona el estado de las conexiones?",
-                options: [
-                    "Packet filtering",
-                    "Proxy",
-                    "Stateful",
-                    "Application"
-                ],
-                correct: 2,
-                explanation: "Los firewalls stateful mantienen una tabla de estado de las conexiones, permitiendo un filtrado más inteligente del tráfico.",
-                topic: "UT-5: Cortafuegos"
-            },
-            {
-                question: "¿Qué es una DMZ en seguridad de redes?",
-                options: [
-                    "Una zona de alta seguridad",
-                    "Una zona intermedia entre la red interna e Internet",
-                    "Un tipo de VPN",
-                    "Un protocolo de seguridad"
-                ],
-                correct: 1,
-                explanation: "La DMZ (Zona Desmilitarizada) es una red perimetral que añade una capa de seguridad entre Internet y la red interna.",
-                topic: "UT-5: Cortafuegos"
-            },
-            {
-                question: "¿Cuál es la diferencia principal entre IDS e IPS?",
-                options: [
-                    "IDS es más rápido",
-                    "IPS solo detecta, IDS bloquea",
-                    "IDS solo detecta, IPS detecta y bloquea",
-                    "No hay diferencia"
-                ],
-                correct: 2,
-                explanation: "IDS (Intrusion Detection System) solo detecta y alerta, mientras que IPS (Intrusion Prevention System) puede bloquear activamente las amenazas.",
-                topic: "UT-5: Cortafuegos"
-            },
-            {
-                question: "¿Qué puerto debe estar abierto para permitir tráfico HTTPS?",
-                options: [
-                    "80",
-                    "443",
-                    "8080",
-                    "8443"
-                ],
-                correct: 1,
-                explanation: "HTTPS utiliza el puerto 443 por defecto para comunicaciones web seguras con cifrado SSL/TLS.",
-                topic: "UT-5: Cortafuegos"
-            },
-            {
-                question: "¿Qué técnica usa pfSense para balancear la carga entre múltiples enlaces WAN?",
-                options: [
-                    "NAT",
-                    "Multi-WAN",
-                    "VLAN",
-                    "Bridge"
-                ],
-                correct: 1,
-                explanation: "pfSense utiliza Multi-WAN para distribuir el tráfico entre múltiples conexiones a Internet, proporcionando balanceo de carga y failover.",
-                topic: "UT-5: Cortafuegos"
-            }
-        ];
-
-        const ut6Questions = [
-            {
-                question: "¿Cuál es la función principal de un proxy HTTP?",
-                options: [
-                    "Cifrar todo el tráfico de red",
-                    "Actuar como intermediario entre clientes y servidores web",
-                    "Bloquear todos los virus",
-                    "Reemplazar el firewall"
-                ],
-                correct: 1,
-                explanation: "Un proxy HTTP actúa como intermediario entre los clientes y los servidores web, pudiendo cachear contenido, filtrar y registrar el tráfico.",
-                topic: "UT-6: Proxies"
-            },
-            {
-                question: "¿Qué puerto utiliza Squid por defecto?",
-                options: [
-                    "8080",
-                    "3128",
-                    "8888",
-                    "1080"
-                ],
-                correct: 1,
-                explanation: "Squid utiliza el puerto 3128 por defecto para las conexiones de proxy HTTP.",
-                topic: "UT-6: Proxies"
-            },
-            {
-                question: "¿Qué tipo de proxy no requiere configuración en el cliente?",
-                options: [
-                    "Proxy explícito",
-                    "Proxy SOCKS",
-                    "Proxy transparente",
-                    "Proxy inverso"
-                ],
-                correct: 2,
-                explanation: "El proxy transparente intercepta el tráfico sin necesidad de configuración en el cliente, funcionando de forma invisible.",
-                topic: "UT-6: Proxies"
-            },
-            {
-                question: "¿Qué es un proxy inverso (reverse proxy)?",
-                options: [
-                    "Un proxy que bloquea todo el tráfico",
-                    "Un proxy que se sitúa delante de los servidores web",
-                    "Un proxy que invierte las direcciones IP",
-                    "Un proxy que funciona al revés"
-                ],
-                correct: 1,
-                explanation: "Un proxy inverso se sitúa delante de uno o más servidores web, distribuyendo las peticiones y ocultando la infraestructura interna.",
-                topic: "UT-6: Proxies"
-            },
-            {
-                question: "¿Qué ventaja ofrece la caché de un proxy?",
-                options: [
-                    "Mayor seguridad",
-                    "Reducción del ancho de banda y mejora de velocidad",
-                    "Cifrado de datos",
-                    "Bloqueo de malware"
-                ],
-                correct: 1,
-                explanation: "La caché del proxy almacena contenido frecuentemente solicitado, reduciendo el uso de ancho de banda y mejorando la velocidad de acceso.",
-                topic: "UT-6: Proxies"
-            }
-        ];
-
-        const ut7Questions = [
-            {
-                question: "¿Qué es la alta disponibilidad (HA)?",
-                options: [
-                    "Tener servidores muy rápidos",
-                    "Capacidad de un sistema para operar continuamente sin fallos",
-                    "Tener muchos usuarios conectados",
-                    "Usar la última tecnología"
-                ],
-                correct: 1,
-                explanation: "La alta disponibilidad es la capacidad de un sistema para mantenerse operativo durante un alto porcentaje del tiempo, minimizando las interrupciones.",
-                topic: "UT-7: Alta Disponibilidad"
-            },
-            {
-                question: "¿Qué significa un SLA del 99.9%?",
-                options: [
-                    "Tiempo de inactividad máximo de 8.76 horas al año",
-                    "Tiempo de inactividad máximo de 1 hora al año",
-                    "Tiempo de inactividad máximo de 24 horas al año",
-                    "Tiempo de inactividad máximo de 1 minuto al año"
-                ],
-                correct: 0,
-                explanation: "Un SLA del 99.9% (tres nueves) permite un tiempo de inactividad máximo de aproximadamente 8.76 horas al año.",
-                topic: "UT-7: Alta Disponibilidad"
-            },
-            {
-                question: "¿Qué es un clúster activo-pasivo?",
-                options: [
-                    "Todos los nodos procesan tráfico simultáneamente",
-                    "Un nodo activo procesa mientras otros esperan en standby",
-                    "Los nodos se activan por la noche",
-                    "Los nodos trabajan en diferentes ubicaciones"
-                ],
-                correct: 1,
-                explanation: "En un clúster activo-pasivo, un nodo maneja todo el tráfico mientras los otros permanecen en espera, listos para tomar el control si falla el activo.",
-                topic: "UT-7: Alta Disponibilidad"
-            },
-            {
-                question: "¿Qué protocolo se usa comúnmente para detectar fallos en alta disponibilidad?",
-                options: [
-                    "HTTP",
-                    "FTP",
-                    "Heartbeat/VRRP",
-                    "SMTP"
-                ],
-                correct: 2,
-                explanation: "Protocolos como Heartbeat o VRRP (Virtual Router Redundancy Protocol) se utilizan para detectar fallos y realizar failover automático.",
-                topic: "UT-7: Alta Disponibilidad"
-            },
-            {
-                question: "¿Qué es el balanceo de carga?",
-                options: [
-                    "Dividir archivos en partes iguales",
-                    "Distribuir el tráfico entre múltiples servidores",
-                    "Reducir el peso de los servidores",
-                    "Equilibrar el consumo eléctrico"
-                ],
-                correct: 1,
-                explanation: "El balanceo de carga distribuye las peticiones entrantes entre múltiples servidores para optimizar el rendimiento y evitar sobrecarga.",
-                topic: "UT-7: Alta Disponibilidad"
-            }
-        ];
 
         // Función para mezclar arrays
         function shuffleArray(array) {
@@ -856,12 +727,10 @@
 
         // Seleccionar modo
         function selectMode(mode) {
-            // Remover selección previa
             document.querySelectorAll('.mode-card').forEach(card => {
                 card.classList.remove('selected');
             });
 
-            // Marcar modo seleccionado
             const modeCard = document.getElementById('mode' + mode.toUpperCase());
             if (modeCard) {
                 modeCard.classList.add('selected');
@@ -869,9 +738,6 @@
 
             currentMode = mode;
             document.getElementById('startBtn').disabled = false;
-
-            // Guardar selección en localStorage
-            localStorage.setItem('lastSelectedMode', mode);
         }
 
         // Iniciar quiz
@@ -886,40 +752,16 @@
             topicScores = {};
 
             // Seleccionar preguntas según el modo
-            switch(currentMode) {
-                case 'ut1':
-                    currentQuestions = shuffleArray(ut1Questions);
-                    break;
-                case 'ut2':
-                    currentQuestions = shuffleArray(ut2Questions);
-                    break;
-                case 'ut3':
-                    currentQuestions = shuffleArray(ut3Questions);
-                    break;
-                case 'ut4':
-                    currentQuestions = shuffleArray(ut4Questions);
-                    break;
-                case 'ut5':
-                    currentQuestions = shuffleArray(ut5Questions);
-                    break;
-                case 'ut6':
-                    currentQuestions = shuffleArray(ut6Questions);
-                    break;
-                case 'ut7':
-                    currentQuestions = shuffleArray(ut7Questions);
-                    break;
-                case 'mixed':
-                    const allQuestions = [
-                        ...ut1Questions,
-                        ...ut2Questions,
-                        ...ut3Questions,
-                        ...ut4Questions,
-                        ...ut5Questions,
-                        ...ut6Questions,
-                        ...ut7Questions
-                    ];
-                    currentQuestions = shuffleArray(allQuestions).slice(0, 25);
-                    break;
+            if (currentMode === 'general') {
+                // Modo general: todas las preguntas mezcladas
+                const allQuestions = [];
+                Object.values(questionsDB).forEach(unit => {
+                    allQuestions.push(...unit);
+                });
+                currentQuestions = shuffleArray(allQuestions);
+            } else {
+                // Modo específico de unidad
+                currentQuestions = shuffleArray(questionsDB[currentMode] || []);
             }
 
             // Mostrar quiz
@@ -931,9 +773,6 @@
             // Cargar primera pregunta
             loadQuestion();
             updateProgressBar();
-
-            // Guardar estado
-            saveProgress();
         }
 
         // Cargar pregunta
@@ -941,27 +780,28 @@
             answered = userAnswers[currentQuestion] !== undefined;
             const q = currentQuestions[currentQuestion];
 
-            document.getElementById('questionNumber').textContent = `Pregunta ${currentQuestion + 1} de ${currentQuestions.length}`;
-            document.getElementById('questionTopic').textContent = q.topic;
-            document.getElementById('questionText').textContent = q.question;
+            const questionHTML = `
+                <h2>Pregunta ${currentQuestion + 1} de ${currentQuestions.length}</h2>
+                <p style="color: #6c757d; font-size: 0.9em;">${q.topic}</p>
+                <p style="margin: 20px 0; font-size: 1.1em;">${q.question}</p>
+                <div id="optionsContainer">
+                    ${q.options.map((option, index) => {
+                        const isSelected = userAnswers[currentQuestion] === index;
+                        const isCorrect = index === q.correct;
+                        let className = 'option';
+                        
+                        if (answered) {
+                            if (isSelected) className += ' selected';
+                            if (isSelected && !isCorrect) className += ' incorrect';
+                            if (isCorrect) className += ' correct';
+                        }
 
-            // Cargar opciones
-            const optionsHTML = q.options.map((option, index) => {
-                const isSelected = userAnswers[currentQuestion] === index;
-                const isCorrect = index === q.correct;
-                let className = 'option';
-                
-                if (answered) {
-                    className += ' disabled';
-                    if (isSelected) className += ' selected';
-                    if (isSelected && !isCorrect) className += ' incorrect';
-                    if (isCorrect) className += ' correct';
-                }
+                        return `<div class="${className}" onclick="selectOption(${index})">${option}</div>`;
+                    }).join('')}
+                </div>
+            `;
 
-                return `<div class="${className}" onclick="selectOption(${index})" aria-label="Opción ${index + 1}">${option}</div>`;
-            }).join('');
-
-            document.getElementById('optionsContainer').innerHTML = optionsHTML;
+            document.getElementById('questionContainer').innerHTML = questionHTML;
 
             // Mostrar feedback si ya fue respondida
             if (answered) {
@@ -981,7 +821,6 @@
             answered = true;
 
             const options = document.querySelectorAll('.option');
-            options.forEach(opt => opt.classList.add('disabled'));
             options[index].classList.add('selected');
 
             const correct = currentQuestions[currentQuestion].correct;
@@ -1005,7 +844,6 @@
             }
 
             updateButtons();
-            saveProgress();
         }
 
         // Mostrar feedback
@@ -1065,7 +903,6 @@
             const progressBar = document.getElementById('progressBar');
             progressBar.style.width = progress + '%';
             progressBar.textContent = Math.round(progress) + '%';
-            progressBar.setAttribute('aria-valuenow', Math.round(progress));
         }
 
         // Mostrar resultados
@@ -1075,54 +912,20 @@
             document.getElementById('progressContainer').style.display = 'none';
 
             const percentage = Math.round((score / currentQuestions.length) * 100);
-            const scoreText = document.getElementById('scoreText');
-            const scoreProgress = document.getElementById('scoreProgress');
-            const correctCount = document.getElementById('correctCount');
-            const incorrectCount = document.getElementById('incorrectCount');
-            const totalQuestions = document.getElementById('totalQuestions');
-
-            scoreText.textContent = percentage + '%';
-            correctCount.textContent = score;
-            incorrectCount.textContent = currentQuestions.length - score;
-            totalQuestions.textContent = currentQuestions.length;
-
-            // Animación del círculo de progreso
-            setTimeout(() => {
-                const offset = 565 - (565 * percentage / 100);
-                scoreProgress.style.strokeDashoffset = offset;
-            }, 100);
+            document.getElementById('scoreText').textContent = percentage + '%';
 
             // Mostrar estadísticas por tema
             const topicStatsDiv = document.getElementById('topicStats');
-            let topicHTML = '<h3>Rendimiento por Tema</h3>';
+            let topicHTML = '<h3>Rendimiento por Tema:</h3>';
 
             for (const [topic, stats] of Object.entries(topicScores)) {
                 const topicPercentage = Math.round((stats.correct / stats.total) * 100);
                 topicHTML += `
-                    <div class="topic-stat">
-                        <span>${topic}</span>
-                        <span>${stats.correct}/${stats.total} (${topicPercentage}%)</span>
+                    <div style="margin: 10px 0;">
+                        <strong>${topic}:</strong> ${stats.correct}/${stats.total} (${topicPercentage}%)
                     </div>
                 `;
             }
-
-            topicStatsDiv.innerHTML = topicHTML;
-
-            // Mostrar detalles
-            const details = document.getElementById('resultsDetails');
-            let detailsHTML = '<h3>Resumen de Respuestas</h3>';
-
-            currentQuestions.forEach((q, index) => {
-                const isCorrect = userAnswers[index] === q.correct;
-                detailsHTML += `
-                    <div class="result-item ${isCorrect ? 'correct' : 'incorrect'}">
-                        <span>Pregunta ${index + 1}</span>
-                        <span>${isCorrect ? '✅ Correcta' : '❌ Incorrecta'}</span>
-                    </div>
-                `;
-            });
-
-            details.innerHTML = detailsHTML;
 
             // Mensaje según el resultado - CORREGIDO
             let message = '';
@@ -1136,21 +939,11 @@
                 message = '<p style="margin-top: 20px; font-size: 1.1em; color: #dc3545;">Necesitas repasar los conceptos. ¡No te rindas!</p>';
             }
 
-            details.innerHTML += message;
-
-            // Limpiar progreso guardado
-            localStorage.removeItem('quizProgress');
+            topicStatsDiv.innerHTML = topicHTML + message;
         }
 
         // Volver al menú
         function returnToMenu() {
-            // Confirmar si hay progreso sin guardar
-            if (userAnswers.length > 0 && userAnswers.length < currentQuestions.length) {
-                if (!confirm('¿Estás seguro de que quieres salir? Perderás tu progreso actual.')) {
-                    return;
-                }
-            }
-
             // Resetear todo
             currentMode = null;
             currentQuestions = [];
@@ -1174,80 +967,13 @@
 
             // Deshabilitar botón de inicio
             document.getElementById('startBtn').disabled = true;
-
-            // Limpiar progreso guardado
-            localStorage.removeItem('quizProgress');
-        }
-
-        // Repetir el mismo modo
-        function restartSameMode() {
-            document.getElementById('resultsScreen').style.display = 'none';
-            startQuiz();
-        }
-
-        // Guardar progreso en localStorage
-        function saveProgress() {
-            const progress = {
-                mode: currentMode,
-                currentQuestion: currentQuestion,
-                score: score,
-                userAnswers: userAnswers,
-                questions: currentQuestions,
-                topicScores: topicScores
-            };
-            localStorage.setItem('quizProgress', JSON.stringify(progress));
-            
-            // Mostrar indicador de guardado
-            const indicator = document.getElementById('saveIndicator');
-            indicator.style.display = 'block';
-            setTimeout(() => {
-                indicator.style.display = 'none';
-            }, 2000);
-        }
-
-        // Cargar progreso guardado
-        function loadProgress() {
-            const saved = localStorage.getItem('quizProgress');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                if (confirm('Hay un test en progreso. ¿Deseas continuarlo?')) {
-                    currentMode = progress.mode;
-                    currentQuestion = progress.currentQuestion;
-                    score = progress.score;
-                    userAnswers = progress.userAnswers;
-                    currentQuestions = progress.questions;
-                    topicScores = progress.topicScores || {};
-                    
-                    // Mostrar el quiz en el estado guardado
-                    document.getElementById('modeSelection').style.display = 'none';
-                    document.getElementById('quizContainer').classList.add('active');
-                    document.getElementById('progressContainer').style.display = 'block';
-                    document.getElementById('backToMenu').classList.remove('hidden');
-                    
-                    loadQuestion();
-                    updateProgressBar();
-                } else {
-                    localStorage.removeItem('quizProgress');
-                }
-            }
         }
 
         // Prevenir navegación accidental
         window.addEventListener('beforeunload', function (e) {
-            if (userAnswers.length > 0 && userAnswers.length < currentQuestions.length && document.getElementById('quizContainer').classList.contains('active')) {
+            if (userAnswers.length > 0 && document.getElementById('quizContainer').classList.contains('active')) {
                 e.preventDefault();
-                e.returnValue = 'Tienes un test en progreso. ¿Estás seguro de que quieres salir?';
-            }
-        });
-
-        // Cargar progreso al iniciar
-        window.addEventListener('DOMContentLoaded', function() {
-            loadProgress();
-            
-            // Recuperar último modo seleccionado
-            const lastMode = localStorage.getItem('lastSelectedMode');
-            if (lastMode && !currentMode) {
-                selectMode(lastMode);
+                e.returnValue = '';
             }
         });
     </script>
