@@ -4,28 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Sistemas Operativos - Sistema de Evaluación Completo</title>
+    <title>Test de Seguridad y Alta Disponibilidad - Sistema de Evaluación Completo</title>
     <style>
-* {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* Deshabilita el resaltado táctil para una experiencia más nativa */
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            /* Asegura que el gradiente ocupe toda la altura */
             min-height: 100vh;
             padding: 0;
-            /* Previene el desbordamiento horizontal */
             overflow-x: hidden;
-            font-size: 16px; /* Tamaño base para mejor accesibilidad */
+            font-size: 16px;
         }
 
-        /* Contenedor principal - Diseñado para ser Full-Screen en móviles */
         .container {
             width: 100%;
             max-width: 100%;
@@ -37,13 +33,9 @@
             overflow-y: auto;
             overflow-x: hidden;
             position: relative;
-            /* Mejora el scroll en iOS */
             -webkit-overflow-scrolling: touch;
         }
 
-        /* --- MEDIA QUERIES PARA PANTALLAS MÁS GRANDES --- */
-
-        /* Para tablets y escritorio (>= 768px) */
         @media (min-width: 768px) {
             body {
                 display: flex;
@@ -51,7 +43,6 @@
                 align-items: center;
                 padding: 0;
             }
-
             .container {
                 max-width: 900px;
                 height: 100vh;
@@ -60,65 +51,27 @@
             }
         }
 
-        /* Para pantallas muy grandes (>= 1024px), añadir bordes redondeados */
         @media (min-width: 1024px) {
-            body {
-                padding: 20px;
-            }
-
+            body { padding: 20px; }
             .container {
                 height: calc(100vh - 40px);
                 border-radius: 20px;
             }
         }
 
-        /* --- ESTILOS DE CABECERA Y PROGRESO --- */
-
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px 15px; /* Padding ajustado para móvil */
+            padding: 20px 15px;
             text-align: center;
-            position: sticky; /* Sticky para que el encabezado se quede arriba */
+            position: sticky;
             top: 0;
             z-index: 10;
         }
 
-        @media (min-width: 768px) {
-            .header {
-                padding: 30px;
-                position: relative;
-            }
-        }
-
-        .header h1 {
-            font-size: 1.5em; /* Tamaño legible en móvil */
-            margin-bottom: 8px;
-        }
-
-        @media (min-width: 480px) {
-            .header h1 {
-                font-size: 2em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .header h1 {
-                font-size: 2.5em;
-                margin-bottom: 10px;
-            }
-        }
-
-        .header p {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        @media (min-width: 768px) {
-            .header p {
-                font-size: 1.1em;
-            }
-        }
+        .header h1 { font-size: 1.5em; margin-bottom: 8px; }
+        @media (min-width: 480px) { .header h1 { font-size: 2em; } }
+        @media (min-width: 768px) { .header h1 { font-size: 2.5em; } }
 
         .progress-container {
             background: rgba(255,255,255,0.2);
@@ -126,13 +79,6 @@
             border-radius: 15px;
             margin-top: 12px;
             overflow: hidden;
-        }
-
-        @media (min-width: 768px) {
-            .progress-container {
-                height: 30px;
-                margin-top: 20px;
-            }
         }
 
         .progress-bar {
@@ -148,78 +94,17 @@
             font-size: 0.8em;
         }
 
-        @media (min-width: 768px) {
-            .progress-bar {
-                font-size: 1em;
-            }
-        }
-
-        /* --- ESTILOS DE SELECCIÓN DE MODO --- */
         .mode-selection {
             padding: 20px 15px;
             text-align: center;
-            /* Ocupar el espacio restante en pantallas pequeñas */
             min-height: calc(100vh - 120px);
-        }
-
-        @media (min-width: 768px) {
-            .mode-selection {
-                padding: 40px;
-                min-height: auto;
-            }
-        }
-
-        .mode-selection h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.4em;
-        }
-
-        @media (min-width: 480px) {
-            .mode-selection h2 {
-                font-size: 1.6em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .mode-selection h2 {
-                margin-bottom: 30px;
-                font-size: 2em;
-            }
         }
 
         .modes-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
-        }
-
-        /* Ajuste para que el examen general ocupe 1 columna en móvil */
-        #modeGeneral {
-            grid-column: span 1 !important;
-        }
-
-        @media (min-width: 480px) {
-            .modes-grid {
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                gap: 15px;
-            }
-            /* Ajuste para que el examen general ocupe el ancho completo a partir de 480px */
-            #modeGeneral {
-                grid-column: span 3 !important; 
-            }
-        }
-
-        @media (min-width: 768px) {
-            .modes-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-                margin-bottom: 30px;
-            }
-            #modeGeneral {
-                grid-column: span 3 !important;
-            }
         }
 
         .mode-card {
@@ -232,2783 +117,282 @@
             touch-action: manipulation;
         }
 
-        @media (min-width: 480px) {
-            .mode-card {
-                padding: 20px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .mode-card {
-                border-radius: 15px;
-                padding: 30px;
-            }
-
-            .mode-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                border-color: #667eea;
-            }
-        }
-
-        .mode-card:active {
-            transform: scale(0.98);
-        }
-
+        .mode-card:hover { border-color: #667eea; transform: translateY(-2px); }
         .mode-card.selected {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-color: #764ba2;
         }
 
-        .mode-icon {
-            font-size: 2em;
-            margin-bottom: 8px;
-        }
+        .mode-icon { font-size: 2em; margin-bottom: 8px; }
+        .mode-title { font-size: 1.1em; font-weight: bold; }
+        .mode-description { font-size: 0.8em; opacity: 0.9; }
 
-        @media (min-width: 480px) {
-            .mode-icon {
-                font-size: 2.5em;
-                margin-bottom: 12px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .mode-icon {
-                font-size: 3em;
-                margin-bottom: 15px;
-            }
-        }
-
-        .mode-title {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-
-        @media (min-width: 480px) {
-            .mode-title {
-                font-size: 1.3em;
-                margin-bottom: 8px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .mode-title {
-                font-size: 1.5em;
-                margin-bottom: 10px;
-            }
-        }
-
-        .mode-description {
-            font-size: 0.8em;
-            line-height: 1.3;
-            opacity: 0.9;
-        }
-
-        @media (min-width: 480px) {
-            .mode-description {
-                font-size: 0.85em;
-                line-height: 1.4;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .mode-description {
-                font-size: 0.9em;
-            }
-        }
-
-        .mode-stats {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            font-size: 0.75em;
-        }
-
-        @media (min-width: 480px) {
-            .mode-stats {
-                margin-top: 12px;
-                padding-top: 12px;
-                font-size: 0.8em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .mode-stats {
-                margin-top: 15px;
-                padding-top: 15px;
-                font-size: 0.9em;
-            }
-        }
-
-        .mode-card.selected .mode-stats {
-            border-top-color: rgba(255,255,255,0.3);
-        }
-
-        /* Contenedor del quiz */
-        .quiz-container {
-            padding: 20px 15px;
-            display: none;
-            /* Ocupar el espacio restante */
-            min-height: calc(100vh - 120px);
-        }
-
-        @media (min-width: 768px) {
-            .quiz-container {
-                padding: 40px;
-                min-height: auto;
-            }
-        }
-
-        .quiz-container.active {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
+        .quiz-container { padding: 20px 15px; display: none; }
+        .quiz-container.active { display: block; animation: slideIn 0.5s ease; }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .question {
-            margin-bottom: 15px;
-        }
-
-        @media (min-width: 768px) {
-            .question {
-                margin-bottom: 30px;
-            }
-        }
-
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        @media (min-width: 768px) {
-            .question-header {
-                margin-bottom: 15px;
-                gap: 10px;
-            }
-        }
-
-        .question-number {
-            background: #667eea;
-            color: white;
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.8em;
-        }
-
-        @media (min-width: 480px) {
-            .question-number {
-                padding: 5px 12px;
-                font-size: 0.85em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .question-number {
-                padding: 5px 15px;
-                font-size: 1em;
-            }
-        }
-
-        .question-topic {
-            background: #28a745;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75em;
-        }
-
-        @media (min-width: 480px) {
-            .question-topic {
-                padding: 5px 12px;
-                font-size: 0.8em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .question-topic {
-                padding: 5px 15px;
-                font-size: 0.9em;
-            }
-        }
-
-        .question h2 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1em; /* Ajuste para móvil */
-            line-height: 1.4;
-        }
-
-        @media (min-width: 480px) {
-            .question h2 {
-                font-size: 1.1em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .question h2 {
-                margin-bottom: 20px;
-                font-size: 1.3em;
-                line-height: 1.5;
-            }
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        @media (min-width: 768px) {
-            .options {
-                gap: 15px;
-            }
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .option {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
             border-radius: 10px;
-            padding: 12px; /* Ajuste para móvil */
+            padding: 15px;
+            margin-bottom: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            min-height: 50px;
             touch-action: manipulation;
-            font-size: 0.9em; /* Ajuste para móvil */
-            min-height: 50px; /* Tamaño mínimo táctil */
         }
 
-        @media (min-width: 480px) {
-            .option {
-                padding: 12px 15px;
-                font-size: 0.95em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .option {
-                padding: 15px 20px;
-                font-size: 1em;
-                min-height: auto;
-            }
-
-            .option:hover:not(.correct):not(.incorrect):not(.disabled) {
-                background: #e9ecef;
-                transform: translateX(5px);
-            }
-        }
-
-        .option:active {
-            transform: scale(0.98);
-        }
-
-        .option.selected {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .option.correct {
-            background: #28a745;
-            color: white;
-            border-color: #28a745;
-            animation: correctPulse 0.5s ease;
-        }
-
-        .option.incorrect {
-            background: #dc3545;
-            color: white;
-            border-color: #dc3545;
-            animation: shake 0.5s ease;
-        }
-
-        .option.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        @keyframes correctPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-
-        .option-letter {
-            background: white;
-            color: #667eea;
-            width: 28px; /* Tamaño un poco más grande para el tacto en móvil */
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 0.9em;
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 480px) {
-            .option-letter {
-                width: 28px;
-                height: 28px;
-                margin-right: 12px;
-                font-size: 0.9em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .option-letter {
-                width: 30px;
-                height: 30px;
-                margin-right: 15px;
-                font-size: 1em;
-            }
-        }
-
-        .option.selected .option-letter,
-        .option.correct .option-letter,
-        .option.incorrect .option-letter {
-            background: rgba(255,255,255,0.3);
-            color: white;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            gap: 10px;
-        }
-
-        @media (min-width: 768px) {
-            .buttons {
-                margin-top: 30px;
-                gap: 15px;
-            }
-        }
-
+        .option.selected { background: #667eea; color: white; }
+        .option.correct { background: #28a745; color: white; }
+        .option.incorrect { background: #dc3545; color: white; }
+        .option.disabled { cursor: not-allowed; opacity: 0.8; }
+        
         .btn {
-            padding: 12px 15px; /* Ajuste para móvil */
+            padding: 12px 25px;
             border: none;
             border-radius: 25px;
-            font-size: 0.9em; /* Ajuste para móvil */
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
+            width: 100%;
+            min-height: 48px;
             touch-action: manipulation;
-            flex: 1;
-            min-height: 48px; /* Tamaño mínimo táctil */
         }
 
-        @media (min-width: 480px) {
-            .btn {
-                padding: 11px 25px;
-                font-size: 0.9em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .btn {
-                padding: 12px 30px;
-                font-size: 1em;
-                flex: initial;
-                min-width: 120px;
-                min-height: auto;
-            }
-        }
-
-        .btn:active {
-            transform: scale(0.95);
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        @media (min-width: 768px) {
-            .btn-primary:hover:not(:disabled) {
-                background: #5a67d8;
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            }
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        @media (min-width: 768px) {
-            .btn-secondary:hover:not(:disabled) {
-                background: #5a6268;
-            }
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .feedback {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
+            padding: 15px;
             border-radius: 10px;
-            padding: 12px;
-            margin-top: 15px;
+            margin: 15px 0;
             display: none;
-            font-size: 0.85em;
         }
+        .feedback.show { display: block; }
+        .feedback.correct { background: #d4edda; border: 1px solid #28a745; }
+        .feedback.incorrect { background: #f8d7da; border: 1px solid #dc3545; }
 
-        @media (min-width: 480px) {
-            .feedback {
-                padding: 13px;
-                font-size: 0.9em;
-            }
+        .results-screen { padding: 20px; display: none; text-align: center; }
+        .back-to-menu {
+            position: fixed; top: 10px; left: 10px;
+            background: white; border-radius: 50%;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+        .hidden { display: none; }
 
-        @media (min-width: 768px) {
-            .feedback {
-                padding: 15px;
-                margin-top: 20px;
-                font-size: 1em;
-            }
-        }
-
-        .feedback.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        .feedback.correct {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .feedback.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-        }
-
-        /* Pantalla de resultados */
-        .results-screen {
-            padding: 20px 15px;
-            display: none;
-            text-align: center;
-            /* Ocupar el espacio restante */
-            min-height: calc(100vh - 120px);
-        }
-
-        @media (min-width: 768px) {
-            .results-screen {
-                padding: 40px;
-                min-height: auto;
-            }
-        }
-        
-        .results-screen h2 {
-            font-size: 1.8em;
+        /* Estilos adicionales para resultados */
+        .results-circle {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
         }
 
         .score-circle {
-            width: 120px;
-            height: 120px;
-            margin: 15px auto;
-            position: relative;
-        }
-
-        @media (min-width: 480px) {
-            .score-circle {
-                width: 150px;
-                height: 150px;
-                margin: 20px auto;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .score-circle {
-                width: 200px;
-                height: 200px;
-                margin: 30px auto;
-            }
-        }
-
-        .score-circle svg {
-            transform: rotate(-90deg);
-        }
-
-        .score-circle .background {
             fill: none;
             stroke: #e9ecef;
-            stroke-width: 6;
+            stroke-width: 10;
         }
 
-        @media (min-width: 480px) {
-            .score-circle .background {
-                stroke-width: 8;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .score-circle .background {
-                stroke-width: 10;
-            }
-        }
-
-        .score-circle .progress {
+        .score-progress {
             fill: none;
             stroke: #667eea;
-            stroke-width: 6;
+            stroke-width: 10;
             stroke-linecap: round;
-            transition: stroke-dashoffset 1s ease;
-        }
-
-        @media (min-width: 480px) {
-            .score-circle .progress {
-                stroke-width: 8;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .score-circle .progress {
-                stroke-width: 10;
-            }
+            stroke-dasharray: 565;
+            stroke-dashoffset: 565;
+            transition: stroke-dashoffset 2s ease;
+            transform: rotate(-90deg);
+            transform-origin: center;
         }
 
         .score-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.8em;
+            font-size: 3em;
             font-weight: bold;
-            color: #667eea;
+            fill: #667eea;
         }
 
-        @media (min-width: 480px) {
-            .score-text {
-                font-size: 2.2em;
-            }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
         }
 
-        @media (min-width: 768px) {
-            .score-text {
-                font-size: 3em;
-            }
-        }
-
-        .results-details {
+        .stat-card {
             background: #f8f9fa;
-            border-radius: 12px;
-            padding: 12px;
-            margin: 15px 0;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        @media (min-width: 480px) {
-            .results-details {
-                padding: 15px;
-                max-height: 300px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .results-details {
-                border-radius: 15px;
-                padding: 20px;
-                margin: 30px 0;
-                max-height: 400px;
-            }
-        }
-
-        .results-details h3 {
-            color: #333;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-        }
-
-        @media (min-width: 768px) {
-            .results-details h3 {
-                margin-bottom: 15px;
-                font-size: 1.3em;
-            }
-        }
-
-        .result-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px;
-            margin: 4px 0;
-            background: white;
-            border-radius: 8px;
-            font-size: 0.85em;
-        }
-
-        @media (min-width: 480px) {
-            .result-item {
-                padding: 9px;
-                font-size: 0.9em;
-        }
-
-        @media (min-width: 768px) {
-            .result-item {
-                padding: 10px;
-                margin: 5px 0;
-                border-radius: 10px;
-                font-size: 1em;
-            }
-        }
-
-        .result-item.correct {
-            border-left: 4px solid #28a745;
-        }
-
-        .result-item.incorrect {
-            border-left: 4px solid #dc3545;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        @media (min-width: 768px) {
-            .stats {
-                margin: 20px 0;
-                gap: 0;
-            }
-        }
-
-        .stat {
-            text-align: center;
-            flex: 1 1 30%;
-            min-width: 70px;
+            padding: 15px;
+            border-radius: 10px;
         }
 
         .stat-value {
-            font-size: 1.3em;
+            font-size: 2em;
             font-weight: bold;
             color: #667eea;
         }
 
-        @media (min-width: 480px) {
-            .stat-value {
-                font-size: 1.6em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .stat-value {
-                font-size: 2em;
-            }
-        }
-
         .stat-label {
-            color: #666;
-            margin-top: 3px;
-            font-size: 0.8em; /* Ajuste para móvil */
-        }
-
-        @media (min-width: 480px) {
-            .stat-label {
-                font-size: 0.85em;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .stat-label {
-                margin-top: 5px;
-                font-size: 1em;
-            }
-        }
-
-        .topic-stats {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 12px;
-            margin: 15px 0;
-        }
-
-        @media (min-width: 480px) {
-            .topic-stats {
-                padding: 15px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .topic-stats {
-                border-radius: 15px;
-                padding: 20px;
-                margin: 20px 0;
-            }
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
         }
 
         .topic-stat {
             display: flex;
             justify-content: space-between;
-            padding: 8px;
-            margin: 4px 0;
-            background: white;
+            padding: 10px;
+            background: #f8f9fa;
+            margin: 5px 0;
             border-radius: 8px;
-            font-size: 0.85em;
         }
 
-        @media (min-width: 480px) {
-            .topic-stat {
-                padding: 9px;
-                font-size: 0.9em;
-            }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
         }
 
-        @media (min-width: 768px) {
-            .topic-stat {
-                padding: 10px;
-                margin: 5px 0;
-                border-radius: 10px;
-                font-size: 1em;
-            }
-        }
+        .result-item.correct { background: #d4edda; }
+        .result-item.incorrect { background: #f8d7da; }
 
-        /* Botón fijo para volver al menú */
-        .back-to-menu {
+        /* Indicador de guardado automático */
+        .save-indicator {
             position: fixed;
-            top: 10px;
-            left: 10px;
-            background: rgba(255,255,255,0.95);
-            border-radius: 50%;
-            width: 40px; /* Tamaño optimizado para el tacto en móvil */
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 100;
-            touch-action: manipulation;
-        }
-
-        @media (min-width: 480px) {
-            .back-to-menu {
-                width: 40px;
-                height: 40px;
-                top: 15px;
-                left: 15px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .back-to-menu {
-                width: 50px;
-                height: 50px;
-                top: 20px;
-                left: 20px;
-            }
-
-            .back-to-menu:hover {
-                transform: scale(1.1);
-                background: white;
-            }
-        }
-
-        .back-to-menu:active {
-            transform: scale(0.95);
-        }
-
-        .back-to-menu.hidden {
-            display: none;
-        }
-
-        /* Control buttons optimizados para móviles */
-        .control-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        @media (min-width: 480px) {
-            .control-buttons {
-                flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .control-buttons {
-                gap: 15px;
-                margin-top: 30px;
-            }
-        }
-
-        .control-btn {
-            padding: 12px 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
             color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            touch-action: manipulation;
-            width: 100%;
-            min-height: 48px; /* Tamaño mínimo táctil */
+            padding: 10px 15px;
+            border-radius: 25px;
+            display: none;
+            animation: fadeInOut 2s ease;
         }
 
-        @media (min-width: 480px) {
-            .control-btn {
-                width: auto;
-                min-width: 130px;
-                flex: 1;
-                max-width: 200px;
-            }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
         }
-
-        @media (min-width: 768px) {
-            .control-btn {
-                padding: 15px 40px;
-                font-size: 1.1em;
-                min-width: 160px;
-                max-width: none;
-            }
-
-            .control-btn:hover:not(:disabled) {
-                transform: translateY(-3px);
-                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            }
-        }
-
-        .control-btn:active {
-            transform: scale(0.95);
-        }
-
-        .control-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Scrollbar personalizado para móviles */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Ajustes adicionales para pantallas muy pequeñas */
-        @media (max-width: 360px) {
-            .header h1 {
-                font-size: 1.3em;
-            }
-
-            .header p {
-                font-size: 0.85em;
-            }
-
-            .mode-title {
-                font-size: 1em;
-            }
-
-            .mode-description {
-                font-size: 0.75em;
-            }
-
-            .question h2 {
-                font-size: 0.95em;
-            }
-
-            .option {
-                font-size: 0.85em;
-                padding: 8px 10px;
-                min-height: 44px;
-            }
-
-            .btn {
-                font-size: 0.8em;
-                padding: 8px 15px;
-                min-height: 44px;
-            }
-
-            .back-to-menu {
-                width: 36px;
-                height: 36px;
-            }
-        }
-
-        /* Prevenir zoom en inputs en iOS */
-        input, select, textarea {
-            font-size: 16px;
-        }    
-        </style>
-
+    </style>
 </head>
 
 <body>
-    <div class="back-to-menu hidden" id="backToMenu" onclick="returnToMenu()">
-        <span style="font-size: 1.5em;">⬅️</span>
+    <div class="back-to-menu hidden" id="backToMenu" onclick="returnToMenu()" aria-label="Volver al menú">⬅️</div>
+    <div class="save-indicator" id="saveIndicator">✓ Progreso guardado</div>
 
-    </div>
     <div class="container">
         <div class="header">
-            <h1>Test de Seguridad y Alta Disponibilidad</h1>
+            <h1>Seguridad y Alta Disponibilidad</h1>
             <p>Sistema de Evaluación Completo</p>
             <div class="progress-container" style="display: none;" id="progressContainer">
-                <div class="progress-bar" id="progressBar">0%</div>
+                <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
             </div>
         </div>
 
-        <!-- Pantalla de selección de modo -->
         <div class="mode-selection" id="modeSelection">
             <h2>Selecciona el Modo de Práctica</h2>
             <div class="modes-grid">
-                <div class="mode-card" onclick="selectMode('ut1')" id="modeUT1">
+                <div class="mode-card" onclick="selectMode('ut1')" id="modeUT1" role="button" aria-label="Seleccionar UT-1 Fundamentos">
                     <div class="mode-icon">🛡️</div>
                     <div class="mode-title">UT-1: Fundamentos</div>
                     <div class="mode-description">Seguridad física, lógica, tríada CID y criptografía básica.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut2')" id="modeUT2">
+                <div class="mode-card" onclick="selectMode('ut2')" id="modeUT2" role="button" aria-label="Seleccionar UT-2 Amenazas">
                     <div class="mode-icon">🕵️</div>
                     <div class="mode-title">UT-2: Amenazas</div>
-                    <div class="mode-description">Malware, Cyber Kill Chain, Nmap y análisis de red.</div>
+                    <div class="mode-description">Malware, Cyber Kill Chain y análisis de red.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut3')" id="modeUT3">
+                <div class="mode-card" onclick="selectMode('ut3')" id="modeUT3" role="button" aria-label="Seleccionar UT-3 Accesos">
                     <div class="mode-icon">🔑</div>
                     <div class="mode-title">UT-3: Accesos</div>
-                    <div class="mode-description">VPN, SSH, RADIUS y bastiones de seguridad.</div>
+                    <div class="mode-description">VPN, SSH, RADIUS y bastiones.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut4')" id="modeUT4">
-                    <div class="mode-icon">🧱</div>
-                    <div class="mode-title">UT-4: Perímetro</div>
-                    <div class="mode-description">Firewalls, DMZ, reglas ACL y filtrado de paquetes.</div>
+                <div class="mode-card" onclick="selectMode('ut4')" id="modeUT4" role="button" aria-label="Seleccionar UT-4 Copias de Seguridad">
+                    <div class="mode-icon">💾</div>
+                    <div class="mode-title">UT-4: Copias de Seguridad</div>
+                    <div class="mode-description">Backup, restauración y continuidad del negocio.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut5')" id="modeUT5">
+                <div class="mode-card" onclick="selectMode('ut5')" id="modeUT5" role="button" aria-label="Seleccionar UT-5 Cortafuegos">
+                    <div class="mode-icon">🔥</div>
+                    <div class="mode-title">UT-5: Cortafuegos</div>
+                    <div class="mode-description">Firewalls, DMZ, IDS/IPS y pfSense.</div>
+                </div>
+                <div class="mode-card" onclick="selectMode('ut6')" id="modeUT6" role="button" aria-label="Seleccionar UT-6 Proxies">
                     <div class="mode-icon">🔄</div>
-                    <div class="mode-title">UT-5: Proxies</div>
-                    <div class="mode-description">Servidores Proxy, autenticación LDAP y Single Sign-On.</div>
+                    <div class="mode-title">UT-6: Proxies</div>
+                    <div class="mode-description">Proxy HTTP/HTTPS, Squid, caché y filtrado web.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut6')" id="modeUT6">
-                    <div class="mode-icon">🔋</div>
-                    <div class="mode-title">UT-6: Disponibilidad</div>
-                    <div class="mode-description">Alta disponibilidad (HA), clusters, RAID y réplicas.</div>
+                <div class="mode-card" onclick="selectMode('ut7')" id="modeUT7" role="button" aria-label="Seleccionar UT-7 Alta Disponibilidad">
+                    <div class="mode-icon">⚡</div>
+                    <div class="mode-title">UT-7: Alta Disponibilidad</div>
+                    <div class="mode-description">Clustering, balanceo de carga, failover y redundancia.</div>
                 </div>
-                <div class="mode-card" onclick="selectMode('ut7')" id="modeUT7">
-                    <div class="mode-icon">⚖️</div>
-                    <div class="mode-title">UT-7: Normativa</div>
-                    <div class="mode-description">RGPD, LOPDGDD, ENS e ISO 27001.</div>
-                </div>
-                <div class="mode-card" onclick="selectMode('general')" id="modeGeneral" style="grid-column: span 3;">
-                    <div class="mode-icon">🎯</div>
-                    <div class="mode-title">Examen General de Seguridad</div>
-                    <div class="mode-description">Simulacro completo con las 140 preguntas aleatorias.</div>
+                <div class="mode-card" onclick="selectMode('mixed')" id="modeMixed" role="button" aria-label="Seleccionar modo mixto">
+                    <div class="mode-icon">🎲</div>
+                    <div class="mode-title">Modo Mixto</div>
+                    <div class="mode-description">Preguntas aleatorias de todas las unidades.</div>
                 </div>
             </div>
+            <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled aria-label="Iniciar test">Iniciar Test</button>
         </div>
-        <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled>Comenzar Test</button>
-    </div>
-    <!-- Contenedor del quiz -->
-    <div class="quiz-container" id="quizContainer">
-        <div class="question" id="questionContainer">
-            <!-- Las preguntas se cargarán aquí dinámicamente -->
-        </div>
-        <div class="feedback" id="feedback"></div>
-        <div class="buttons">
-            <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">Anterior</button>
-            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Siguiente</button>
-        </div>
-    </div>
 
-    <!-- Pantalla de resultados -->
-    <div class="results-screen" id="resultsScreen">
-        <h2>¡Test Completado!</h2>
-        <div class="score-circle">
-            <svg width="200" height="200">
-                <circle class="background" cx="100" cy="100" r="90"></circle>
-                <circle class="progress" id="scoreProgress" cx="100" cy="100" r="90" stroke-dasharray="565"
-                    stroke-dashoffset="565"></circle>
+        <div class="quiz-container" id="quizContainer">
+            <div class="question-header">
+                <h2 id="questionNumber">Pregunta 1</h2>
+                <span id="questionTopic" style="color: #6c757d; font-size: 0.9em;"></span>
+            </div>
+            <p id="questionText" style="margin: 20px 0; font-size: 1.1em;"></p>
+            <div id="optionsContainer"></div>
+            <div class="feedback" id="feedback"></div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" id="prevBtn" onclick="previousQuestion()" style="width: 48%;" aria-label="Pregunta anterior">Anterior</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="width: 48%;" aria-label="Siguiente pregunta">Siguiente</button>
+            </div>
+        </div>
+
+        <div class="results-screen" id="resultsScreen">
+            <h2>Resultados del Test</h2>
+            <svg class="results-circle">
+                <circle cx="100" cy="100" r="90" class="score-circle"></circle>
+                <circle cx="100" cy="100" r="90" class="score-progress" id="scoreProgress"></circle>
+                <text x="100" y="110" text-anchor="middle" class="score-text" id="scoreText">0%</text>
             </svg>
-            <div class="score-text" id="scoreText">0%</div>
-        </div>
-
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-value" id="correctCount">0</div>
-                <div class="stat-label">Correctas</div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">Correctas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="incorrectCount">0</div>
+                    <div class="stat-label">Incorrectas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalQuestions">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-value" id="incorrectCount">0</div>
-                <div class="stat-label">Incorrectas</div>
+
+            <div id="topicStats" style="margin: 20px 0;"></div>
+            <div id="resultsDetails" style="margin: 20px 0;"></div>
+
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="restartSameMode()" style="width: 48%;">Repetir Test</button>
+                <button class="btn btn-primary" onclick="returnToMenu()" style="width: 48%;">Volver al Menú</button>
             </div>
-            <div class="stat">
-                <div class="stat-value" id="totalQuestions">0</div>
-                <div class="stat-label">Total</div>
-            </div>
         </div>
-
-        <div class="topic-stats" id="topicStats">
-            <h3>Rendimiento por Tema</h3>
-            <!-- Se llenará dinámicamente -->
-        </div>
-
-        <div class="results-details" id="resultsDetails">
-            <h3>Resumen de Respuestas</h3>
-            <!-- Los detalles se cargarán aquí -->
-        </div>
-
-        <div class="buttons">
-            <button class="btn btn-secondary" onclick="returnToMenu()">Volver al Menú</button>
-            <button class="btn btn-primary" onclick="restartSameMode()">Repetir Test</button>
-        </div>
-    </div>
     </div>
 
     <script>
-        // Base de datos de preguntas organizadas por unidad
-        const questionsDB = {
-
-            ut1: [
-                {
-                    question: "¿Cuál es el objetivo principal de la seguridad informática?",
-                    options: [
-                        "Instalar un antivirus en cada equipo",
-                        "Evitar que los usuarios cometan errores",
-                        "Proteger confidencialidad, integridad y disponibilidad",
-                        "Asegurar cero incidentes en los sistemas"
-                    ],
-                    correct: 2,
-                    explanation: "El objetivo fundamental es garantizar la tríada CID: Confidencialidad, Integridad y Disponibilidad.",
-                    topic: "Fundamentos de Seguridad"
-                },
-                {
-                    question: "¿Cuál es la principal característica de la autenticación multifactor (MFA)?",
-                    options: [
-                        "Es obligatoria solo para administradores",
-                        "Utiliza varios factores diferentes para verificar identidad",
-                        "Se limita al uso de SMS",
-                        "Siempre sustituye a la contraseña"
-                    ],
-                    correct: 1,
-                    explanation: "La MFA requiere el uso de dos o más mecanismos independientes (algo que sabes, algo que tienes o algo que eres) para validar la identidad.",
-                    topic: "Identidad y Acceso"
-                },
-                {
-                    question: "¿Cuál es una buena práctica de copias de seguridad?",
-                    options: [
-                        "Hacer copia anual sin verificar",
-                        "Guardar una sola copia en el mismo equipo",
-                        "No cifrar las copias para ahorrar tiempo",
-                        "Seguir la regla 3-2-1"
-                    ],
-                    correct: 3,
-                    explanation: "La regla 3-2-1 implica tener 3 copias, en 2 soportes distintos y 1 fuera de la ubicación física.",
-                    topic: "Continuidad de Negocio"
-                },
-                {
-                    question: "¿Cuál de las siguientes es una vulnerabilidad de origen físico?",
-                    options: [
-                        "Falta de SAI en el CPD",
-                        "Contraseñas débiles",
-                        "Inyección SQL",
-                        "Servicio SSH expuesto sin contraseña"
-                    ],
-                    correct: 0,
-                    explanation: "La falta de un Sistema de Alimentación Ininterrumpida (SAI) es una debilidad física que compromete la disponibilidad ante fallos eléctricos.",
-                    topic: "Seguridad Física"
-                },
-                {
-                    question: "¿Qué principio del triángulo CID asegura que los datos no se alteran sin autorización?",
-                    options: [
-                        "Confidencialidad",
-                        "Disponibilidad",
-                        "Integridad",
-                        "Privacidad"
-                    ],
-                    correct: 2,
-                    explanation: "La integridad garantiza que la información se mantenga exacta y no sea modificada indebidamente por terceros.",
-                    topic: "Fundamentos de Seguridad"
-                },
-                {
-                    question: "¿Qué control es adecuado para mitigar fugas de datos personales?",
-                    options: [
-                        "Configuración por defecto de servicios",
-                        "No aplicar parches de seguridad",
-                        "Cifrado de discos y auditoría de accesos",
-                        "Usar cuentas compartidas"
-                    ],
-                    correct: 2,
-                    explanation: "El cifrado protege los datos en reposo y la auditoría permite rastrear accesos no autorizados.",
-                    topic: "Protección de Datos"
-                },
-                {
-                    question: "¿Qué ventaja tiene la biometría frente a las contraseñas?",
-                    options: [
-                        "No requiere hardware adicional",
-                        "Puede compartirse fácilmente",
-                        "Es imposible de falsificar",
-                        "Es inherente al usuario y reduce olvidos"
-                    ],
-                    correct: 3,
-                    explanation: "Al basarse en rasgos biológicos del usuario, es algo que 'se es', eliminando la necesidad de memorizar claves.",
-                    topic: "Identidad y Acceso"
-                },
-                {
-                    question: "¿Cuál de estas medidas pertenece a la seguridad lógica?",
-                    options: [
-                        "Cámaras de vigilancia",
-                        "Configuración de firewall y políticas de red",
-                        "Control de acceso físico con tarjeta",
-                        "Uso de candados en portátiles"
-                    ],
-                    correct: 1,
-                    explanation: "La seguridad lógica gestiona la protección de sistemas mediante software, protocolos y configuraciones de red.",
-                    topic: "Seguridad Lógica"
-                },
-                {
-                    question: "¿Qué es un ransomware?",
-                    options: [
-                        "Una técnica de autenticación multifactor",
-                        "Un programa de cifrado legítimo",
-                        "Una herramienta de auditoría",
-                        "Un malware que cifra datos y pide rescate"
-                    ],
-                    correct: 3,
-                    explanation: "El ransomware secuestra la información cifrándola y exige un pago económico para su liberación.",
-                    topic: "Amenazas"
-                },
-                {
-                    question: "¿Cuál es el riesgo principal asociado a la ingeniería social?",
-                    options: [
-                        "Saturación de ancho de banda",
-                        "Fallos en protocolos de cifrado",
-                        "Manipulación de usuarios para obtener acceso",
-                        "Defectos en el hardware"
-                    ],
-                    correct: 2,
-                    explanation: "La ingeniería social ataca al factor humano mediante engaños para obtener información confidencial.",
-                    topic: "Amenazas"
-                },
-                {
-                    question: "¿Cuál es la fase inicial de un análisis forense digital?",
-                    options: [
-                        "Documentación",
-                        "Adquisición",
-                        "Análisis",
-                        "Preparación"
-                    ],
-                    correct: 3,
-                    explanation: "La preparación es la fase previa donde se establecen las herramientas y políticas para investigar incidentes.",
-                    topic: "Análisis Forense"
-                },
-                {
-                    question: "¿Qué algoritmo es hoy recomendado para almacenar contraseñas?",
-                    options: [
-                        "DES",
-                        "SHA-1",
-                        "MD5",
-                        "Argon2id"
-                    ],
-                    correct: 3,
-                    explanation: "Argon2id es el estándar actual más seguro para el hashing de contraseñas debido a su alta resistencia.",
-                    topic: "Criptografía"
-                },
-                {
-                    question: "¿Qué diferencia clave hay entre criptografía simétrica y asimétrica?",
-                    options: [
-                        "La asimétrica no se usa en Internet",
-                        "La simétrica usa dos claves distintas y la asimétrica solo una",
-                        "La asimétrica usa un par de claves pública/privada, la simétrica una sola",
-                        "La simétrica no cifra datos en reposo"
-                    ],
-                    correct: 2,
-                    explanation: "La criptografía asimétrica utiliza un par de claves vinculado (pública y privada).",
-                    topic: "Criptografía"
-                },
-                {
-                    question: "¿Cuál de estas opciones representa una política de contraseñas adecuada?",
-                    options: [
-                        "Contraseña de 6 caracteres con renovación mensual",
-                        "Contraseña corta pero memorizable",
-                        "Uso de la misma contraseña en varios servicios",
-                        "Longitud mínima 12 caracteres y prohibición de contraseñas filtradas"
-                    ],
-                    correct: 3,
-                    explanation: "Las políticas modernas recomiendan longitud y evitar claves que ya aparezcan en filtraciones previas.",
-                    topic: "Identidad y Acceso"
-                },
-                {
-                    question: "¿Cuál es la función principal de la criptografía en tránsito (TLS)?",
-                    options: [
-                        "Evitar que los discos se dañen",
-                        "Proteger comunicaciones entre cliente y servidor",
-                        "Limitar el acceso físico a los equipos",
-                        "Impedir instalación de malware"
-                    ],
-                    correct: 1,
-                    explanation: "TLS asegura que la información viaje cifrada entre los extremos para evitar su intercepción en la red.",
-                    topic: "Seguridad de Red"
-                },
-                {
-                    question: "¿Qué normativa regula en España la protección de datos junto al RGPD?",
-                    options: [
-                        "ENS",
-                        "NIS2",
-                        "ISO 27001",
-                        "LOPDGDD"
-                    ],
-                    correct: 3,
-                    explanation: "La LOPDGDD es la Ley Orgánica española que adapta el ordenamiento nacional al reglamento europeo (RGPD).",
-                    topic: "Normativa"
-                },
-                {
-                    question: "En el análisis forense, ¿qué significa cadena de custodia?",
-                    options: [
-                        "Procedimiento de autenticación multifactor",
-                        "Uso de cifrado en copias de seguridad",
-                        "Almacenamiento de logs en la nube",
-                        "Registro que garantiza trazabilidad e integridad de evidencias"
-                    ],
-                    correct: 3,
-                    explanation: "Garantiza que la evidencia no ha sido alterada ni manipulada desde su recolección hasta el juicio.",
-                    topic: "Análisis Forense"
-                },
-                {
-                    question: "¿Qué significa RTO en continuidad de negocio?",
-                    options: [
-                        "Nivel máximo de confidencialidad alcanzable",
-                        "Método de cifrado recomendado",
-                        "Tiempo máximo aceptable de recuperación tras incidente",
-                        "Número de intentos de autenticación permitidos"
-                    ],
-                    correct: 2,
-                    explanation: "Recovery Time Objective (RTO) es el tiempo objetivo establecido para restaurar un servicio tras un fallo.",
-                    topic: "Continuidad de Negocio"
-                },
-                {
-                    question: "¿Qué técnica criptográfica utiliza la misma clave para cifrar y descifrar?",
-                    options: [
-                        "Firma digital",
-                        "Criptografía simétrica",
-                        "Criptografía asimétrica",
-                        "Función hash"
-                    ],
-                    correct: 1,
-                    explanation: "La criptografía simétrica se basa en el uso de una única clave compartida entre emisor y receptor.",
-                    topic: "Criptografía"
-                },
-                {
-                    question: "¿Qué es el principio de mínimo privilegio?",
-                    options: [
-                        "Dar a todos los usuarios privilegios de administrador",
-                        "Permitir acceso completo por comodidad",
-                        "Evitar el uso de contraseñas",
-                        "Conceder solo los permisos estrictamente necesarios"
-                    ],
-                    correct: 3,
-                    explanation: "Consiste en limitar los permisos de usuarios o procesos al mínimo necesario para su función.",
-                    topic: "Identidad y Acceso"
-                }
-            ],
-            ut2: [
-                {
-                    question: "¿Qué diferencia principal existe entre amenazas lógicas y físicas?",
-                    options: [
-                        "Ambas afectan únicamente a software",
-                        "Las físicas incluyen solo malware",
-                        "Las lógicas afectan a la información digital, las físicas al hardware e instalaciones",
-                        "Las lógicas siempre se producen por errores humanos"
-                    ],
-                    correct: 2,
-                    explanation: "Las amenazas lógicas son ataques al software y datos, mientras que las físicas dañan el equipo o infraestructura.",
-                    topic: "Fundamentos de Seguridad"
-                },
-                {
-                    question: "¿Qué aporta el cifrado TLS en redes públicas?",
-                    options: [
-                        "Solo disponibilidad del servicio",
-                        "Aceleración del tráfico",
-                        "Confidencialidad e integridad de la comunicación",
-                        "Instalación automática de drivers"
-                    ],
-                    correct: 2,
-                    explanation: "TLS asegura que la comunicación no sea leída por terceros (confidencialidad) ni alterada (integridad).",
-                    topic: "Seguridad de Red"
-                },
-                {
-                    question: "¿Qué diferencia existe entre HIDS y NIDS?",
-                    options: [
-                        "HIDS analiza host y registros, NIDS monitoriza tráfico de red",
-                        "HIDS y NIDS son protocolos de cifrado",
-                        "Ambos analizan solo firewalls",
-                        "HIDS inspecciona la nube, NIDS solo discos duros"
-                    ],
-                    correct: 0,
-                    explanation: "HIDS protege un equipo específico analizando sus logs, mientras NIDS vigila todo el tráfico de un segmento de red.",
-                    topic: "Detección de Intrusos"
-                },
-                {
-                    question: "¿Qué comando en Linux permite listar procesos activos?",
-                    options: [
-                        "chmod",
-                        "mkdir",
-                        "cp -r",
-                        "ps aux"
-                    ],
-                    correct: 3,
-                    explanation: "'ps aux' muestra todos los procesos en ejecución con detalles sobre usuario, CPU y memoria.",
-                    topic: "Comandos Linux"
-                },
-                {
-                    question: "¿Qué fases componen la anatomía clásica de un ataque?",
-                    options: [
-                        "Explotación y recuperación de sistemas",
-                        "Escaneo, borrado y reinstalación",
-                        "Reconocimiento, entrega, explotación, persistencia, C2 y acciones finales",
-                        "Reconocimiento, cifrado y borrado de datos"
-                    ],
-                    correct: 2,
-                    explanation: "Esta secuencia describe la 'Cyber Kill Chain', desde la búsqueda de información hasta la ejecución de objetivos.",
-                    topic: "Fases de Ataque"
-                },
-                {
-                    question: "¿Qué es un sandbox en ciberseguridad?",
-                    options: [
-                        "Sistema redundante de alta disponibilidad",
-                        "Algoritmo de cifrado simétrico",
-                        "Entorno controlado para ejecutar y analizar malware",
-                        "Copia de seguridad cifrada"
-                    ],
-                    correct: 2,
-                    explanation: "Un sandbox es una 'caja de arena' segura donde se puede detonar malware sin riesgo para el sistema real.",
-                    topic: "Análisis de Malware"
-                },
-                {
-                    question: "¿Qué comando en PowerShell obtiene conexiones de red?",
-                    options: [
-                        "Get-Item",
-                        "Get-NetTCPConnection",
-                        "Get-Date",
-                        "Stop-Service"
-                    ],
-                    correct: 1,
-                    explanation: "Este cmdlet muestra el estado de las conexiones TCP actuales en Windows.",
-                    topic: "Comandos PowerShell"
-                },
-                {
-                    question: "¿Qué hace un ransomware?",
-                    options: [
-                        "Abre un túnel VPN",
-                        "Cifra datos y exige rescate",
-                        "Instala actualizaciones de seguridad",
-                        "Bloquea únicamente hardware"
-                    ],
-                    correct: 1,
-                    explanation: "El ransomware es un malware de extorsión que impide el acceso a archivos mediante cifrado.",
-                    topic: "Amenazas"
-                },
-                {
-                    question: "¿Qué aporta la correlación de eventos en SIEM?",
-                    options: [
-                        "Aumentar la capacidad de disco",
-                        "Reducir falsos positivos y mejorar detección",
-                        "Evitar cifrado de backups",
-                        "Instalar drivers automáticamente"
-                    ],
-                    correct: 1,
-                    explanation: "La correlación conecta diferentes logs para identificar patrones de ataque que pasarían desapercibidos individualmente.",
-                    topic: "Monitorización"
-                },
-                {
-                    question: "¿Qué define a un troyano?",
-                    options: [
-                        "Malware que cifra datos automáticamente",
-                        "Protocolo de comunicación seguro",
-                        "Programa malicioso que aparenta ser legítimo y abre puertas traseras",
-                        "Ataque de denegación de servicio"
-                    ],
-                    correct: 2,
-                    explanation: "A diferencia del gusano, el troyano engaña al usuario ocultando su carga dañina tras una aplicación útil.",
-                    topic: "Amenazas"
-                },
-                {
-                    question: "¿Qué herramienta se usa para descubrir servicios expuestos?",
-                    options: [
-                        "Photoshop",
-                        "Nmap",
-                        "Excel",
-                        "Gmail"
-                    ],
-                    correct: 1,
-                    explanation: "Nmap es el escáner de red estándar para auditar puertos abiertos y versiones de software.",
-                    topic: "Herramientas de Red"
-                },
-                {
-                    question: "¿Qué es un rogue AP?",
-                    options: [
-                        "Un firewall de nueva generación",
-                        "Un certificado autofirmado",
-                        "Punto de acceso inalámbrico malicioso no autorizado",
-                        "Un protocolo de VPN"
-                    ],
-                    correct: 2,
-                    explanation: "Es un punto de acceso 'pirata' que se hace pasar por una red legítima para robar datos de los usuarios.",
-                    topic: "Seguridad Inalámbrica"
-                },
-                {
-                    question: "¿Qué es un ataque fileless?",
-                    options: [
-                        "Un virus que infecta documentos de texto",
-                        "Un ataque que se ejecuta en memoria sin dejar archivos en disco",
-                        "Un ataque basado en ingeniería social",
-                        "Un gusano que se propaga por USB"
-                    ],
-                    correct: 1,
-                    explanation: "Los ataques sin archivos usan herramientas legítimas del sistema para residir en la memoria RAM.",
-                    topic: "Fases de Ataque"
-                },
-                {
-                    question: "¿Qué permite observar el análisis dinámico en sandbox?",
-                    options: [
-                        "Procesos, conexiones de red y cambios en el sistema",
-                        "Las patentes de software registradas",
-                        "Solo el código fuente del malware",
-                        "Únicamente tráfico cifrado TLS"
-                    ],
-                    correct: 0,
-                    explanation: "El análisis dinámico observa el comportamiento real del malware mientras se ejecuta.",
-                    topic: "Análisis de Malware"
-                },
-                {
-                    question: "¿Qué característica define a un gusano (worm)?",
-                    options: [
-                        "Infecta únicamente documentos PDF",
-                        "Necesita siempre interacción del usuario",
-                        "Su capacidad de autorreplicación y propagación en red",
-                        "Es un tipo de firewall"
-                    ],
-                    correct: 2,
-                    explanation: "Los gusanos se distinguen porque pueden saltar de un equipo a otro sin ayuda humana.",
-                    topic: "Amenazas"
-                },
-                {
-                    question: "¿Qué función principal tiene un antivirus?",
-                    options: [
-                        "Cifrar discos duros automáticamente",
-                        "Crear reglas de firewall",
-                        "Sustituir protocolos de comunicación",
-                        "Detectar y eliminar software malicioso"
-                    ],
-                    correct: 3,
-                    explanation: "El antivirus monitoriza el sistema para identificar firmas o comportamientos sospechosos de malware.",
-                    topic: "Seguridad Lógica"
-                },
-                {
-                    question: "¿Qué comando en Linux detiene un servicio con systemd?",
-                    options: [
-                        "ls -l",
-                        "echo 'hola'",
-                        "pwd",
-                        "systemctl stop <servicio>"
-                    ],
-                    correct: 3,
-                    explanation: "'systemctl' es el gestor de servicios moderno en la mayoría de distros Linux.",
-                    topic: "Comandos Linux"
-                },
-                {
-                    question: "¿Qué herramienta se usa para detectar persistencia en Windows?",
-                    options: [
-                        "WinRAR",
-                        "Sysinternals Autoruns",
-                        "Paint",
-                        "Microsoft Word"
-                    ],
-                    correct: 1,
-                    explanation: "Autoruns muestra qué programas están configurados para iniciarse automáticamente con el sistema.",
-                    topic: "Herramientas Windows"
-                },
-                {
-                    question: "¿Qué son los certificados X.509?",
-                    options: [
-                        "Certificados digitales usados en TLS y firmas",
-                        "Algoritmos de hashing",
-                        "Discos cifrados por hardware",
-                        "Contraseñas de un solo uso"
-                    ],
-                    correct: 0,
-                    explanation: "X.509 es el estándar internacional para la infraestructura de clave pública (PKI).",
-                    topic: "Criptografía"
-                },
-                {
-                    question: "¿Qué mejora introduce WPA3 frente a WPA2?",
-                    options: [
-                        "Autenticación SAE resistente a ataques de diccionario",
-                        "Garantiza disponibilidad de energía",
-                        "Instala antivirus en los clientes",
-                        "Sustituye HTTPS en navegadores"
-                    ],
-                    correct: 0,
-                    explanation: "SAE (Simultaneous Authentication of Equals) evita que un atacante adivine la clave offline.",
-                    topic: "Seguridad Inalámbrica"
-                }
-            ],
-
-            ut3: [
-                {
-                    question: "¿Qué escenario requiere mayores controles de seguridad?",
-                    options: [
-                        "Acceso a correo personal",
-                        "Acceso de usuario a SaaS",
-                        "Teletrabajo básico",
-                        "Administración remota de sistemas críticos"
-                    ],
-                    correct: 3,
-                    explanation: "La administración de sistemas críticos implica un alto riesgo y requiere controles estrictos como MFA, túneles VPN y bastiones.",
-                    topic: "Gestión de Accesos"
-                },
-                {
-                    question: "¿Qué protocolo de autenticación y contabilidad se usa habitualmente con VPN?",
-                    options: [
-                        "RADIUS",
-                        "SMTP",
-                        "SNMP",
-                        "ARP"
-                    ],
-                    correct: 0,
-                    explanation: "RADIUS (Remote Authentication Dial-In User Service) centraliza la autenticación, autorización y contabilidad (AAA) en accesos remotos.",
-                    topic: "Protocolos de Seguridad"
-                },
-                {
-                    question: "¿Qué protocolo de transferencia segura se basa en SSH?",
-                    options: [
-                        "FTP",
-                        "SFTP",
-                        "SMB",
-                        "TFTP"
-                    ],
-                    correct: 1,
-                    explanation: "SFTP (SSH File Transfer Protocol) utiliza un canal seguro de SSH para transferir archivos de forma cifrada.",
-                    topic: "Transferencia de Archivos"
-                },
-                {
-                    question: "¿Qué servicio centraliza identidades y políticas en entornos Windows?",
-                    options: [
-                        "MySQL",
-                        "Squid",
-                        "Active Directory",
-                        "Apache"
-                    ],
-                    correct: 2,
-                    explanation: "Active Directory es el servicio de directorio de Microsoft que gestiona usuarios, equipos y políticas (GPO) de forma centralizada.",
-                    topic: "Gestión de Identidades"
-                },
-                {
-                    question: "¿Qué práctica mejora significativamente la seguridad en SSH?",
-                    options: [
-                        "Usar Telnet en paralelo",
-                        "Permitir root login directo",
-                        "Abrir el puerto 23",
-                        "Deshabilitar autenticación por contraseña"
-                    ],
-                    correct: 3,
-                    explanation: "Deshabilitar contraseñas y usar claves públicas/privadas mitiga ataques de fuerza bruta.",
-                    topic: "Administración Segura"
-                },
-                {
-                    question: "¿Qué sistema facilita contraseñas temporales o autenticación en Linux?",
-                    options: [
-                        "DHCP",
-                        "NTP",
-                        "FTP",
-                        "PAM"
-                    ],
-                    correct: 3,
-                    explanation: "PAM (Pluggable Authentication Modules) permite integrar diferentes métodos de autenticación en sistemas Unix/Linux.",
-                    topic: "Autenticación"
-                },
-                {
-                    question: "¿Qué protocolo VPN moderno destaca por su simplicidad y alto rendimiento?",
-                    options: [
-                        "GRE",
-                        "WireGuard",
-                        "PPTP",
-                        "L2F"
-                    ],
-                    correct: 1,
-                    explanation: "WireGuard es un protocolo VPN de última generación que ofrece mayor velocidad y código más simple que IPsec o OpenVPN.",
-                    topic: "Redes Privadas Virtuales"
-                },
-                {
-                    question: "¿Qué protocolo se usa para acceso remoto seguro a sistemas por línea de comandos?",
-                    options: [
-                        "HTTP",
-                        "FTP",
-                        "SSH",
-                        "Telnet"
-                    ],
-                    correct: 2,
-                    explanation: "SSH (Secure Shell) reemplaza a Telnet proporcionando cifrado y autenticación segura.",
-                    topic: "Administración Segura"
-                },
-                {
-                    question: "¿Qué función realiza un bastion host?",
-                    options: [
-                        "Analiza logs",
-                        "Balancea carga web",
-                        "Actúa como servidor DNS",
-                        "Filtra y controla acceso administrativo"
-                    ],
-                    correct: 3,
-                    explanation: "Un bastión actúa como punto de entrada único y controlado para administrar servidores en redes internas protegidas.",
-                    topic: "Arquitectura de Red"
-                },
-                {
-                    question: "¿Qué técnica evita que los navegadores realicen conexiones inseguras?",
-                    options: [
-                        "SNMP",
-                        "HSTS",
-                        "RIP",
-                        "NAT"
-                    ],
-                    correct: 1,
-                    explanation: "HSTS (HTTP Strict Transport Security) obliga al navegador a comunicarse con el servidor siempre mediante HTTPS.",
-                    topic: "Seguridad Web"
-                },
-                {
-                    question: "¿Qué comando permite comprobar certificados SSL/TLS en remoto?",
-                    options: [
-                        "netstat",
-                        "openssl s_client",
-                        "traceroute",
-                        "ping"
-                    ],
-                    correct: 1,
-                    explanation: "'openssl s_client' permite conectar a un servicio y visualizar su cadena de certificados y protocolos soportados.",
-                    topic: "Herramientas de Diagnóstico"
-                },
-                {
-                    question: "¿Qué zona de red aloja servicios que deben estar expuestos a Internet?",
-                    options: [
-                        "DMZ",
-                        "VLAN de gestión",
-                        "Red de almacenamiento",
-                        "Red interna"
-                    ],
-                    correct: 0,
-                    explanation: "La DMZ (Zona Desmilitarizada) separa los servicios públicos de la red interna privada.",
-                    topic: "Arquitectura de Red"
-                },
-                {
-                    question: "¿Qué riesgo principal enfrentan las comunicaciones en redes públicas?",
-                    options: [
-                        "Ataques MITM y exposición de datos",
-                        "Redundancia de hardware",
-                        "Alta disponibilidad",
-                        "Balanceo de carga"
-                    ],
-                    correct: 0,
-                    explanation: "En redes públicas, los atacantes pueden realizar ataques Man-In-The-Middle (MITM) para interceptar tráfico no cifrado.",
-                    topic: "Amenazas de Red"
-                },
-                {
-                    question: "¿Qué modo de VPN es el estándar para interconectar sedes (site-to-site)?",
-                    options: [
-                        "IPsec",
-                        "WireGuard",
-                        "SSL",
-                        "PPTP"
-                    ],
-                    correct: 0,
-                    explanation: "IPsec es el protocolo más robusto y utilizado para crear túneles permanentes entre oficinas o centros de datos.",
-                    topic: "Redes Privadas Virtuales"
-                },
-                {
-                    question: "¿Qué ataque se basa en suplantar direcciones de la tabla ARP?",
-                    options: [
-                        "Sniffing DNS",
-                        "ARP spoofing",
-                        "Buffer overflow",
-                        "SQL injection"
-                    ],
-                    correct: 1,
-                    explanation: "El ARP spoofing engaña a los equipos de una red local para que envíen su tráfico al atacante.",
-                    topic: "Amenazas de Red"
-                },
-                {
-                    question: "¿Qué control impide los movimientos laterales en redes segmentadas?",
-                    options: [
-                        "NAT sin reglas",
-                        "Broadcast",
-                        "ACLs",
-                        "Hub"
-                    ],
-                    correct: 2,
-                    explanation: "Las ACLs (Access Control Lists) filtran el tráfico entre segmentos de red, limitando el acceso solo a lo necesario.",
-                    topic: "Segmentación de Red"
-                },
-                {
-                    question: "¿Qué mecanismo de autenticación es considerado el más seguro actualmente?",
-                    options: [
-                        "MFA",
-                        "Contraseña simple",
-                        "Usuario/clave única",
-                        "IP estática"
-                    ],
-                    correct: 0,
-                    explanation: "El MFA (Multi-Factor Authentication) añade capas adicionales que protegen la cuenta incluso si la contraseña es robada.",
-                    topic: "Autenticación"
-                },
-                {
-                    question: "¿Qué algoritmo utiliza WireGuard para garantizar un cifrado moderno y eficiente?",
-                    options: [
-                        "3DES",
-                        "RC4",
-                        "ChaCha20-Poly1305",
-                        "DES"
-                    ],
-                    correct: 2,
-                    explanation: "WireGuard utiliza ChaCha20 para cifrado y Poly1305 para autenticación, ofreciendo mayor seguridad y velocidad que algoritmos antiguos.",
-                    topic: "Criptografía"
-                },
-                {
-                    question: "¿En qué segmento de red deben ubicarse los servidores críticos que no requieren acceso desde Internet?",
-                    options: [
-                        "Red interna protegida",
-                        "Zona pública",
-                        "DMZ",
-                        "Internet"
-                    ],
-                    correct: 0,
-                    explanation: "Los servidores críticos internos deben estar aislados en redes privadas sin exposición directa al exterior.",
-                    topic: "Arquitectura de Red"
-                },
-                {
-                    question: "¿Qué funcionalidad principal tiene un servidor de salto o Bastion Host?",
-                    options: [
-                        "Balanceo de carga",
-                        "Servidor de nombres",
-                        "Filtro y control de acceso administrativo",
-                        "Analizador de registros"
-                    ],
-                    correct: 2,
-                    explanation: "Permite centralizar, auditar y securizar las conexiones remotas de los administradores hacia la infraestructura interna.",
-                    topic: "Administración Segura"
-                }
-            ],
-            ut4: [
-                {
-                    question: "¿Cuál es la función principal de un cortafuegos (firewall)?",
-                    options: [
-                        "Únicamente funcionar en redes locales",
-                        "Controlar el tráfico entre zonas con distintos niveles de confianza",
-                        "Sustituir al antivirus del equipo",
-                        "Solo gestionar entornos cloud"
-                    ],
-                    correct: 1,
-                    explanation: "Un cortafuegos actúa como una barrera que inspecciona y filtra el tráfico basado en políticas de seguridad entre diferentes redes.",
-                    topic: "Seguridad Perimetral"
-                },
-                {
-                    question: "¿Qué implica el principio de diseño 'deny-by-default'?",
-                    options: [
-                        "Permitir todo el tráfico por defecto",
-                        "No aplicar ninguna regla de filtrado",
-                        "Bloquear todo lo que no esté explícitamente permitido",
-                        "Permitir solo el tráfico de administración"
-                    ],
-                    correct: 2,
-                    explanation: "Es una postura de seguridad donde todo el tráfico se deniega excepto aquel que ha sido autorizado específicamente.",
-                    topic: "Políticas de Seguridad"
-                },
-                {
-                    question: "¿Qué ataques protegen específicamente los cortafuegos de aplicación (WAF)?",
-                    options: [
-                        "Ataques de denegación de servicio físico",
-                        "Fallos en el hardware del servidor",
-                        "Solo bloqueo de direcciones IP",
-                        "Tráfico HTTP/HTTPS y ataques como XSS o SQLi"
-                    ],
-                    correct: 3,
-                    explanation: "Los firewalls de capa de aplicación inspeccionan el contenido del tráfico web para detectar ataques complejos como inyecciones.",
-                    topic: "Seguridad de Aplicación"
-                },
-                {
-                    question: "¿Cuál es la característica principal del filtrado 'stateful'?",
-                    options: [
-                        "Solo analiza encabezados de forma aislada",
-                        "Mantiene información de las conexiones activas y su estado",
-                        "Se utiliza exclusivamente en switches de capa 2",
-                        "No requiere memoria para funcionar"
-                    ],
-                    correct: 1,
-                    explanation: "El filtrado de estado permite al firewall saber si un paquete es parte de una conexión legítima ya establecida.",
-                    topic: "Tipos de Firewall"
-                },
-                {
-                    question: "¿Para qué se utiliza comúnmente una DMZ (Zona Desmilitarizada)?",
-                    options: [
-                        "Para alojar servicios públicos aislados de la red interna",
-                        "Para sustituir el uso de NAT",
-                        "Como parte interna e invisible del firewall",
-                        "Para almacenar bases de datos confidenciales sin acceso externo"
-                    ],
-                    correct: 0,
-                    explanation: "La DMZ separa los servidores que deben ser accesibles desde Internet de la red privada interna para mitigar riesgos.",
-                    topic: "Arquitectura de Red"
-                },
-                {
-                    question: "¿Qué funcionalidades añade un NGFW (Next-Generation Firewall)?",
-                    options: [
-                        "Solo bloqueo de puertos y protocolos",
-                        "No realiza inspección de ningún tipo",
-                        "Control por identidad e inspección profunda de aplicaciones",
-                        "Funciona exclusivamente como un hub"
-                    ],
-                    correct: 2,
-                    explanation: "Los NGFW van más allá del filtrado de paquetes, incluyendo IPS, control de aplicaciones y visibilidad de usuarios.",
-                    topic: "Tipos de Firewall"
-                },
-                {
-                    question: "¿Qué es UFW en entornos Linux?",
-                    options: [
-                        "Un hardware firewall de alto rendimiento",
-                        "Una herramienta simplificada para gestionar reglas de cortafuegos",
-                        "Un sistema operativo para servidores",
-                        "Un antivirus para distribuciones Debian"
-                    ],
-                    correct: 1,
-                    explanation: "Uncomplicated Firewall (UFW) es una interfaz para iptables diseñada para facilitar la configuración del firewall.",
-                    topic: "Herramientas de Seguridad"
-                },
-                {
-                    question: "¿Cómo se pueden configurar las reglas en un sistema pfSense?",
-                    options: [
-                        "Solo mediante líneas de comandos (CLI)",
-                        "No permite realizar filtrado de paquetes",
-                        "Mediante una interfaz gráfica basada en web",
-                        "Únicamente a través de archivos de texto plano"
-                    ],
-                    correct: 2,
-                    explanation: "pfSense es una distribución de firewall de código abierto muy popular por su potente interfaz web de gestión.",
-                    topic: "Herramientas de Seguridad"
-                },
-                {
-                    question: "¿Por qué es importante documentar las reglas de un firewall?",
-                    options: [
-                        "Solo es necesario en entornos cloud",
-                        "Para incluir justificación, propietario y facilitar auditorías",
-                        "No es una práctica recomendada",
-                        "Para aumentar la velocidad de procesamiento"
-                    ],
-                    correct: 1,
-                    explanation: "La documentación permite entender por qué existe una regla y quién es el responsable, evitando configuraciones obsoletas o peligrosas.",
-                    topic: "Gestión de Reglas"
-                },
-                {
-                    question: "¿Qué beneficio aporta la automatización de alertas en un firewall?",
-                    options: [
-                        "Incrementa los falsos positivos",
-                        "Reduce el tiempo medio de detección de incidentes",
-                        "No afecta en absoluto a la seguridad",
-                        "Sustituye la necesidad de tener reglas"
-                    ],
-                    correct: 1,
-                    explanation: "Las alertas automáticas permiten una respuesta rápida ante intentos de intrusión o anomalías de red.",
-                    topic: "Monitorización"
-                },
-                {
-                    question: "¿Qué permite verificar el análisis de logs del firewall?",
-                    options: [
-                        "La eficacia de las reglas aplicadas y detectar ataques",
-                        "La velocidad del procesador del servidor",
-                        "Solo sirve para cumplir con requisitos legales",
-                        "No genera datos útiles para el administrador"
-                    ],
-                    correct: 0,
-                    explanation: "Los registros (logs) son esenciales para auditar qué tráfico ha sido permitido o denegado y por qué.",
-                    topic: "Monitorización"
-                },
-                {
-                    question: "¿Qué restringen las políticas de salida (egress filtering)?",
-                    options: [
-                        "Únicamente el tráfico entrante",
-                        "Comunicaciones desde la red interna hacia el exterior",
-                        "No se utilizan en firewalls modernos",
-                        "Solo el tráfico entre redes locales"
-                    ],
-                    correct: 1,
-                    explanation: "El filtrado de salida evita que equipos comprometidos se comuniquen con servidores de comando y control (C2).",
-                    topic: "Políticas de Seguridad"
-                },
-                {
-                    question: "¿En qué consiste el mantenimiento preventivo de un cortafuegos?",
-                    options: [
-                        "Solo en la reinstalación anual del sistema",
-                        "Revisión de reglas obsoletas y realización de backups periódicos",
-                        "No requiere mantenimiento una vez configurado",
-                        "Desactivar las reglas durante las horas de poco tráfico"
-                    ],
-                    correct: 1,
-                    explanation: "El mantenimiento asegura que el firewall funcione correctamente y que las reglas sigan siendo necesarias y seguras.",
-                    topic: "Gestión de Seguridad"
-                },
-                {
-                    question: "¿En qué capas del modelo OSI opera el filtrado por paquetes tradicional?",
-                    options: [
-                        "Capa de aplicación únicamente",
-                        "Capa física y de enlace",
-                        "Capas de red y transporte",
-                        "Solo en la capa de sesión"
-                    ],
-                    correct: 2,
-                    explanation: "El filtrado por paquetes analiza direcciones IP (Red) y números de puerto (Transporte).",
-                    topic: "Fundamentos de Red"
-                },
-                {
-                    question: "¿Cómo ayuda el principio de mínimo privilegio en un firewall?",
-                    options: [
-                        "Permitiendo todo el tráfico para no interrumpir el servicio",
-                        "No es aplicable a las reglas de red",
-                        "Reduciendo la exposición de servicios al mínimo necesario",
-                        "Otorgando acceso total a todos los usuarios de la red"
-                    ],
-                    correct: 2,
-                    explanation: "Consiste en abrir solo los puertos y protocolos estrictamente necesarios para el funcionamiento del negocio.",
-                    topic: "Políticas de Seguridad"
-                },
-                {
-                    question: "¿Cuál es la recomendación para el almacenamiento de logs?",
-                    options: [
-                        "Mantenerlos solo en el almacenamiento local del firewall",
-                        "No almacenarlos para ahorrar espacio en disco",
-                        "Enviarlos a un sistema centralizado (SIEM) para correlación",
-                        "Borrarlos cada 24 horas"
-                    ],
-                    correct: 2,
-                    explanation: "La centralización protege los logs en caso de que el firewall sea comprometido y facilita el análisis global.",
-                    topic: "Monitorización"
-                },
-                {
-                    question: "¿Dónde deben realizarse las pruebas de nuevas reglas de firewall?",
-                    options: [
-                        "Directamente en el entorno de producción",
-                        "En entornos de staging o laboratorio antes de producción",
-                        "Solo con usuarios reales para ver si falla",
-                        "No es necesario realizar pruebas previas"
-                    ],
-                    correct: 1,
-                    explanation: "Probar en staging evita caídas accidentales de servicios críticos por reglas mal configuradas.",
-                    topic: "Gestión de Cambios"
-                },
-                {
-                    question: "¿Qué ventaja ofrecen las ACL (Listas de Control de Acceso) estructuradas?",
-                    options: [
-                        "No son aplicables a firewalls modernos",
-                        "Facilitan auditorías y el rollback de configuraciones",
-                        "Hacen que el firewall sea más lento",
-                        "No influyen en la gestión de la seguridad"
-                    ],
-                    correct: 1,
-                    explanation: "Una estructura clara permite revertir cambios erróneos fácilmente y entender el flujo del tráfico.",
-                    topic: "Gestión de Reglas"
-                },
-                {
-                    question: "¿Qué es el 'shadowing' de reglas en un cortafuegos?",
-                    options: [
-                        "Un método de cifrado de contraseñas",
-                        "Un fallo de hardware en los puertos",
-                        "Cuando una regla superior invalida una inferior por ser más genérica",
-                        "Un tipo de ataque de denegación de servicio"
-                    ],
-                    correct: 2,
-                    explanation: "El shadowing ocurre cuando el orden de las reglas impide que una regla específica se ejecute porque otra anterior ya ha procesado ese tráfico.",
-                    topic: "Troubleshooting"
-                },
-                {
-                    question: "¿Qué debe incluir la documentación técnica final de un firewall?",
-                    options: [
-                        "Solo los logs de la última hora",
-                        "Únicamente el manual del fabricante",
-                        "Inventario, justificación de reglas y resultados de pruebas",
-                        "Ninguna de las anteriores es correcta"
-                    ],
-                    correct: 2,
-                    explanation: "La documentación completa es vital para la continuidad del negocio y la transferencia de conocimiento entre equipos técnicos.",
-                    topic: "Gestión de Seguridad"
-                }
-            ],
-            ut5: [
-                {
-                    question: "¿Qué es un servidor proxy?",
-                    options: [
-                        "Un dispositivo que solo conecta routers",
-                        "Un intermediario entre un cliente y un servidor",
-                        "Un software que sustituye al sistema operativo",
-                        "Una herramienta que no se aplica a redes internas"
-                    ],
-                    correct: 1,
-                    explanation: "El proxy recibe las peticiones de los clientes y las reenvía a los servidores de destino, actuando como punto intermedio.",
-                    topic: "Fundamentos de Proxy"
-                },
-                {
-                    question: "¿Cuál es la característica principal del proxy transparente?",
-                    options: [
-                        "Requiere configurar el archivo proxy.pac en cada cliente",
-                        "Solo funciona en modo inverso",
-                        "No requiere configuración manual en el equipo cliente",
-                        "Solo es compatible con navegadores antiguos"
-                    ],
-                    correct: 2,
-                    explanation: "El tráfico se redirige al proxy a nivel de red (normalmente mediante el firewall), por lo que el usuario no percibe su presencia.",
-                    topic: "Configuración de Proxy"
-                },
-                {
-                    question: "¿Para qué se utiliza principalmente un proxy inverso (Reverse Proxy)?",
-                    options: [
-                        "Para que los empleados naveguen por Internet",
-                        "Para publicar servicios internos de forma segura hacia el exterior",
-                        "Únicamente para la resolución de nombres DNS",
-                        "Para bloquear el acceso físico a los servidores"
-                    ],
-                    correct: 1,
-                    explanation: "Protege los servidores internos al recibir las peticiones externas y distribuirlas, ocultando la estructura de la red privada.",
-                    topic: "Tipos de Proxy"
-                },
-                {
-                    question: "¿Qué software es un estándar para proxy-cache en sistemas Linux?",
-                    options: [
-                        "Photoshop",
-                        "Squid",
-                        "Windows Media Player",
-                        "MySQL"
-                    ],
-                    correct: 1,
-                    explanation: "Squid es una herramienta de código abierto muy robusta especializada en el filtrado y caché de tráfico HTTP/HTTPS.",
-                    topic: "Herramientas"
-                },
-                {
-                    question: "¿Qué ventaja principal ofrece Nginx como proxy?",
-                    options: [
-                        "Solo puede actuar como firewall",
-                        "Destaca por su alto rendimiento como proxy inverso y balanceador",
-                        "No permite gestionar tráfico cifrado",
-                        "Sustituye por completo al sistema operativo"
-                    ],
-                    correct: 1,
-                    explanation: "Nginx es conocido por su eficiencia en el manejo de conexiones simultáneas y su capacidad para servir contenido estático.",
-                    topic: "Herramientas"
-                },
-                {
-                    question: "¿Puede Apache funcionar como servidor proxy?",
-                    options: [
-                        "No, es exclusivamente un servidor web estático",
-                        "Solo si se desactiva el protocolo SSL",
-                        "Sí, mediante el uso de módulos como mod_proxy",
-                        "Solo en versiones para dispositivos móviles"
-                    ],
-                    correct: 2,
-                    explanation: "Aunque es un servidor web, Apache es muy versátil y puede configurarse como proxy mediante sus módulos específicos.",
-                    topic: "Herramientas"
-                },
-                {
-                    question: "¿Qué problema presenta la autenticación basada únicamente en la dirección IP?",
-                    options: [
-                        "Solo funciona en sistemas operativos Windows",
-                        "No ofrece un control real por identidad de usuario",
-                        "Hace que la conexión sea un 50% más lenta",
-                        "Requiere hardware adicional en cada cliente"
-                    ],
-                    correct: 1,
-                    explanation: "La IP identifica a la máquina, pero no a la persona; varios usuarios en un mismo equipo compartirían los mismos permisos.",
-                    topic: "Autenticación"
-                },
-                {
-                    question: "¿Qué permite la integración de un proxy con LDAP?",
-                    options: [
-                        "Aumentar la velocidad de la CPU",
-                        "Integrar el acceso con directorios corporativos de usuarios",
-                        "Deshabilitar la necesidad de contraseñas",
-                        "Solo funciona con servidores Nginx"
-                    ],
-                    correct: 1,
-                    explanation: "LDAP permite que el proxy valide las credenciales de los usuarios contra una base de datos centralizada como Active Directory.",
-                    topic: "Gestión de Identidades"
-                },
-                {
-                    question: "¿Qué significa el término SSO?",
-                    options: [
-                        "Secure Socket Output",
-                        "Single Sign-On (Inicio de sesión único)",
-                        "Shared System Object",
-                        "Simple Service Operator"
-                    ],
-                    correct: 1,
-                    explanation: "SSO permite que un usuario se autentique una sola vez para acceder a múltiples sistemas relacionados.",
-                    topic: "Autenticación"
-                },
-                {
-                    question: "¿Cuál es un riesgo conocido del uso de proxys transparentes?",
-                    options: [
-                        "No pueden interceptar tráfico HTTP",
-                        "Pueden generar conflictos técnicos con el tráfico HTTPS cifrado",
-                        "Solo afectan a la navegación desde smartphones",
-                        "Hacen que los archivos descargados ocupen más espacio"
-                    ],
-                    correct: 1,
-                    explanation: "Al intentar interceptar tráfico SSL/TLS sin configuración en el cliente, se suelen producir errores de certificado.",
-                    topic: "Configuración de Proxy"
-                },
-                {
-                    question: "¿Para qué sirven los filtros de contenido en un proxy?",
-                    options: [
-                        "Para acelerar la descarga de vídeos",
-                        "Para bloquear categorías de sitios web (ej. juegos, redes sociales)",
-                        "Solo para limitar el ancho de banda",
-                        "Para limpiar el polvo del hardware del servidor"
-                    ],
-                    correct: 1,
-                    explanation: "Permiten aplicar políticas de uso aceptable bloqueando dominios por su temática.",
-                    topic: "Políticas de Seguridad"
-                },
-                {
-                    question: "¿Qué función tienen las listas blancas (whitelists) en el filtrado?",
-                    options: [
-                        "Bloquear todo el tráfico de la red",
-                        "Permitir el acceso garantizado a servicios críticos o seguros",
-                        "Eliminar los logs de navegación automáticamente",
-                        "Solo se usan para direcciones de correo electrónico"
-                    ],
-                    correct: 1,
-                    explanation: "Las listas blancas contienen excepciones que siempre están permitidas, independientemente de otros filtros.",
-                    topic: "Políticas de Seguridad"
-                },
-                {
-                    question: "¿Por qué es vital el análisis de los logs en un servidor proxy?",
-                    options: [
-                        "Para diagnosticar errores de caché o fallos en la autenticación",
-                        "No genera ningún dato útil para el administrador",
-                        "Solo sirve para ver qué empleados trabajan más",
-                        "Para reducir el consumo eléctrico del equipo"
-                    ],
-                    correct: 0,
-                    explanation: "Los logs permiten rastrear problemas de acceso y auditar la actividad para detectar posibles brechas de seguridad.",
-                    topic: "Monitorización"
-                },
-                {
-                    question: "¿Qué importancia tienen las pruebas desde el lado del cliente?",
-                    options: [
-                        "Solo sirven para que los usuarios pierdan tiempo",
-                        "Permiten reproducir y validar la experiencia real del usuario",
-                        "No detectan fallos de configuración",
-                        "Son obligatorias por ley cada hora"
-                    ],
-                    correct: 1,
-                    explanation: "Verificar desde el cliente asegura que las reglas de filtrado y autenticación funcionan según lo previsto.",
-                    topic: "Gestión de Operaciones"
-                },
-                {
-                    question: "¿Qué herramientas se suelen usar para visualizar métricas de rendimiento del proxy?",
-                    options: [
-                        "Editores de texto como Notepad",
-                        "Grafana y Prometheus",
-                        "Programas de diseño gráfico",
-                        "Software de contabilidad"
-                    ],
-                    correct: 1,
-                    explanation: "Prometheus recolecta los datos y Grafana los visualiza en paneles gráficos intuitivos.",
-                    topic: "Monitorización"
-                },
-                {
-                    question: "¿Para qué se realizan pruebas de rendimiento (stress test) en un proxy?",
-                    options: [
-                        "Para determinar la capacidad máxima y los puntos de saturación",
-                        "Solo para comprobar si el cable de red está conectado",
-                        "No afectan en nada a la configuración final",
-                        "Para cambiar el color de la interfaz de usuario"
-                    ],
-                    correct: 0,
-                    explanation: "Ayudan a saber cuántos usuarios simultáneos puede soportar el servidor antes de degradar el servicio.",
-                    topic: "Gestión de Operaciones"
-                },
-                {
-                    question: "¿Qué debe incluir una documentación correcta del servidor proxy?",
-                    options: [
-                        "Solo una lista de las webs visitadas",
-                        "Configuración detallada y un registro de cambios versionado",
-                        "No es necesario documentar si el sistema funciona bien",
-                        "La biografía del administrador del sistema"
-                    ],
-                    correct: 1,
-                    explanation: "El control de versiones y la documentación técnica facilitan el mantenimiento y la recuperación ante desastres.",
-                    topic: "Documentación"
-                },
-                {
-                    question: "¿Cómo beneficia el SSO a la seguridad y experiencia de usuario?",
-                    options: [
-                        "Haciendo que el usuario tenga que recordar más claves",
-                        "Mejora la experiencia al reducir el número de inicios de sesión",
-                        "Solo es útil en entornos de nube pública",
-                        "No tiene aplicación real en el uso de proxys"
-                    ],
-                    correct: 1,
-                    explanation: "Reduce la fatiga de contraseñas y centraliza la gestión de accesos.",
-                    topic: "Autenticación"
-                },
-                {
-                    question: "¿Qué requiere la gestión de listas negras y blancas?",
-                    options: [
-                        "Se actualizan solas y nunca fallan",
-                        "No requieren ningún tipo de revisión humana",
-                        "Revisión y actualización constantes para ser efectivas",
-                        "Solo se configuran una vez al instalar el servidor"
-                    ],
-                    correct: 2,
-                    explanation: "Internet cambia constantemente; lo que ayer era seguro hoy puede no serlo, y viceversa.",
-                    topic: "Gestión de Seguridad"
-                },
-                {
-                    question: "¿Cuál es el propósito de mantener guías de administración actualizadas?",
-                    options: [
-                        "Solo sirve para la formación de nuevos empleados",
-                        "Facilitar una operación segura y consistente del sistema",
-                        "No influye en la seguridad general de la empresa",
-                        "Es un requisito que se puede ignorar"
-                    ],
-                    correct: 1,
-                    explanation: "Las guías aseguran que los procedimientos de seguridad se sigan siempre de la misma manera, evitando errores humanos.",
-                    topic: "Documentación"
-                }
-            ],
-
-            ut6: [
-                {
-                    question: "¿Cómo se define y mide habitualmente la alta disponibilidad (HA)?",
-                    options: [
-                        "Como el porcentaje de tiempo operativo de un servicio",
-                        "Solo mediante la potencia del hardware utilizado",
-                        "Depende exclusivamente del proveedor de Internet",
-                        "Como el número de archivos almacenados en el servidor"
-                    ],
-                    correct: 0,
-                    explanation: "La disponibilidad se expresa mediante 'nueves' (ej. 99.9%), representando el tiempo que el servicio está accesible frente al tiempo total.",
-                    topic: "Fundamentos de HA"
-                },
-                {
-                    question: "¿Qué implica el concepto de 'tolerancia a fallos'?",
-                    options: [
-                        "Que el sistema se detiene ante cualquier error de red",
-                        "Que el sistema continúa funcionando pese a errores parciales",
-                        "Que no influye en la disponibilidad del servicio",
-                        "Es una técnica que solo se aplica al cableado físico"
-                    ],
-                    correct: 1,
-                    explanation: "Un sistema tolerante a fallos utiliza redundancia para asegurar que un error en un componente no provoque la caída de todo el sistema.",
-                    topic: "Fundamentos de HA"
-                },
-                {
-                    question: "¿Qué función tienen los SLA (Service Level Agreements)?",
-                    options: [
-                        "Solo se aplican en entornos de nube pública",
-                        "No se pueden medir ni auditar",
-                        "Definen los compromisos de disponibilidad y tiempos de respuesta",
-                        "Sustituyen a las copias de seguridad"
-                    ],
-                    correct: 2,
-                    explanation: "Los SLA son acuerdos contractuales que garantizan un nivel mínimo de servicio y penalizaciones si no se cumplen.",
-                    topic: "Gestión de Servicio"
-                },
-                {
-                    question: "¿Cuál es el propósito principal de configurar un sistema RAID?",
-                    options: [
-                        "Aumentar únicamente la velocidad de descarga",
-                        "Combinar discos para lograr redundancia o mejorar el rendimiento",
-                        "No aporta nada a la continuidad de negocio",
-                        "Sustituir la necesidad de un antivirus"
-                    ],
-                    correct: 1,
-                    explanation: "RAID protege los datos ante el fallo físico de uno o más discos dependiendo del nivel utilizado (RAID 1, 5, 10, etc.).",
-                    topic: "Almacenamiento Redundante"
-                },
-                {
-                    question: "¿Qué ventaja ofrecen las fuentes de alimentación redundantes (PSU)?",
-                    options: [
-                        "Solo aumentan el consumo eléctrico sin beneficio real",
-                        "No afectan a la disponibilidad del servidor",
-                        "Previenen caídas del sistema ante el fallo de una unidad de potencia",
-                        "Hacen que el servidor sea inmune a virus"
-                    ],
-                    correct: 2,
-                    explanation: "Si una fuente falla, la otra asume la carga inmediatamente sin que el servidor se apague.",
-                    topic: "Redundancia de Hardware"
-                },
-                {
-                    question: "¿Qué facilitan los contenedores en entornos de alta disponibilidad?",
-                    options: [
-                        "No se pueden usar para servicios en producción",
-                        "Permiten la autorecuperación y el escalado rápido de servicios",
-                        "Solo sirven para realizar pruebas de desarrollo",
-                        "Hacen que el sistema sea más difícil de recuperar"
-                    ],
-                    correct: 1,
-                    explanation: "Gracias a orquestadores, si un contenedor falla, se puede levantar otro automáticamente en segundos.",
-                    topic: "Virtualización y Contenedores"
-                },
-                {
-                    question: "¿Qué permite realizar la 'migración en caliente' (Live Migration)?",
-                    options: [
-                        "Mover máquinas virtuales entre servidores sin detener el servicio",
-                        "Solo funciona si los servidores están apagados",
-                        "Requiere un reinicio completo del sistema operativo",
-                        "Solo es posible en entornos de almacenamiento local"
-                    ],
-                    correct: 0,
-                    explanation: "Permite realizar mantenimientos en el hardware físico moviendo la carga de trabajo a otro nodo sin impacto para el usuario.",
-                    topic: "Virtualización"
-                },
-                {
-                    question: "¿En qué consiste un clúster de tipo Activo/Pasivo?",
-                    options: [
-                        "Todos los nodos procesan carga simultáneamente",
-                        "No tiene mecanismos de conmutación por error (failover)",
-                        "Implica nodos en standby listos para asumir la carga si el principal falla",
-                        "Es un sistema que no requiere almacenamiento compartido"
-                    ],
-                    correct: 2,
-                    explanation: "El nodo pasivo monitoriza al activo y toma el control solo si detecta que el activo ha dejado de dar servicio.",
-                    topic: "Clústeres"
-                },
-                {
-                    question: "¿Qué es el mecanismo de 'heartbeat' en un clúster?",
-                    options: [
-                        "Una técnica para limpiar los discos duros",
-                        "Un pulso de red para detectar la caída de un nodo",
-                        "Un sistema que solo verifica la temperatura del CPD",
-                        "No interviene en el proceso de failover"
-                    ],
-                    correct: 1,
-                    explanation: "Es una señal periódica entre nodos; si se deja de recibir, el clúster inicia el proceso de recuperación.",
-                    topic: "Clústeres"
-                },
-                {
-                    question: "¿Qué funcionalidad aporta HAProxy en una arquitectura de red?",
-                    options: [
-                        "Es un software que solo funciona en la capa 3",
-                        "No realiza monitoreo de salud de los servidores",
-                        "Permite balanceo de carga L4/L7 con comprobaciones de salud (health checks)",
-                        "Es un sistema de archivos distribuido"
-                    ],
-                    correct: 2,
-                    explanation: "Distribuye el tráfico entre varios servidores y deja de enviar peticiones a aquellos que no responden correctamente.",
-                    topic: "Balanceo de Carga"
-                },
-                {
-                    question: "¿Cómo se utiliza Nginx en el contexto de la disponibilidad?",
-                    options: [
-                        "Solo sirve para servir imágenes estáticas",
-                        "Como proxy inverso y balanceador de carga eficiente",
-                        "No es compatible con protocolos seguros como HTTPS",
-                        "Sustituye a la memoria RAM del sistema"
-                    ],
-                    correct: 1,
-                    explanation: "Nginx puede distribuir el tráfico hacia un pool de servidores internos para mejorar la respuesta y redundancia.",
-                    topic: "Balanceo de Carga"
-                },
-                {
-                    question: "¿Cuál es la diferencia principal entre NAS y SAN?",
-                    options: [
-                        "NAS ofrece almacenamiento a nivel de archivos y SAN a nivel de bloques",
-                        "Son términos equivalentes y se configuran igual",
-                        "SAN solo se usa para copias de seguridad en cinta",
-                        "NAS es mucho más rápido que SAN en todos los casos"
-                    ],
-                    correct: 0,
-                    explanation: "NAS se accede vía red (como una carpeta compartida) y SAN se percibe por el SO como un disco físico local.",
-                    topic: "Almacenamiento"
-                },
-                {
-                    question: "¿Qué beneficio tiene la replicación síncrona de datos?",
-                    options: [
-                        "Aumenta la probabilidad de pérdida de datos",
-                        "Reduce el RPO (punto de recuperación) casi a cero",
-                        "No replica datos en tiempo real",
-                        "Hace que la escritura sea instantánea sin confirmar en el destino"
-                    ],
-                    correct: 1,
-                    explanation: "Asegura que los datos se escriban en ambos sitios antes de confirmar la operación, garantizando consistencia total.",
-                    topic: "Continuidad de Negocio"
-                },
-                {
-                    question: "¿Qué permite el Software RAID frente al Hardware RAID?",
-                    options: [
-                        "No provee ninguna característica de alta disponibilidad",
-                        "Solo está disponible para sistemas Windows",
-                        "Ofrece redundancia utilizando los recursos del SO sin hardware propietario",
-                        "Es siempre mucho más rápido que una controladora física"
-                    ],
-                    correct: 2,
-                    explanation: "Permite crear volúmenes redundantes en cualquier equipo, aunque consume ciclos de la CPU principal.",
-                    topic: "Almacenamiento Redundante"
-                },
-                {
-                    question: "¿Cuál es el objetivo de agrupar recursos en un clúster?",
-                    options: [
-                        "Lograr alta disponibilidad y escalabilidad",
-                        "Solo se utiliza para computación científica de alto rendimiento (HPC)",
-                        "No mejora la productividad ni la continuidad",
-                        "Reducir el número de direcciones IP de la empresa"
-                    ],
-                    correct: 0,
-                    explanation: "Un clúster permite que varios servidores trabajen como una sola unidad para soportar fallos o aumentar potencia.",
-                    topic: "Clústeres"
-                },
-                {
-                    question: "¿Cómo implementa Kubernetes la alta disponibilidad?",
-                    options: [
-                        "Solo funciona con motores Docker antiguos",
-                        "Mediante patrones de réplicas y sondas de salud (probes)",
-                        "No soporta balanceo de carga interno",
-                        "Depende de que el administrador reinicie los procesos a mano"
-                    ],
-                    correct: 1,
-                    explanation: "Kubernetes monitoriza los pods y asegura que siempre esté ejecutándose el número de réplicas deseado.",
-                    topic: "Orquestación"
-                },
-                {
-                    question: "¿En qué consiste el escalado horizontal?",
-                    options: [
-                        "En aumentar la memoria RAM de un único servidor",
-                        "En agregar más instancias o nodos al pool de servidores",
-                        "No afecta a la resiliencia del sistema",
-                        "Solo sirve para reducir costes de licencias"
-                    ],
-                    correct: 1,
-                    explanation: "Al añadir más máquinas, si una falla, el impacto es menor y la capacidad total de respuesta aumenta.",
-                    topic: "Escalabilidad"
-                },
-                {
-                    question: "¿Qué validan las pruebas de resiliencia (Chaos Engineering)?",
-                    options: [
-                        "El comportamiento del sistema ante fallos inesperados",
-                        "No son necesarias si el hardware es nuevo",
-                        "Solo se aplican a componentes físicos como cables",
-                        "Que la documentación sea bonita"
-                    ],
-                    correct: 0,
-                    explanation: "Simulan caídas de servicios o redes para asegurar que los mecanismos de HA responden como se espera.",
-                    topic: "Gestión de Fallos"
-                },
-                {
-                    question: "¿Qué se verifica durante un simulacro de DR (Disaster Recovery)?",
-                    options: [
-                        "Solo la velocidad de la conexión a Internet",
-                        "Los tiempos de recuperación reales (RTO) ante un desastre total",
-                        "No aportan mejoras a la configuración del sistema",
-                        "Que los empleados sepan usar el correo electrónico"
-                    ],
-                    correct: 1,
-                    explanation: "Permiten detectar fallos en el plan de recuperación antes de que ocurra una emergencia real.",
-                    topic: "Continuidad de Negocio"
-                },
-                {
-                    question: "¿Por qué es crucial mantener diagramas y runbooks actualizados?",
-                    options: [
-                        "No afecta a la operación diaria",
-                        "Solo sirve para pasar auditorías externas",
-                        "Mejora la capacidad de respuesta y reduce el error humano",
-                        "Es una tarea que debe evitarse para ahorrar tiempo"
-                    ],
-                    correct: 2,
-                    explanation: "En caso de fallo, los técnicos necesitan instrucciones claras y mapas de red precisos para restaurar el servicio rápidamente.",
-                    topic: "Documentación"
-                }
-            ],
-            ut7: [
-                {
-                    question: "¿Qué principios fundamentales establece el RGPD?",
-                    options: [
-                        "Responsabilidad proactiva y derechos efectivos para los interesados",
-                        "No aplica en territorio español",
-                        "Se limita exclusivamente a la regulación de cookies",
-                        "Sustituye la necesidad de realizar copias de seguridad"
-                    ],
-                    correct: 0,
-                    explanation: "El Reglamento General de Protección de Datos (RGPD) exige que las organizaciones demuestren que cumplen con la normativa de forma activa.",
-                    topic: "Normativa"
-                },
-                {
-                    question: "¿Cuál es la relación entre la LOPDGDD y el RGPD?",
-                    options: [
-                        "La LOPDGDD sustituye completamente al RGPD",
-                        "La LOPDGDD adapta el RGPD europeo al contexto nacional español",
-                        "Solo es de aplicación para empresas públicas",
-                        "No tienen ninguna relación jurídica"
-                    ],
-                    correct: 1,
-                    explanation: "La Ley Orgánica 3/2018 (LOPDGDD) desarrolla y complementa los aspectos que el RGPD deja a discreción de los estados miembros.",
-                    topic: "Normativa"
-                },
-                {
-                    question: "¿Cuál es el plazo máximo para notificar una brecha de seguridad a la AEPD?",
-                    options: [
-                        "No existe un plazo definido",
-                        "72 horas tras tener constancia del incidente",
-                        "Solo si existen pérdidas económicas directas",
-                        "30 días naturales"
-                    ],
-                    correct: 1,
-                    explanation: "El RGPD obliga a notificar las quiebras de seguridad a la autoridad de control en un máximo de 72 horas, a menos que sea improbable que suponga un riesgo.",
-                    topic: "Gestión de Incidentes"
-                },
-                {
-                    question: "¿En qué consiste el derecho de portabilidad de los datos?",
-                    options: [
-                        "En el derecho a cambiar de operador telefónico gratis",
-                        "Solo se aplica a documentos impresos en papel",
-                        "Recibir los datos en un formato estructurado, de uso común y lectura mecánica",
-                        "Es un derecho opcional que las empresas pueden denegar"
-                    ],
-                    correct: 2,
-                    explanation: "Permite que el interesado pueda trasladar sus datos de un responsable a otro de forma sencilla y automatizada.",
-                    topic: "Derechos de los Interesados"
-                },
-                {
-                    question: "¿Qué técnicas son recomendadas para proteger la confidencialidad según la normativa?",
-                    options: [
-                        "El cifrado y la seudonimización de los datos",
-                        "No se consideran medidas técnicas válidas",
-                        "Solo son útiles si se aplican en las copias de seguridad",
-                        "Publicar los datos en la web corporativa"
-                    ],
-                    correct: 0,
-                    explanation: "Estas técnicas reducen el riesgo de identificación de los sujetos en caso de acceso no autorizado.",
-                    topic: "Medidas Técnicas"
-                },
-                {
-                    question: "¿Qué significan los modelos RBAC y ABAC?",
-                    options: [
-                        "Son protocolos de cifrado de extremo a extremo",
-                        "Control de acceso basado en roles (RBAC) y en atributos (ABAC)",
-                        "Sistemas de detección de incendios en el CPD",
-                        "No tienen aplicación en la seguridad de redes"
-                    ],
-                    correct: 1,
-                    explanation: "Son métodos para gestionar quién tiene permiso para acceder a qué recursos dentro de un sistema.",
-                    topic: "Control de Acceso"
-                },
-                {
-                    question: "¿Cuál es la función principal del Delegado de Protección de Datos (DPO)?",
-                    options: [
-                        "Realizar las copias de seguridad físicas",
-                        "Asesorar y supervisar de forma independiente el cumplimiento legal",
-                        "No tiene independencia funcional dentro de la empresa",
-                        "Sustituir al director de recursos humanos"
-                    ],
-                    correct: 1,
-                    explanation: "El DPO actúa como enlace entre la organización, los interesados y la autoridad de control (AEPD).",
-                    topic: "Gobierno de Seguridad"
-                },
-                {
-                    question: "¿Qué debe incluir obligatoriamente un contrato de encargo de tratamiento?",
-                    options: [
-                        "Solo las cláusulas de pago económicas",
-                        "Medidas de seguridad específicas y condiciones de subcontratación",
-                        "No son contratos obligatorios bajo el RGPD",
-                        "La lista de todos los empleados del cliente"
-                    ],
-                    correct: 1,
-                    explanation: "El responsable debe asegurar por contrato que el encargado tratará los datos siguiendo sus instrucciones y con seguridad suficiente.",
-                    topic: "Gestión de Proveedores"
-                },
-                {
-                    question: "¿A qué obliga la LSSI a los prestadores de servicios de la sociedad de la información?",
-                    options: [
-                        "Mantener datos de contacto y mecanismos de retirada de contenido ilícito",
-                        "Solo aplica a redes sociales con más de un millón de usuarios",
-                        "No tiene ningún efecto técnico en la configuración web",
-                        "A regalar el dominio .es a cada cliente"
-                    ],
-                    correct: 0,
-                    explanation: "La Ley de Servicios de la Sociedad de la Información regula aspectos como el comercio electrónico y la información mínima que debe mostrar una web.",
-                    topic: "Normativa"
-                },
-                {
-                    question: "¿Cuál es la regla principal para la gestión de cookies no técnicas?",
-                    options: [
-                        "Se pueden instalar siempre sin aviso previo",
-                        "Obtener el consentimiento informado y previo del usuario antes de su uso",
-                        "Solo requiere informar en el pie de página sin consentimiento",
-                        "No requieren consentimiento si son de terceros"
-                    ],
-                    correct: 1,
-                    explanation: "Salvo las estrictamente necesarias para el funcionamiento, el resto requieren el consentimiento explícito del usuario.",
-                    topic: "Privacidad Web"
-                },
-                {
-                    question: "¿En qué se basa la norma ISO 27001 para gestionar la seguridad?",
-                    options: [
-                        "Exclusivamente en el inventario de hardware",
-                        "En el ciclo PDCA y en la gestión de riesgos",
-                        "No es aplicable a empresas privadas",
-                        "En la instalación obligatoria de firewalls físicos"
-                    ],
-                    correct: 1,
-                    explanation: "ISO 27001 utiliza un Sistema de Gestión de Seguridad de la Información (SGSI) basado en la mejora continua.",
-                    topic: "Estándares y Certificación"
-                },
-                {
-                    question: "¿A quién es aplicable de forma obligatoria el Esquema Nacional de Seguridad (ENS)?",
-                    options: [
-                        "Solo a empresas del sector financiero",
-                        "A organismos públicos y sus proveedores tecnológicos",
-                        "Es un marco opcional para cualquier organización",
-                        "Únicamente a usuarios particulares"
-                    ],
-                    correct: 1,
-                    explanation: "El ENS establece los principios y requisitos para una protección adecuada de la información en la Administración Pública española.",
-                    topic: "Normativa"
-                },
-                {
-                    question: "¿Qué etapas componen el ciclo PDCA de mejora continua?",
-                    options: [
-                        "Plan, Do, Check y Act (Planificar, Hacer, Verificar, Actuar)",
-                        "Solo Planificar y Verificar",
-                        "Password, Data, Control y Access",
-                        "No es un ciclo aplicable a la seguridad"
-                    ],
-                    correct: 0,
-                    explanation: "Es la metodología fundamental para garantizar que los controles de seguridad se revisan y mejoran constantemente.",
-                    topic: "Gestión de Seguridad"
-                },
-                {
-                    question: "¿Por qué es necesario verificar los backups periódicamente?",
-                    options: [
-                        "No requieren verificación si el software no da error",
-                        "Para asegurar su integridad y la capacidad de restauración",
-                        "Solo se deben verificar si ya ha ocurrido un incidente",
-                        "Para aumentar el tamaño de los archivos"
-                    ],
-                    correct: 1,
-                    explanation: "Una copia de seguridad cuya integridad no ha sido probada no garantiza la disponibilidad de los datos ante un desastre.",
-                    topic: "Operaciones"
-                },
-                {
-                    question: "¿Cuál es la utilidad de las auditorías y revisiones periódicas?",
-                    options: [
-                        "Demostrar cumplimiento normativo y detectar debilidades",
-                        "No aportan ninguna evidencia útil para la dirección",
-                        "Solo deben realizarse una vez al fundar la empresa",
-                        "Sustituyen a la formación de los empleados"
-                    ],
-                    correct: 0,
-                    explanation: "Las auditorías son una herramienta de control para validar que las políticas se están cumpliendo realmente.",
-                    topic: "Cumplimiento"
-                },
-                {
-                    question: "¿Qué requisitos de posición debe cumplir un DPO en la empresa?",
-                    options: [
-                        "Debe tener independencia y acceso directo a la alta dirección",
-                        "Debe depender jerárquicamente del departamento de marketing",
-                        "No puede realizar funciones de auditoría",
-                        "Es una figura que solo actúa en casos de brechas de seguridad"
-                    ],
-                    correct: 0,
-                    explanation: "Para evitar conflictos de interés, el DPO debe reportar al nivel más alto de gestión de la entidad.",
-                    topic: "Gobierno de Seguridad"
-                },
-                {
-                    question: "¿Qué son los scripts o herramientas CMP (Consent Management Platform)?",
-                    options: [
-                        "Sistemas para borrar el historial del navegador automáticamente",
-                        "Herramientas que bloquean cookies hasta obtener el consentimiento del usuario",
-                        "Programas para espiar la navegación de los empleados",
-                        "Software para descifrar contraseñas de red"
-                    ],
-                    correct: 1,
-                    explanation: "Son las plataformas encargadas de gestionar el banner de cookies y guardar las preferencias de privacidad del usuario.",
-                    topic: "Privacidad Web"
-                },
-                {
-                    question: "¿Qué beneficio aporta documentar políticas y mantener logs detallados?",
-                    options: [
-                        "Facilitar auditorías y demostrar el principio de responsabilidad proactiva",
-                        "No influye en la seguridad, es puramente burocrático",
-                        "Hacer que el sistema operativo funcione más rápido",
-                        "Es una tarea que solo debe hacer el departamento legal"
-                    ],
-                    correct: 0,
-                    explanation: "La documentación es la evidencia física que permite demostrar ante un juez o autoridad que se tomaron las medidas adecuadas.",
-                    topic: "Cumplimiento"
-                },
-                {
-                    question: "¿Qué significa el acrónimo MFA?",
-                    options: [
-                        "Monitoreo de Fallos Automáticos",
-                        "Autenticación Multifactor (Multi-Factor Authentication)",
-                        "Gestión de Almacenamiento Masivo",
-                        "Mecanismo de Filtro de Aplicaciones"
-                    ],
-                    correct: 1,
-                    explanation: "Es la medida técnica que añade capas extra de seguridad más allá de la simple contraseña.",
-                    topic: "Identidad y Acceso"
-                },
-                {
-                    question: "¿Cuál es el pilar fundamental para una protección de datos efectiva a largo plazo?",
-                    options: [
-                        "Instalar el firewall más caro del mercado",
-                        "Una cultura de cumplimiento continuo y concienciación en toda la organización",
-                        "Depender exclusivamente de que el DPO trabaje mucho",
-                        "No tiene relevancia técnica, solo legal"
-                    ],
-                    correct: 1,
-                    explanation: "La seguridad es un proceso, no un producto; requiere que todo el personal entienda y respete las normas.",
-                    topic: "Cultura de Seguridad"
-                }
-            ]
-
-        };
-
         // Variables globales
         let currentMode = null;
         let currentQuestions = [];
@@ -3018,42 +402,449 @@
         let answered = false;
         let topicScores = {};
 
-        // Crear array con todas las preguntas para el examen general
-        const allQuestions = [
-            ...questionsDB.ut1,
-            ...questionsDB.ut2,
-            ...questionsDB.ut3,
-            ...questionsDB.ut4,
-            ...questionsDB.ut5,
-            ...questionsDB.ut6,
-            ...questionsDB.ut7,
-
+        // Base de preguntas por unidad temática
+        const ut1Questions = [
+            {
+                question: "¿Cuáles son los tres pilares fundamentales de la seguridad de la información (tríada CID)?",
+                options: [
+                    "Confidencialidad, Integridad, Disponibilidad",
+                    "Control, Identificación, Defensa",
+                    "Cifrado, Identidad, Datos",
+                    "Conexión, Internet, Dispositivos"
+                ],
+                correct: 0,
+                explanation: "La tríada CID representa Confidencialidad (solo usuarios autorizados acceden), Integridad (datos sin alteración) y Disponibilidad (acceso cuando se necesita).",
+                topic: "UT-1: Fundamentos"
+            },
+            {
+                question: "¿Qué tipo de seguridad protege los equipos físicos y las instalaciones?",
+                options: [
+                    "Seguridad lógica",
+                    "Seguridad física",
+                    "Seguridad perimetral",
+                    "Seguridad de red"
+                ],
+                correct: 1,
+                explanation: "La seguridad física protege el hardware, las instalaciones y el personal contra amenazas físicas como robo, incendio o acceso no autorizado.",
+                topic: "UT-1: Fundamentos"
+            },
+            {
+                question: "¿Qué algoritmo de cifrado simétrico es considerado el estándar actual?",
+                options: [
+                    "DES",
+                    "RSA",
+                    "AES",
+                    "MD5"
+                ],
+                correct: 2,
+                explanation: "AES (Advanced Encryption Standard) es el algoritmo de cifrado simétrico estándar actual, con claves de 128, 192 o 256 bits.",
+                topic: "UT-1: Fundamentos"
+            },
+            {
+                question: "¿Cuál es la principal diferencia entre cifrado simétrico y asimétrico?",
+                options: [
+                    "El simétrico es más seguro",
+                    "El asimétrico usa la misma clave para cifrar y descifrar",
+                    "El simétrico usa una clave, el asimétrico usa un par de claves",
+                    "El asimétrico es más rápido"
+                ],
+                correct: 2,
+                explanation: "El cifrado simétrico usa una sola clave compartida, mientras que el asimétrico utiliza un par de claves (pública y privada).",
+                topic: "UT-1: Fundamentos"
+            },
+            {
+                question: "¿Qué función criptográfica garantiza la integridad de los datos?",
+                options: [
+                    "Cifrado simétrico",
+                    "Firma digital",
+                    "Hash",
+                    "Certificado digital"
+                ],
+                correct: 2,
+                explanation: "Las funciones hash generan un resumen único de los datos que permite detectar cualquier modificación.",
+                topic: "UT-1: Fundamentos"
+            }
         ];
 
-        // Función para seleccionar modo
-        function selectMode(mode) {
-            // Desmarcar todos los modos
-            document.querySelectorAll('.mode-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-
-            // Marcar el modo seleccionado
-            let elementId = 'mode' + mode.toUpperCase().replace('-', '');
-            // Caso especial para 'general'
-            if (mode === 'general') {
-                elementId = 'modeGeneral';
+        const ut2Questions = [
+            {
+                question: "¿Qué tipo de malware se replica a sí mismo sin necesidad de un archivo huésped?",
+                options: [
+                    "Virus",
+                    "Gusano",
+                    "Troyano",
+                    "Spyware"
+                ],
+                correct: 1,
+                explanation: "Los gusanos son malware autorreplicantes que se propagan por la red sin necesitar un archivo huésped, a diferencia de los virus.",
+                topic: "UT-2: Amenazas"
+            },
+            {
+                question: "¿Cuál es la primera fase del Cyber Kill Chain?",
+                options: [
+                    "Weaponización",
+                    "Explotación",
+                    "Reconocimiento",
+                    "Instalación"
+                ],
+                correct: 2,
+                explanation: "El reconocimiento es la primera fase donde el atacante recopila información sobre el objetivo antes de planificar el ataque.",
+                topic: "UT-2: Amenazas"
+            },
+            {
+                question: "¿Qué tipo de ataque intenta hacer que un servicio no esté disponible?",
+                options: [
+                    "Phishing",
+                    "Man-in-the-middle",
+                    "DDoS",
+                    "SQL Injection"
+                ],
+                correct: 2,
+                explanation: "Los ataques DDoS (Distributed Denial of Service) buscan saturar un servicio para hacerlo inaccesible a usuarios legítimos.",
+                topic: "UT-2: Amenazas"
+            },
+            {
+                question: "¿Qué herramienta se utiliza comúnmente para análisis de tráfico de red?",
+                options: [
+                    "Nmap",
+                    "Metasploit",
+                    "Wireshark",
+                    "John the Ripper"
+                ],
+                correct: 2,
+                explanation: "Wireshark es un analizador de protocolos de red que permite capturar y examinar el tráfico en tiempo real.",
+                topic: "UT-2: Amenazas"
+            },
+            {
+                question: "¿Qué tipo de malware cifra los archivos y pide un rescate?",
+                options: [
+                    "Adware",
+                    "Ransomware",
+                    "Rootkit",
+                    "Keylogger"
+                ],
+                correct: 1,
+                explanation: "El ransomware cifra los archivos del sistema y exige un pago (rescate) para recuperar el acceso a los datos.",
+                topic: "UT-2: Amenazas"
             }
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.classList.add('selected');
+        ];
+
+        const ut3Questions = [
+            {
+                question: "¿Qué protocolo VPN opera en la capa 3 del modelo OSI?",
+                options: [
+                    "PPTP",
+                    "L2TP",
+                    "IPSec",
+                    "SSL/TLS"
+                ],
+                correct: 2,
+                explanation: "IPSec opera en la capa 3 (red) del modelo OSI, proporcionando seguridad a nivel de paquetes IP.",
+                topic: "UT-3: Accesos"
+            },
+            {
+                question: "¿Qué puerto utiliza SSH por defecto?",
+                options: [
+                    "21",
+                    "22",
+                    "23",
+                    "25"
+                ],
+                correct: 1,
+                explanation: "SSH (Secure Shell) utiliza el puerto 22 por defecto para conexiones seguras de administración remota.",
+                topic: "UT-3: Accesos"
+            },
+            {
+                question: "¿Qué protocolo AAA es más completo y moderno?",
+                options: [
+                    "RADIUS",
+                    "TACACS+",
+                    "Kerberos",
+                    "LDAP"
+                ],
+                correct: 1,
+                explanation: "TACACS+ separa autenticación, autorización y contabilidad, ofreciendo más granularidad que RADIUS.",
+                topic: "UT-3: Accesos"
+            },
+            {
+                question: "¿Qué es un bastion host?",
+                options: [
+                    "Un servidor de respaldo",
+                    "Un servidor expuesto que actúa como punto de entrada seguro",
+                    "Un tipo de firewall",
+                    "Un sistema de detección de intrusos"
+                ],
+                correct: 1,
+                explanation: "Un bastion host es un servidor fortificado que sirve como único punto de entrada a una red interna desde Internet.",
+                topic: "UT-3: Accesos"
+            },
+            {
+                question: "¿Qué método de autenticación es considerado más seguro?",
+                options: [
+                    "Contraseña simple",
+                    "Autenticación de dos factores",
+                    "Pregunta de seguridad",
+                    "PIN de 4 dígitos"
+                ],
+                correct: 1,
+                explanation: "La autenticación de dos factores (2FA) combina algo que sabes con algo que tienes o eres, aumentando significativamente la seguridad.",
+                topic: "UT-3: Accesos"
             }
-            currentMode = mode;
+        ];
 
-            // Habilitar botón de inicio
-            document.getElementById('startBtn').disabled = false;
-        }
+        const ut4Questions = [
+            {
+                question: "¿Qué tipo de backup copia todos los datos independientemente de cambios previos?",
+                options: [
+                    "Incremental",
+                    "Diferencial",
+                    "Completo",
+                    "Espejo"
+                ],
+                correct: 2,
+                explanation: "El backup completo (full) copia todos los datos seleccionados, sin importar si han cambiado o no desde el último backup.",
+                topic: "UT-4: Copias de Seguridad"
+            },
+            {
+                question: "¿Cuál es la regla 3-2-1 de backups?",
+                options: [
+                    "3 copias, 2 ubicaciones, 1 prueba mensual",
+                    "3 copias, 2 medios diferentes, 1 copia offsite",
+                    "3 días de retención, 2 verificaciones, 1 responsable",
+                    "3 servidores, 2 redes, 1 datacenter"
+                ],
+                correct: 1,
+                explanation: "La regla 3-2-1 establece: 3 copias totales de los datos, en 2 tipos de medios diferentes, con 1 copia fuera del sitio.",
+                topic: "UT-4: Copias de Seguridad"
+            },
+            {
+                question: "¿Qué es el RTO (Recovery Time Objective)?",
+                options: [
+                    "Cantidad máxima de datos que se pueden perder",
+                    "Tiempo máximo aceptable de interrupción del servicio",
+                    "Frecuencia de realización de backups",
+                    "Tiempo de retención de las copias"
+                ],
+                correct: 1,
+                explanation: "El RTO define el tiempo máximo aceptable que un sistema puede estar fuera de servicio después de un incidente.",
+                topic: "UT-4: Copias de Seguridad"
+            },
+            {
+                question: "¿Qué tipo de backup solo copia los datos modificados desde el último backup completo?",
+                options: [
+                    "Incremental",
+                    "Diferencial",
+                    "Sintético",
+                    "Progresivo"
+                ],
+                correct: 1,
+                explanation: "El backup diferencial copia todos los datos modificados desde el último backup completo, acumulando cambios.",
+                topic: "UT-4: Copias de Seguridad"
+            },
+            {
+                question: "¿Qué tecnología permite crear copias instantáneas del estado de un sistema?",
+                options: [
+                    "Clonación",
+                    "Snapshot",
+                    "Mirror",
+                    "Archive"
+                ],
+                correct: 1,
+                explanation: "Los snapshots crean una imagen instantánea del estado del sistema en un momento específico, útil para recuperación rápida.",
+                topic: "UT-4: Copias de Seguridad"
+            }
+        ];
 
-        // Función para mezclar array (Fisher-Yates)
+        const ut5Questions = [
+            {
+                question: "¿Qué tipo de firewall inspecciona el estado de las conexiones?",
+                options: [
+                    "Packet filtering",
+                    "Proxy",
+                    "Stateful",
+                    "Application"
+                ],
+                correct: 2,
+                explanation: "Los firewalls stateful mantienen una tabla de estado de las conexiones, permitiendo un filtrado más inteligente del tráfico.",
+                topic: "UT-5: Cortafuegos"
+            },
+            {
+                question: "¿Qué es una DMZ en seguridad de redes?",
+                options: [
+                    "Una zona de alta seguridad",
+                    "Una zona intermedia entre la red interna e Internet",
+                    "Un tipo de VPN",
+                    "Un protocolo de seguridad"
+                ],
+                correct: 1,
+                explanation: "La DMZ (Zona Desmilitarizada) es una red perimetral que añade una capa de seguridad entre Internet y la red interna.",
+                topic: "UT-5: Cortafuegos"
+            },
+            {
+                question: "¿Cuál es la diferencia principal entre IDS e IPS?",
+                options: [
+                    "IDS es más rápido",
+                    "IPS solo detecta, IDS bloquea",
+                    "IDS solo detecta, IPS detecta y bloquea",
+                    "No hay diferencia"
+                ],
+                correct: 2,
+                explanation: "IDS (Intrusion Detection System) solo detecta y alerta, mientras que IPS (Intrusion Prevention System) puede bloquear activamente las amenazas.",
+                topic: "UT-5: Cortafuegos"
+            },
+            {
+                question: "¿Qué puerto debe estar abierto para permitir tráfico HTTPS?",
+                options: [
+                    "80",
+                    "443",
+                    "8080",
+                    "8443"
+                ],
+                correct: 1,
+                explanation: "HTTPS utiliza el puerto 443 por defecto para comunicaciones web seguras con cifrado SSL/TLS.",
+                topic: "UT-5: Cortafuegos"
+            },
+            {
+                question: "¿Qué técnica usa pfSense para balancear la carga entre múltiples enlaces WAN?",
+                options: [
+                    "NAT",
+                    "Multi-WAN",
+                    "VLAN",
+                    "Bridge"
+                ],
+                correct: 1,
+                explanation: "pfSense utiliza Multi-WAN para distribuir el tráfico entre múltiples conexiones a Internet, proporcionando balanceo de carga y failover.",
+                topic: "UT-5: Cortafuegos"
+            }
+        ];
+
+        const ut6Questions = [
+            {
+                question: "¿Cuál es la función principal de un proxy HTTP?",
+                options: [
+                    "Cifrar todo el tráfico de red",
+                    "Actuar como intermediario entre clientes y servidores web",
+                    "Bloquear todos los virus",
+                    "Reemplazar el firewall"
+                ],
+                correct: 1,
+                explanation: "Un proxy HTTP actúa como intermediario entre los clientes y los servidores web, pudiendo cachear contenido, filtrar y registrar el tráfico.",
+                topic: "UT-6: Proxies"
+            },
+            {
+                question: "¿Qué puerto utiliza Squid por defecto?",
+                options: [
+                    "8080",
+                    "3128",
+                    "8888",
+                    "1080"
+                ],
+                correct: 1,
+                explanation: "Squid utiliza el puerto 3128 por defecto para las conexiones de proxy HTTP.",
+                topic: "UT-6: Proxies"
+            },
+            {
+                question: "¿Qué tipo de proxy no requiere configuración en el cliente?",
+                options: [
+                    "Proxy explícito",
+                    "Proxy SOCKS",
+                    "Proxy transparente",
+                    "Proxy inverso"
+                ],
+                correct: 2,
+                explanation: "El proxy transparente intercepta el tráfico sin necesidad de configuración en el cliente, funcionando de forma invisible.",
+                topic: "UT-6: Proxies"
+            },
+            {
+                question: "¿Qué es un proxy inverso (reverse proxy)?",
+                options: [
+                    "Un proxy que bloquea todo el tráfico",
+                    "Un proxy que se sitúa delante de los servidores web",
+                    "Un proxy que invierte las direcciones IP",
+                    "Un proxy que funciona al revés"
+                ],
+                correct: 1,
+                explanation: "Un proxy inverso se sitúa delante de uno o más servidores web, distribuyendo las peticiones y ocultando la infraestructura interna.",
+                topic: "UT-6: Proxies"
+            },
+            {
+                question: "¿Qué ventaja ofrece la caché de un proxy?",
+                options: [
+                    "Mayor seguridad",
+                    "Reducción del ancho de banda y mejora de velocidad",
+                    "Cifrado de datos",
+                    "Bloqueo de malware"
+                ],
+                correct: 1,
+                explanation: "La caché del proxy almacena contenido frecuentemente solicitado, reduciendo el uso de ancho de banda y mejorando la velocidad de acceso.",
+                topic: "UT-6: Proxies"
+            }
+        ];
+
+        const ut7Questions = [
+            {
+                question: "¿Qué es la alta disponibilidad (HA)?",
+                options: [
+                    "Tener servidores muy rápidos",
+                    "Capacidad de un sistema para operar continuamente sin fallos",
+                    "Tener muchos usuarios conectados",
+                    "Usar la última tecnología"
+                ],
+                correct: 1,
+                explanation: "La alta disponibilidad es la capacidad de un sistema para mantenerse operativo durante un alto porcentaje del tiempo, minimizando las interrupciones.",
+                topic: "UT-7: Alta Disponibilidad"
+            },
+            {
+                question: "¿Qué significa un SLA del 99.9%?",
+                options: [
+                    "Tiempo de inactividad máximo de 8.76 horas al año",
+                    "Tiempo de inactividad máximo de 1 hora al año",
+                    "Tiempo de inactividad máximo de 24 horas al año",
+                    "Tiempo de inactividad máximo de 1 minuto al año"
+                ],
+                correct: 0,
+                explanation: "Un SLA del 99.9% (tres nueves) permite un tiempo de inactividad máximo de aproximadamente 8.76 horas al año.",
+                topic: "UT-7: Alta Disponibilidad"
+            },
+            {
+                question: "¿Qué es un clúster activo-pasivo?",
+                options: [
+                    "Todos los nodos procesan tráfico simultáneamente",
+                    "Un nodo activo procesa mientras otros esperan en standby",
+                    "Los nodos se activan por la noche",
+                    "Los nodos trabajan en diferentes ubicaciones"
+                ],
+                correct: 1,
+                explanation: "En un clúster activo-pasivo, un nodo maneja todo el tráfico mientras los otros permanecen en espera, listos para tomar el control si falla el activo.",
+                topic: "UT-7: Alta Disponibilidad"
+            },
+            {
+                question: "¿Qué protocolo se usa comúnmente para detectar fallos en alta disponibilidad?",
+                options: [
+                    "HTTP",
+                    "FTP",
+                    "Heartbeat/VRRP",
+                    "SMTP"
+                ],
+                correct: 2,
+                explanation: "Protocolos como Heartbeat o VRRP (Virtual Router Redundancy Protocol) se utilizan para detectar fallos y realizar failover automático.",
+                topic: "UT-7: Alta Disponibilidad"
+            },
+            {
+                question: "¿Qué es el balanceo de carga?",
+                options: [
+                    "Dividir archivos en partes iguales",
+                    "Distribuir el tráfico entre múltiples servidores",
+                    "Reducir el peso de los servidores",
+                    "Equilibrar el consumo eléctrico"
+                ],
+                correct: 1,
+                explanation: "El balanceo de carga distribuye las peticiones entrantes entre múltiples servidores para optimizar el rendimiento y evitar sobrecarga.",
+                topic: "UT-7: Alta Disponibilidad"
+            }
+        ];
+
+        // Función para mezclar arrays
         function shuffleArray(array) {
             const newArray = [...array];
             for (let i = newArray.length - 1; i > 0; i--) {
@@ -3063,37 +854,75 @@
             return newArray;
         }
 
+        // Seleccionar modo
+        function selectMode(mode) {
+            // Remover selección previa
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Marcar modo seleccionado
+            const modeCard = document.getElementById('mode' + mode.toUpperCase());
+            if (modeCard) {
+                modeCard.classList.add('selected');
+            }
+
+            currentMode = mode;
+            document.getElementById('startBtn').disabled = false;
+
+            // Guardar selección en localStorage
+            localStorage.setItem('lastSelectedMode', mode);
+        }
+
         // Iniciar quiz
         function startQuiz() {
             if (!currentMode) return;
-
-            // Preparar las preguntas según el modo
-            if (currentMode === 'ut1') {
-                currentQuestions = [...questionsDB.ut1];
-            } else if (currentMode === 'ut2') {
-                currentQuestions = [...questionsDB.ut2];
-            } else if (currentMode === 'ut3') {
-                currentQuestions = [...questionsDB.ut3];
-            } else if (currentMode === 'ut4') {
-                currentQuestions = [...questionsDB.ut4];
-            } else if (currentMode === 'ut5') {
-                currentQuestions = [...questionsDB.ut5];
-            } else if (currentMode === 'ut6') {
-                currentQuestions = [...questionsDB.ut6];
-            } else if (currentMode === 'ut7') {
-                currentQuestions = [...questionsDB.ut7];
-            } else if (currentMode === 'general') {
-                currentQuestions = shuffleArray([...allQuestions]);
-            }
 
             // Resetear variables
             currentQuestion = 0;
             score = 0;
             userAnswers = [];
-            topicScores = {};
             answered = false;
+            topicScores = {};
 
-            // Mostrar elementos UI
+            // Seleccionar preguntas según el modo
+            switch(currentMode) {
+                case 'ut1':
+                    currentQuestions = shuffleArray(ut1Questions);
+                    break;
+                case 'ut2':
+                    currentQuestions = shuffleArray(ut2Questions);
+                    break;
+                case 'ut3':
+                    currentQuestions = shuffleArray(ut3Questions);
+                    break;
+                case 'ut4':
+                    currentQuestions = shuffleArray(ut4Questions);
+                    break;
+                case 'ut5':
+                    currentQuestions = shuffleArray(ut5Questions);
+                    break;
+                case 'ut6':
+                    currentQuestions = shuffleArray(ut6Questions);
+                    break;
+                case 'ut7':
+                    currentQuestions = shuffleArray(ut7Questions);
+                    break;
+                case 'mixed':
+                    const allQuestions = [
+                        ...ut1Questions,
+                        ...ut2Questions,
+                        ...ut3Questions,
+                        ...ut4Questions,
+                        ...ut5Questions,
+                        ...ut6Questions,
+                        ...ut7Questions
+                    ];
+                    currentQuestions = shuffleArray(allQuestions).slice(0, 25);
+                    break;
+            }
+
+            // Mostrar quiz
             document.getElementById('modeSelection').style.display = 'none';
             document.getElementById('quizContainer').classList.add('active');
             document.getElementById('progressContainer').style.display = 'block';
@@ -3102,49 +931,37 @@
             // Cargar primera pregunta
             loadQuestion();
             updateProgressBar();
+
+            // Guardar estado
+            saveProgress();
         }
 
         // Cargar pregunta
         function loadQuestion() {
-            const q = currentQuestions[currentQuestion];
-            const container = document.getElementById('questionContainer');
             answered = userAnswers[currentQuestion] !== undefined;
+            const q = currentQuestions[currentQuestion];
 
-            // Determinar unidad de la pregunta
-            let unitLabel = '';
-            if (currentMode === 'general') {
-                const isUT1 = questionsDB.ut1.some(ut1q => ut1q.question === q.question);
-                const isUT2 = questionsDB.ut2.some(ut2q => ut2q.question === q.question);
-                const isUT3 = questionsDB.ut3.some(ut3q => ut3q.question === q.question);
-                const isUT4 = questionsDB.ut4.some(ut4q => ut4q.question === q.question);
-                const isUT5 = questionsDB.ut5.some(ut5q => ut5q.question === q.question);
-                const isUT6 = questionsDB.ut6.some(ut6q => ut6q.question === q.question);
-                const isUT7 = questionsDB.ut7.some(ut7q => ut7q.question === q.question);
+            document.getElementById('questionNumber').textContent = `Pregunta ${currentQuestion + 1} de ${currentQuestions.length}`;
+            document.getElementById('questionTopic').textContent = q.topic;
+            document.getElementById('questionText').textContent = q.question;
+
+            // Cargar opciones
+            const optionsHTML = q.options.map((option, index) => {
+                const isSelected = userAnswers[currentQuestion] === index;
+                const isCorrect = index === q.correct;
+                let className = 'option';
                 
-                unitLabel = isUT1 ? 'UT-1' : isUT2 ? 'UT-2' : isUT3 ? 'UT-3' : isUT4 ? 'UT-4' : isUT5 ? 'UT-5' : isUT6 ? 'UT-6' : 'UT-7';
-            } else {
-                unitLabel = currentMode.toUpperCase();
-            }
+                if (answered) {
+                    className += ' disabled';
+                    if (isSelected) className += ' selected';
+                    if (isSelected && !isCorrect) className += ' incorrect';
+                    if (isCorrect) className += ' correct';
+                }
 
-            container.innerHTML = `
-                <div class="question-header">
-                    <span class="question-number">Pregunta ${currentQuestion + 1} de ${currentQuestions.length}</span>
-                    <span class="question-topic">${unitLabel} - ${q.topic}</span>
-                </div>
-                <h2>${q.question}</h2>
-                <div class="options">
-                    ${q.options.map((option, index) => `
-                        <div class="option ${userAnswers[currentQuestion] === index ? 'selected' : ''} 
-                             ${answered && index === q.correct ? 'correct' : ''}
-                             ${answered && userAnswers[currentQuestion] === index && index !== q.correct ? 'incorrect' : ''}
-                             ${answered ? 'disabled' : ''}"
-                             onclick="selectOption(${index})">
-                            <span class="option-letter">${String.fromCharCode(65 + index)}</span>
-                            <span>${option}</span>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+                return `<div class="${className}" onclick="selectOption(${index})" aria-label="Opción ${index + 1}">${option}</div>`;
+            }).join('');
+
+            document.getElementById('optionsContainer').innerHTML = optionsHTML;
 
             // Mostrar feedback si ya fue respondida
             if (answered) {
@@ -3188,6 +1005,7 @@
             }
 
             updateButtons();
+            saveProgress();
         }
 
         // Mostrar feedback
@@ -3247,6 +1065,7 @@
             const progressBar = document.getElementById('progressBar');
             progressBar.style.width = progress + '%';
             progressBar.textContent = Math.round(progress) + '%';
+            progressBar.setAttribute('aria-valuenow', Math.round(progress));
         }
 
         // Mostrar resultados
@@ -3305,12 +1124,12 @@
 
             details.innerHTML = detailsHTML;
 
-            // Mensaje según el resultado
+            // Mensaje según el resultado - CORREGIDO
             let message = '';
             if (percentage >= 90) {
-                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #28a745;">¡Excelente! Dominas los conceptos de redes.</p>';
+                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #28a745;">¡Excelente! Dominas los conceptos de seguridad.</p>';
             } else if (percentage >= 70) {
-                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #667eea;">¡Buen trabajo! Tienes un buen conocimiento de redes.</p>';
+                message = '<p style="margin-top: 20px; font-size: 1.1em; color: #667eea;">¡Buen trabajo! Tienes un buen conocimiento de seguridad.</p>';
             } else if (percentage >= 50) {
                 message = '<p style="margin-top: 20px; font-size: 1.1em; color: #ffc107;">Resultado aceptable. Sigue practicando para mejorar.</p>';
             } else {
@@ -3318,10 +1137,20 @@
             }
 
             details.innerHTML += message;
+
+            // Limpiar progreso guardado
+            localStorage.removeItem('quizProgress');
         }
 
         // Volver al menú
         function returnToMenu() {
+            // Confirmar si hay progreso sin guardar
+            if (userAnswers.length > 0 && userAnswers.length < currentQuestions.length) {
+                if (!confirm('¿Estás seguro de que quieres salir? Perderás tu progreso actual.')) {
+                    return;
+                }
+            }
+
             // Resetear todo
             currentMode = null;
             currentQuestions = [];
@@ -3345,6 +1174,9 @@
 
             // Deshabilitar botón de inicio
             document.getElementById('startBtn').disabled = true;
+
+            // Limpiar progreso guardado
+            localStorage.removeItem('quizProgress');
         }
 
         // Repetir el mismo modo
@@ -3353,11 +1185,69 @@
             startQuiz();
         }
 
+        // Guardar progreso en localStorage
+        function saveProgress() {
+            const progress = {
+                mode: currentMode,
+                currentQuestion: currentQuestion,
+                score: score,
+                userAnswers: userAnswers,
+                questions: currentQuestions,
+                topicScores: topicScores
+            };
+            localStorage.setItem('quizProgress', JSON.stringify(progress));
+            
+            // Mostrar indicador de guardado
+            const indicator = document.getElementById('saveIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+        }
+
+        // Cargar progreso guardado
+        function loadProgress() {
+            const saved = localStorage.getItem('quizProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                if (confirm('Hay un test en progreso. ¿Deseas continuarlo?')) {
+                    currentMode = progress.mode;
+                    currentQuestion = progress.currentQuestion;
+                    score = progress.score;
+                    userAnswers = progress.userAnswers;
+                    currentQuestions = progress.questions;
+                    topicScores = progress.topicScores || {};
+                    
+                    // Mostrar el quiz en el estado guardado
+                    document.getElementById('modeSelection').style.display = 'none';
+                    document.getElementById('quizContainer').classList.add('active');
+                    document.getElementById('progressContainer').style.display = 'block';
+                    document.getElementById('backToMenu').classList.remove('hidden');
+                    
+                    loadQuestion();
+                    updateProgressBar();
+                } else {
+                    localStorage.removeItem('quizProgress');
+                }
+            }
+        }
+
         // Prevenir navegación accidental
         window.addEventListener('beforeunload', function (e) {
-            if (userAnswers.length > 0 && document.getElementById('quizContainer').classList.contains('active')) {
+            if (userAnswers.length > 0 && userAnswers.length < currentQuestions.length && document.getElementById('quizContainer').classList.contains('active')) {
                 e.preventDefault();
-                e.returnValue = '';
+                e.returnValue = 'Tienes un test en progreso. ¿Estás seguro de que quieres salir?';
+            }
+        });
+
+        // Cargar progreso al iniciar
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            
+            // Recuperar último modo seleccionado
+            const lastMode = localStorage.getItem('lastSelectedMode');
+            if (lastMode && !currentMode) {
+                selectMode(lastMode);
             }
         });
     </script>
