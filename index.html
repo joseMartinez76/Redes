@@ -5,158 +5,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selección de Módulos - Tests de TI</title>
-    <style>
-        :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --background-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--background-gradient);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .landing-container {
-            width: 100%;
-            max-width: 900px;
-            /* Aumentado un poco para acomodar 3 cajas mejor */
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            padding: 30px 20px;
-        }
-
-        .landing-container h1 {
-            color: var(--primary-color);
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        .landing-container p {
-            color: #555;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-        }
-
-        .selection-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        @media (min-width: 768px) {
-
-            /* Ajustado para que quepan 3 en línea en tablets/PC */
-            .selection-grid {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .selection-card {
-                flex: 0 1 calc(33.333% - 20px);
-                min-width: 250px;
-            }
-        }
-
-        .selection-card {
-            flex: 1;
-            padding: 25px;
-            border-radius: 12px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .selection-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary-color);
-        }
-
-        .selection-card:active {
-            transform: scale(0.98);
-        }
-
-        .card-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-        }
-
-        .card-title {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .card-description {
-            font-size: 0.9em;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-    <div class="landing-container">
-        <h1>Elige tu Módulo de Práctica</h1>
-        <p>Selecciona el área que deseas evaluar para comenzar tu test.</p>
+    <div class="container" style="display: flex; flex-direction: column;">
 
-        <div class="selection-grid">
-
-            <a href="SO.html" class="selection-card">
-                <div class="card-icon">💻</div>
-                <div class="card-title">Sistemas Operativos</div>
-                <div class="card-description">
-                    Fundamentos, Arquitectura, Gestión de Memoria, Usuarios y Sistemas de Archivos.
-                </div>
-            </a>
-
-            <a href="Redes.html" class="selection-card">
-                <div class="card-icon">🌐</div>
-                <div class="card-title">Redes y Conectividad</div>
-                <div class="card-description">
-                    Modelo OSI, Switches (VLANs), Routers (NAT/ACLs) y Seguridad Perimetral.
-                </div>
-            </a>
-
-            <a href="english_flashcards.html" class="selection-card">
-                <div class="card-icon">🇬🇧</div>
-                <div class="card-title">English Grammar</div>
-                <div class="card-description">
-                    Flashcards de gramática, vocabulario de negocios, pasiva, condicionales y más.
-                </div>
-            </a>
-            <a href="Seguridad.html" class="selection-card">
-                <div class="card-icon">🛡️</div>
-                <div class="card-title">Seguridad y Alta Disponibilidad</div>
-                <div class="card-description">
-                    Test completo sobre tríada CID, malware, firewalls, alta disponibilidad y normativa RGPD/ENS.
-                </div>
-            </a>
+        <div class="header">
+            <div class="brand-header">
+                <span class="brand-robot">🤖</span>
+                <span class="brand-name">Jose Academy</span>
+                <span class="brand-year">• 2026</span>
+            </div>
+            <h1>Plataforma de Evaluación IT</h1>
+            <p>Sistema de Certificación de Competencias — Versión 2026</p>
         </div>
+
+        <div class="mode-selection">
+            <div class="modes-grid">
+
+                <a href="SO.html" style="text-decoration: none; color: inherit;">
+                    <div class="mode-card">
+                        <div class="mode-icon">💻</div>
+                        <div class="mode-title">Sistemas Operativos</div>
+                        <div class="mode-description">
+                            Fundamentos, Arquitectura, Gestión de Memoria, Usuarios y Sistemas de Archivos.
+                        </div>
+                    </div>
+                </a>
+
+                <a href="Redes.html" style="text-decoration: none; color: inherit;">
+                    <div class="mode-card">
+                        <div class="mode-icon">🌐</div>
+                        <div class="mode-title">Redes y Conectividad</div>
+                        <div class="mode-description">
+                            Modelo OSI, Switches (VLANs), Routers (NAT/ACLs) y Seguridad Perimetral.
+                        </div>
+                    </div>
+                </a>
+
+                <a href="BaseDatos.html" style="text-decoration: none; color: inherit;">
+                    <div class="mode-card">
+                        <div class="mode-icon">🗄️</div>
+                        <div class="mode-title">Base de Datos</div>
+                        <div class="mode-description">
+                            Modelado E-R, SQL (DDL/DML), Transacciones (ACID), Normalización y Backups.
+                        </div>
+                    </div>
+                </a>
+
+                <a href="Seguridad.html" style="text-decoration: none; color: inherit;">
+                    <div class="mode-card">
+                        <div class="mode-icon">🛡️</div>
+                        <div class="mode-title">Seguridad y Alta Disponibilidad</div>
+                        <div class="mode-description">
+                            Tríada CID, malware, firewalls, alta disponibilidad (HA) y normativa RGPD/ENS.
+                        </div>
+                    </div>
+                </a>
+
+                <a href="Ingles.html" style="text-decoration: none; color: inherit;">
+                    <div class="mode-card">
+                        <div class="mode-icon">🇬🇧</div>
+                        <div class="mode-title">Inglés Profesional</div>
+                        <div class="mode-description">
+                            Gramática técnica, redacción formal, interacciones de negocio y búsqueda de empleo.
+                        </div>
+                    </div>
+                </a>
+
+                <a href="Hardware.html" style="text-decoration: none; color: inherit;">
+                    <div class="mode-card">
+                        <div class="mode-icon">🔌</div>
+                        <div class="mode-title">Hardware</div>
+                        <div class="mode-description">
+                            Arquitectura de computadores, montaje, gestión de software, instalación y mantenimiento
+                            técnico.
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <footer
+            style="margin-top: 50px; padding: 20px; text-align: center; color: #888; font-size: 0.8em; border-top: 1px solid #eee;">
+            © 2026 Jose Academy 🤖 | Formación Profesional en Tecnología
+        </footer>
     </div>
 
 </body>
