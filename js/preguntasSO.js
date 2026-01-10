@@ -244,244 +244,244 @@ const questionsDB = {
             ],
             ut2: [
                 {
-                    question: "¿Qué describe mejor el propósito global de un sistema informático según esta UT?",
+                    question: "¿Qué requisito de firmware es indispensable para instalar Windows 11?",
                     options: [
-                        "Funcionar sin dependencia del hardware subyacente",
-                        "Integrar hardware y software para transformar datos en información útil",
-                        "Sustituir completamente la intervención humana en cualquier proceso",
-                        "Ejecutar exclusivamente aplicaciones de usuario sin gestionar recursos"
-                    ],
-                    correct: 1,
-                    explanation: "Un sistema informático integra hardware y software para procesar y transformar datos en información útil.",
-                    topic: "Fundamentos de sistemas"
-                },
-                {
-                    question: "¿Cuál es la función principal de la CPU en un sistema informático?",
-                    options: [
-                        "Ejecutar instrucciones y coordinar operaciones internas",
-                        "Servir como interfaz directa entre usuario y aplicaciones",
-                        "Proporcionar almacenamiento no volátil a largo plazo",
-                        "Emitir señal de vídeo a los monitores externos"
-                    ],
-                    correct: 0,
-                    explanation: "La CPU es responsable de ejecutar instrucciones y coordinar todas las operaciones internas del sistema.",
-                    topic: "Arquitectura de computadores"
-                },
-                {
-                    question: "En la jerarquía de memoria, ¿qué elemento ofrece el acceso más rápido?",
-                    options: [
-                        "Almacenamiento secundario",
-                        "Memoria virtual",
-                        "Registros de la CPU",
-                        "Memoria RAM"
-                    ],
-                    correct: 2,
-                    explanation: "Los registros de la CPU son el nivel más rápido en la jerarquía de memoria.",
-                    topic: "Jerarquía de memoria"
-                },
-                {
-                    question: "¿Qué ventaja clave aportan las memorias caché L1/L2/L3?",
-                    options: [
-                        "Reducen la latencia al acercar datos frecuentes a la CPU",
-                        "Permiten ejecutar instrucciones en orden estricto",
-                        "Sustituyen completamente a la RAM del sistema",
-                        "Evitan la necesidad de buses de datos"
-                    ],
-                    correct: 0,
-                    explanation: "Las cachés reducen la latencia manteniendo datos frecuentemente usados cerca de la CPU.",
-                    topic: "Memoria caché"
-                },
-                {
-                    question: "¿Cuál es una limitación clásica de la arquitectura Von Neumann?",
-                    options: [
-                        "Incompatibilidad con sistemas operativos modernos",
-                        "Cuello de botella por compartir bus entre datos e instrucciones",
-                        "Imposibilidad de ejecutar código en paralelo",
-                        "Falta de soporte para memoria caché"
-                    ],
-                    correct: 1,
-                    explanation: "El cuello de botella de Von Neumann ocurre porque datos e instrucciones comparten el mismo bus.",
-                    topic: "Arquitectura Von Neumann"
-                },
-                {
-                    question: "¿Qué componente del sistema operativo gestiona en modo privilegiado los recursos del sistema?",
-                    options: [
-                        "Shell",
-                        "Editor de texto",
-                        "Capa de usuario",
-                        "Kernel"
+                        "CSM activo",
+                        "BIOS Legacy",
+                        "TPM 1.2",
+                        "TPM 2.0 y Secure Boot habilitado"
                     ],
                     correct: 3,
-                    explanation: "El kernel opera en modo privilegiado y gestiona todos los recursos del sistema.",
-                    topic: "Sistema operativo"
+                    explanation: "Windows 11 requiere TPM 2.0 y Secure Boot habilitado como requisitos de seguridad obligatorios.",
+                    topic: "Requisitos Windows 11"
                 },
                 {
-                    question: "¿Qué interfaz permite automatizar tareas mediante comandos y scripts?",
+                    question: "¿Qué tamaño recomendado debe tener la partición ESP en sistemas UEFI?",
                     options: [
-                        "Pantalla táctil",
-                        "GUI (Graphical User Interface)",
-                        "Controladores de dispositivo",
-                        "CLI (Command Line Interface)"
-                    ],
-                    correct: 3,
-                    explanation: "La CLI (línea de comandos) permite automatización mediante comandos y scripts.",
-                    topic: "Interfaces de usuario"
-                },
-                {
-                    question: "¿Qué caracteriza a un kernel monolítico moderno como Linux?",
-                    options: [
-                        "Núcleo único con posibilidad de cargar módulos",
-                        "Ausencia de controladores en el núcleo",
-                        "Separación total de servicios en espacio de usuario",
-                        "Exclusivo para dispositivos móviles"
-                    ],
-                    correct: 0,
-                    explanation: "Linux es un kernel monolítico que permite cargar y descargar módulos dinámicamente.",
-                    topic: "Tipos de kernel"
-                },
-                {
-                    question: "¿Qué define mejor a un microkernel?",
-                    options: [
-                        "Mínimo código en modo kernel y servicios en espacio de usuario",
-                        "Núcleo diseñado solo para tiempo real duro",
-                        "Todos los servicios integrados en modo kernel",
-                        "Núcleo híbrido con controladores gráficos dedicados"
-                    ],
-                    correct: 0,
-                    explanation: "Un microkernel mantiene solo lo esencial en modo kernel, moviendo servicios al espacio de usuario.",
-                    topic: "Microkernel"
-                },
-                {
-                    question: "¿Qué afirmación es correcta sobre multitarea en sistemas operativos?",
-                    options: [
-                        "Es exclusiva de sistemas propietarios",
-                        "Requiere hardware de múltiples procesadores",
-                        "Obliga a que los procesos se ejecuten de forma estrictamente secuencial",
-                        "Permite ejecutar múltiples procesos compartiendo tiempo de CPU"
-                    ],
-                    correct: 3,
-                    explanation: "La multitarea permite que múltiples procesos compartan el tiempo de CPU mediante planificación.",
-                    topic: "Multitarea"
-                },
-                {
-                    question: "¿Qué diferencia principal existe entre software de sistema y software de aplicación?",
-                    options: [
-                        "El de sistema se distribuye sin controladores, el de aplicación los incluye",
-                        "El de sistema solo corre en contenedores, el de aplicación en hardware",
-                        "El de sistema gestiona hardware y recursos, el de aplicación resuelve tareas concretas",
-                        "El de sistema es siempre de pago y el de aplicación siempre libre"
-                    ],
-                    correct: 2,
-                    explanation: "El software de sistema gestiona hardware y recursos, mientras que el de aplicación resuelve tareas específicas del usuario.",
-                    topic: "Tipos de software"
-                },
-                {
-                    question: "¿Qué elemento de la estructura funcional corresponde a la fase de 'entrada'?",
-                    options: [
-                        "Almacenamiento permanente en SSD",
-                        "Captura de datos por periféricos como teclado o sensores",
-                        "Presentación de resultados en pantalla",
-                        "Transformación de datos por la ALU"
+                        "50 MB en NTFS",
+                        "300–512 MB en FAT32",
+                        "2 GB en ext4",
+                        "1 MB en RAW"
                     ],
                     correct: 1,
-                    explanation: "La fase de entrada corresponde a la captura de datos mediante periféricos de entrada.",
-                    topic: "Estructura funcional"
+                    explanation: "La partición ESP (EFI System Partition) debe ser de 300-512 MB formateada en FAT32.",
+                    topic: "Particiones UEFI"
                 },
                 {
-                    question: "¿Cuál es una medida de seguridad vinculada a la gestión de memoria?",
+                    question: "¿Qué herramienta en Linux recompila módulos tras actualizar el kernel?",
                     options: [
-                        "Desactivar la protección por hardware (MMU)",
-                        "Ejecutar datos en cualquier segmento",
-                        "Exponer las tablas de páginas a los usuarios",
-                        "ASLR para aleatorizar ubicaciones en memoria"
+                        "diskpart",
+                        "DKMS",
+                        "Boot-Repair",
+                        "bcdedit"
+                    ],
+                    correct: 1,
+                    explanation: "DKMS (Dynamic Kernel Module Support) recompila automáticamente los módulos cuando se actualiza el kernel.",
+                    topic: "Gestión de kernel Linux"
+                },
+                {
+                    question: "¿Qué utilidad de Windows permite gestionar controladores firmados?",
+                    options: [
+                        "pnputil",
+                        "dd",
+                        "lsblk",
+                        "efibootmgr"
+                    ],
+                    correct: 0,
+                    explanation: "pnputil es la herramienta de Windows para gestionar controladores firmados del sistema.",
+                    topic: "Controladores Windows"
+                },
+                {
+                    question: "¿Qué sistema de archivos es más adecuado para snapshots y rollback en Linux?",
+                    options: [
+                        "Btrfs",
+                        "FAT32",
+                        "NTFS",
+                        "ext2"
+                    ],
+                    correct: 0,
+                    explanation: "Btrfs soporta nativamente snapshots y rollback, ideal para gestión avanzada de almacenamiento.",
+                    topic: "Sistemas de archivos Linux"
+                },
+                {
+                    question: "¿Qué herramienta permite gestionar entradas de arranque UEFI en Linux?",
+                    options: [
+                        "diskpart",
+                        "Boot-Repair",
+                        "mkfs",
+                        "efibootmgr"
                     ],
                     correct: 3,
-                    explanation: "ASLR (Address Space Layout Randomization) aleatoriza las ubicaciones en memoria como medida de seguridad.",
-                    topic: "Seguridad en memoria"
+                    explanation: "efibootmgr permite crear, eliminar y modificar entradas de arranque UEFI en Linux.",
+                    topic: "Arranque UEFI Linux"
                 },
                 {
-                    question: "¿Qué afirmación es correcta sobre buses en el sistema?",
+                    question: "¿Qué regla de copias de seguridad garantiza redundancia e inmutabilidad?",
                     options: [
-                        "El ancho del bus de datos condiciona la cantidad de información transferida por ciclo",
-                        "No hay riesgos de seguridad asociados a los buses",
-                        "Los buses solo transportan señales de control, no datos",
-                        "El bus de direcciones es irrelevante para la memoria"
+                        "1-1-1",
+                        "2-2-0",
+                        "5-5-5",
+                        "3-2-1"
                     ],
-                    correct: 0,
-                    explanation: "El ancho del bus de datos determina cuánta información se puede transferir en cada ciclo.",
-                    topic: "Buses del sistema"
+                    correct: 3,
+                    explanation: "La regla 3-2-1: 3 copias totales, 2 en diferentes medios, 1 fuera del sitio.",
+                    topic: "Estrategias de backup"
                 },
                 {
-                    question: "¿Qué diferencia clave existe entre sistemas propietarios y de código abierto?",
+                    question: "¿Qué herramienta de clonación permite multicast y compresión?",
                     options: [
-                        "Acceso al código fuente y libertad de modificación en el software libre",
-                        "Imposibilidad de uso comercial en software libre",
-                        "Ausencia de licencias en ambos modelos",
-                        "Mayor rendimiento garantizado en el software propietario"
-                    ],
-                    correct: 0,
-                    explanation: "El software libre proporciona acceso al código fuente y libertad para modificarlo.",
-                    topic: "Software libre vs propietario"
-                },
-                {
-                    question: "¿Qué describe mejor la virtualización completa?",
-                    options: [
-                        "Invitados conscientes que cooperan con el hipervisor",
-                        "Emulación total del hardware para invitados sin modificaciones",
-                        "Ejecución directa sobre hardware sin capa de control",
-                        "Contenedores que comparten el mismo kernel"
+                        "dd",
+                        "Clonezilla",
+                        "Boot-Repair",
+                        "pnputil"
                     ],
                     correct: 1,
-                    explanation: "La virtualización completa emula todo el hardware permitiendo ejecutar sistemas operativos sin modificaciones.",
-                    topic: "Virtualización"
+                    explanation: "Clonezilla soporta clonación con multicast y compresión para despliegues masivos.",
+                    topic: "Clonación de sistemas"
                 },
                 {
-                    question: "¿Qué es un snapshot en el contexto de máquinas virtuales?",
+                    question: "¿Qué gestor de arranque destaca por su simplicidad en sistemas UEFI?",
                     options: [
-                        "Copia incremental del kernel del host",
-                        "Captura del estado completo de la VM en un instante",
-                        "Imagen ISO del sistema operativo invitado",
-                        "Clon físico del disco sin memoria"
+                        "GRUB2",
+                        "systemd-boot",
+                        "rEFInd",
+                        "LILO"
                     ],
                     correct: 1,
-                    explanation: "Un snapshot captura el estado completo de una máquina virtual en un momento específico.",
-                    topic: "Snapshots VM"
+                    explanation: "systemd-boot es simple y minimalista, ideal para sistemas UEFI modernos.",
+                    topic: "Gestores de arranque"
                 },
                 {
-                    question: "¿Qué caracteriza a una GUI frente a una CLI?",
+                    question: "¿Qué comando de Windows permite editar el gestor de arranque BCD?",
                     options: [
-                        "Incompatibilidad con herramientas de administración",
-                        "Menor consumo de recursos que la línea de comandos",
-                        "Uso de elementos gráficos (ventanas, iconos, menús) para interactuar",
-                        "Ejecución exclusiva en servidores sin gráficos"
+                        "efibootmgr",
+                        "pnputil",
+                        "gdisk",
+                        "bcdedit"
+                    ],
+                    correct: 3,
+                    explanation: "bcdedit es la herramienta de Windows para editar el Boot Configuration Data.",
+                    topic: "Arranque Windows"
+                },
+                {
+                    question: "¿Qué práctica mejora la resiliencia en RAID propietario no detectado?",
+                    options: [
+                        "Mantener CSM activo",
+                        "Desactivar TRIM en SSD",
+                        "Usar AHCI/NVMe y RAID por software (mdadm/ZFS)",
+                        "Usar siempre fakeraid"
                     ],
                     correct: 2,
-                    explanation: "Una GUI utiliza elementos gráficos como ventanas, iconos y menús para la interacción con el usuario.",
-                    topic: "Interfaces gráficas"
+                    explanation: "Usar AHCI/NVMe con RAID por software (mdadm/ZFS) ofrece mejor compatibilidad y resiliencia.",
+                    topic: "Configuración RAID"
                 },
                 {
-                    question: "¿Qué ventaja aporta el multiprocesador/multinúcleo?",
+                    question: "¿Qué herramienta crea USB multi-ISO de forma sencilla?",
                     options: [
-                        "Ejecución paralela de tareas para mejorar rendimiento",
-                        "Sustituye la necesidad de memoria caché",
-                        "Impide la multitarea expropiativa",
-                        "Elimina el cambio de contexto entre procesos"
+                        "Rufus",
+                        "GParted",
+                        "Ventoy",
+                        "ddrescue"
+                    ],
+                    correct: 2,
+                    explanation: "Ventoy permite crear USB con múltiples ISOs seleccionables al arranque.",
+                    topic: "Herramientas de instalación"
+                },
+                {
+                    question: "¿Qué mecanismo protege claves y mide arranque en equipos modernos?",
+                    options: [
+                        "GOP",
+                        "BIOS Legacy",
+                        "TPM 2.0",
+                        "MSR"
+                    ],
+                    correct: 2,
+                    explanation: "TPM 2.0 (Trusted Platform Module) almacena claves de forma segura y mide la integridad del arranque.",
+                    topic: "Seguridad de arranque"
+                },
+                {
+                    question: "¿Qué utilidad permite reconstruir cargadores de arranque dañados?",
+                    options: [
+                        "gdisk",
+                        "ddrescue",
+                        "bcdedit",
+                        "Boot-Repair"
+                    ],
+                    correct: 3,
+                    explanation: "Boot-Repair es una herramienta especializada para reparar problemas de arranque en Linux.",
+                    topic: "Reparación de arranque"
+                },
+                {
+                    question: "¿Qué herramienta se recomienda para recuperación de discos dañados?",
+                    options: [
+                        "ddrescue",
+                        "efibootmgr",
+                        "pnputil",
+                        "Disk Management"
                     ],
                     correct: 0,
-                    explanation: "Los sistemas multiprocesador permiten ejecución paralela real de múltiples tareas.",
-                    topic: "Multiprocesamiento"
+                    explanation: "ddrescue está diseñado específicamente para recuperar datos de discos con sectores dañados.",
+                    topic: "Recuperación de datos"
                 },
                 {
-                    question: "¿Qué práctica es esencial en ciberseguridad según esta UT?",
+                    question: "¿Qué herramienta de Microsoft permite despliegues masivos de Windows?",
                     options: [
-                        "Deshabilitar la memoria virtual para evitar swaps",
-                        "Usar siempre arquitectura Harvard en equipos de escritorio",
-                        "Conocer la interacción hardware–software para detectar y mitigar vulnerabilidades",
-                        "Ejecutar todo el software con privilegios de kernel"
+                        "MECM/SCCM",
+                        "MAAS",
+                        "Satellite",
+                        "Cobbler"
+                    ],
+                    correct: 0,
+                    explanation: "MECM/SCCM (Microsoft Endpoint Configuration Manager) gestiona despliegues empresariales de Windows.",
+                    topic: "Despliegue empresarial"
+                },
+                {
+                    question: "¿Qué sistema de archivos de Microsoft ofrece resiliencia con Storage Spaces?",
+                    options: [
+                        "ReFS",
+                        "ext4",
+                        "XFS",
+                        "Btrfs"
+                    ],
+                    correct: 0,
+                    explanation: "ReFS (Resilient File System) está optimizado para trabajar con Storage Spaces en Windows.",
+                    topic: "Sistemas de archivos Windows"
+                },
+                {
+                    question: "¿Qué utilidad Linux permite convertir un disco MBR a GPT?",
+                    options: [
+                        "Boot-Repair",
+                        "Timeshift",
+                        "gdisk",
+                        "Rufus"
                     ],
                     correct: 2,
-                    explanation: "Comprender la interacción hardware-software es fundamental para identificar y mitigar vulnerabilidades.",
-                    topic: "Ciberseguridad"
+                    explanation: "gdisk es la herramienta para gestionar particiones GPT y convertir discos MBR a GPT.",
+                    topic: "Gestión de particiones"
+                },
+                {
+                    question: "¿Qué herramienta gestiona snapshots en Linux basados en Btrfs?",
+                    options: [
+                        "diskpart",
+                        "Boot-Repair",
+                        "bcdedit",
+                        "Snapper"
+                    ],
+                    correct: 3,
+                    explanation: "Snapper es la herramienta especializada para gestionar snapshots de Btrfs en Linux.",
+                    topic: "Snapshots Linux"
+                },
+                {
+                    question: "¿Qué práctica inicial es fundamental antes de modificar particiones?",
+                    options: [
+                        "Cambiar BIOS a CSM",
+                        "Formatear directamente",
+                        "Realizar un backup verificado",
+                        "Deshabilitar Secure Boot"
+                    ],
+                    correct: 2,
+                    explanation: "Siempre realizar un backup completo y verificado antes de modificar particiones para prevenir pérdida de datos.",
+                    topic: "Mejores prácticas"
                 }
             ],
 
